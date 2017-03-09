@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<!-- saved from url=(0070)http://localhost:8080/b1-insurance/ui/?action=PersAutoPolicyAddRq:form -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8">
+    <script src="https://use.fontawesome.com/1f0e50ab99.js"></script>
+
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.js"
+            integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+            crossorigin="anonymous"></script>
+
+    <script
+            src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"></script>
+
+    <!--<script id="entry-template" type="text/x-handlebars-template">-->
+    <!--</script>    -->
+
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="pc.css" >
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="./handlebars-v4.0.5.js"></script>
+    <script src="./changeeditor.js"></script>
+    <script src="./mockup.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Policy Change Demo</h1>
+            <p>demo form--TODO policy change will *not* include bootstrap!</p>
+        </div>
+    </div>
+
+    <div class="pop-div pull-right">
+        <a href="#" data-toggle="popover">&nbsp;<i class="fa fa-bars  "></i></a>
+    </div>
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-2">
+                <label>Fruit</label>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" data-change-id="937" type="text" value="apple">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <label>Vehicle Manufacturer</label>
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" data-change-id="840" >
+                    <option>Ford</option>
+                    <option>GMC</option>
+                    <option>Toyota</option>
+                    <option>BMW</option>
+                    <option>Fiat</option>
+                </select>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<!--TODO : use <script tag to define a handlebars template! -->
+<div style="display:none" class="change-template">
+    <div id='title' style='display:none'>
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-asterisk fa-stack-2x"></i>
+            <i class="fa fa-stack-1x" >
+                <span class="badge">{{changes.length}}</span>
+            </i>
+        </span>
+        <span>{{config.header}}</span>
+        <span class="pull-right">
+            <button class="btn btn-circle btn-primary"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
+            <button class="btn btn-circle btn-primary"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
+        </span>
+    </div>
+
+    <div id='content'>
+        <ui class="list-group">
+            {{#each changes}}   <!-- handlebars loop -->
+            <li class="list-group-item change-item change-item-{{type}}" data-change-id="{{uid}}">
+                <div>
+                    <!--listen to change-action-event if you want a hook to populate this element-->
+                    <span>{{summary}}</span>
+                </div>
+                {{#each formattedValues}}
+                <div class="change-values">
+                    <span>{{label}}</span> : <span>{{value}}</span>
+                    <span class="change-actions pull-right">
+                        <span class="change-accept">{{{@root.config.acceptIcon}}}</span>
+                        <span class="change-reject">{{{@root.config.rejectIcon}}}</span>
+                    </span>
+                </div>
+                {{/each}}
+            </li>
+            {{/each}} <!-- handlebars loop -->
+        </ui>
+    </div>
+
+</div>
+
+
+
+</body>
+</html>

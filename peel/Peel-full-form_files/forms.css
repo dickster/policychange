@@ -1,0 +1,593 @@
+/* acord overrides */
+
+#acord-ui-content .easy-list-panel-remove-coverage {
+    background: transparent url("delete_blue.png") no-repeat scroll left center / 80% auto;
+}
+
+
+/* Bootstrap css */
+
+.navbar-default {
+    background-color: white;
+    border-color: white;
+}
+.navbar-header-centered {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100%;
+}
+
+.navbar-brand {
+    height: 105px;
+}
+
+.navbar-header-centered .banner-easy-banner {
+    background-position: center center;
+    width: inherit;
+}
+
+.navbar-header-centered .navbar-brand {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.container  {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin: 0 auto;
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.ui-dialog-titlebar {
+    display: none;
+}
+
+.btn-primary {
+    background-color: grey;
+    border-color: grey;
+    color: #fff;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: #fff;
+}
+
+.btn-group-lg > .btn, .btn-lg {
+    border-radius: 6px;
+    font-size: 18px;
+    line-height: 1.33333;
+    padding: 10px 16px;
+}
+
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+    cursor: pointer;
+}
+
+button, select {
+    text-transform: none;
+}
+
+button {
+    overflow: visible;
+}
+
+a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+a {
+    background-color: transparent;
+}
+
+.form-signin .form-signin-heading, .form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.h2, h2 {
+    font-size: 30px;
+}
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+
+/* Breadcrumb css */
+
+.breadcrumbsContainer {
+    margin-bottom: 20px;
+}
+
+.breadcrumb {
+    border-radius: 5px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.35);
+    counter-reset: flag;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0;
+}
+
+.breadcrumb li {
+    background: white none repeat scroll 0 0;
+    color: black;
+    display: block;
+    float: left;
+    font-size: 14px;
+    line-height: 36px;
+    outline: medium none;
+    padding: 0 15px 0 60px;
+    position: relative;
+    text-decoration: none;    
+}
+
+.breadcrumb li:first-child::before {
+    left: 14px;
+}
+
+.breadcrumb li:last-child::after {
+    content: none;
+}
+
+.breadcrumb li::before {
+    background: white none repeat scroll 0 0;
+    border-radius: 100%;
+    box-shadow: 0 0 0 1px #ccc;
+    color: black !important;
+    content: counter(flag, decimal) !important;
+    counter-increment: flag;
+    font-weight: bold;
+    height: 20px;
+    left: 30px;
+    line-height: 20px;
+    margin: 8px 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 20px;
+}
+
+.breadcrumb li::after {
+    background: white none repeat scroll 0 0;
+    border-radius: 0 5px 0 20px;
+    box-shadow: 2px -2px 0 2px rgba(0, 0, 0, 0.4), 3px -3px 0 2px rgba(255, 255, 255, 0.1);
+    content: "";
+    height: 36px;
+    position: absolute;
+    right: -18px;
+    top: 0;
+    transform: scale(0.707) rotate(45deg);
+    width: 36px;
+    z-index: 1;
+}
+
+.breadcrumb .active {
+    background: #aac1df none repeat scroll 0 0 !important;
+}
+
+.breadcrumb .active::after {
+    background: #aac1df none repeat scroll 0 0 !important;
+}
+
+
+/* Sign in  */
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin .checkbox {
+    font-weight: normal;
+}
+
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="username"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.form-signin .feedbackPanelFATAL {
+    color: red;
+}
+
+.form-signin .feedbackPanel {
+    padding-left: 5px;
+}
+
+.form-signin .feedbackPanelFATAL {
+    list-style-type: none;
+}
+
+.form-signin input[type="password"] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: 10px;
+}
+
+
+.form-signin .form-control {
+    box-sizing: border-box;
+    font-size: 16px;
+    height: auto;
+/*     padding: 10px; */
+    position: relative;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    display: block;
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+}
+
+.form-signin .form-control::-moz-placeholder {
+    color: #999;
+    opacity: 1;
+}
+
+ 
+/* Global Styles */
+
+body  {
+    background-color: #FFFFFF;
+    color: #000000;
+    text-align: left;
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.home-link,
+.logout-link {
+    float: right;
+    position: relative;
+    margin-left: 20px;
+}
+
+.easy-section_summary2 {
+    background-color: pink;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 5px;
+    border: solid 1px #DCDCDC;
+/*     width: 175px; */
+}
+
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+select {
+    padding: 4px;
+    border: solid 1px #DCDCDC;
+}
+
+/* Fix for shortened select boxes */
+select.expand {
+    width: auto;
+}
+
+label {
+    /* Have to add padding to match input[type="text"] so label will vertically align with textbox. */
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/** Body Stuff **/
+
+.body {
+    position: relative;
+    margin: 10px 10px 10px 10px;
+    width: 905px;
+}
+
+.body h1 {
+    display: block;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.header-subtitle {
+    clear: both;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.feedbackPanel {
+    list-style-type: none;
+    color: #FF0000;
+    margin: 0;
+    padding: 0;
+}
+
+.feedbackPanelERROR {
+    color: #FF0000;
+    margin-bottom: 5px;
+}
+
+.feedbacklabelERROR {
+    color: #FF0000;
+}
+
+
+.easy-label {
+    font-weight:bold;
+}
+
+.easy-message-section-message-category-title {
+    font-weight: bold;
+    padding: 2px;    
+}
+
+.easy-message-section-message {
+    width: 90%;
+}
+
+/** Panel Container - Party/Rating pages **/
+
+.panel-container {
+    float: left;
+    width: 720px;
+    margin: 0;
+    margin-left: 40px;
+    padding-bottom: 10px;
+}
+
+.panel-container-title {
+    position: relative;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.panel-container-content {
+    position: relative;
+    margin: 0px;
+    width: 100%;
+}
+
+.toolbarButton {
+    float: right;
+    margin-left: 5px;
+}
+
+.toolbar-container {
+    float: right;
+}
+
+.button-container {
+    margin: 5px auto 16px auto;
+    text-align: right;
+    float: right;
+}
+
+.error a {
+    color: #FF0000;
+    /*background-image: url(resources/com.brovada.nexexchange.insurance.formsserver.InsuranceFormServerApplication/html/exclamation.png);*/
+    background-image: url(../html/exclamation.png);
+}
+
+.required-message {
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+.required-message-pobox {
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+.no-wrap-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/******************************************************************************/
+/** ErrorPage **/
+
+.stackTrace {
+    float: left;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+/** END ErrorPage **/
+
+/** Payment Modal **/
+
+/******************************************************************************/
+/* Simple modal dialog style.  Without these entries, the dialog box is not
+/* modal in Internet Explorer. */
+
+#simplemodal-overlay {
+    background-color: #000;
+    cursor: wait;
+}
+
+.simplemodal-wrap {
+    background-color: white;
+}
+
+/******************************************************************************/
+/* Payment dialog entries */
+#payment-container .simplemodal-wrap { overflow: visible; }
+#payment-container a.modalCloseImg {
+    background: url(../x.png) no-repeat; 
+    width: 25px; 
+    height: 29px; 
+    display: inline; 
+    z-index: 3200; 
+    position: absolute; 
+    top: -3px; 
+    right: 9px; 
+    cursor: pointer;
+}
+
+/** END Payment Modal **/
+
+/******************************************************************************/
+/** Remarks **/
+
+.remarks-max-char-msg {
+    float: right;
+}
+
+/******************************************************************************/
+/** Easy upload **/
+
+.easy-upload-commit-button,
+.easy-upload-cancel-button {
+    height: 25px;
+}
+
+.easy-upload-commit-button {
+    margin-right: 2px;
+}
+
+.easy-upload-feedback {
+    margin: 0;
+}
+
+.easy-upload-file-select-container {
+    height: 25px;
+    margin: 0px 0px 5px 5px;
+}
+
+.easy-upload-container {
+    height: 300px;
+    overflow: auto;
+    border: 1px solid grey;
+    clear: both;
+    margin: 0px 0px 5px 0px;
+}
+
+.easy-upload-help-label {
+    position: relative;
+    text-align: center;
+    top: 50%;
+    vertical-align: middle;
+}
+
+.easy-upload-file-select {
+    height: 25px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    clear: both;
+}
+
+.easy-upload-item-row {
+    line-height: 2em;
+    border: none;    
+}
+
+.easy-upload-item-row-even {
+    background-color: #DDDDDD;
+}
+
+.easy-upload-item-row-odd {
+    background-color: white;
+}
+
+.easy-upload-delete-button {
+    margin-top: 2px;
+    padding: 0px 6px 0px 0px;
+    text-decoration: none;
+    float: right;
+    cursor: pointer;
+    color: royalblue;
+}
+
+.easy-upload-item-text,
+.easy-upload-item-link {
+    float: left;
+    padding-left: 6px;
+    padding-top: 0px;
+}
+
+
+.uploadButtonContainer {
+    float: right;
+    margin-right: 4px;
+}
+
+.easy-upload-item-text,
+.easy-upload-item-link {
+    float: left;
+    padding-left: 6px;
+    padding-top: 0px;
+}
+
+.easy-upload-file-button-label,
+.easy-upload-file-button-disabled-label {
+    width: 0px !important;
+    left: 28px;
+    z-index: -1;
+}
+
+/** END Easy upload **/

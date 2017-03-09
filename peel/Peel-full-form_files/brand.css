@@ -1,0 +1,630 @@
+/** Global CSS Overrides **/
+input[type="button"], input[type="submit"], input[type="reset"] {
+    background-color: #2c3e50;
+    border-radius: 5px;
+    border-style: none;
+    color: #ffffff;
+    float: left;
+    height: 24px;
+    letter-spacing: 0.05em;
+    line-height: 16px;
+    margin: 0 2px 6px 5px;
+    padding: 0px 8px;
+}
+
+input[type="button"]:disabled, input[type="submit"]:disabled, input[type="reset"]:disabled {
+    color: darkgrey !important;
+}
+
+label {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-right: 10px;
+}
+
+a {
+    outline: 0;
+}
+/*
+.easy-list-panel-add-button { 
+	display: none;
+}
+
+
+
+.easy-list-panel-add-risk .easy-list-panel-add-button {
+	display:none;
+}
+*/
+.easy-list-panel-add-button span {
+    vertical-align: baseline;
+}
+
+
+.riskAdd-easy-combo-box-input {
+	max-width: 223px !important;
+	padding: 5px 0px !important;
+}
+
+.easy-list-panel-remove-risk {
+   background: url("delete_grey.png") no-repeat scroll 0 0 / 100% auto transparent;
+    float: right;
+    height: 22px;
+    position: relative;
+    top: 3px;
+    width: 22px;
+}
+
+.easy-link{
+    color:#5985C0
+}
+
+div.page {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/*hover/active styles*/
+.breadcrumb-selected{
+	background: #AAC1DF !important;
+}
+
+.breadcrumb-selected:after {
+	background: #AAC1DF !important;
+}
+
+/** EasyLibrary Overrides **/
+
+.easy-footer {
+    font-family: Arial;
+    position: absolute;
+    height: 100px;
+    width: 100%;
+/* 
+    bottom: -110px;
+ */
+    color: #3C3C3C;
+    font-size: 8px;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    text-transform: none;
+}
+
+.easy-footer-title {
+    width: 900px;
+    color: #3C3C3C;
+}
+
+.easy-section {
+    margin-bottom: 5px;
+    float: none;
+    border-radius: 0;
+    border:0;
+}
+
+.easy-section-heading-topleft,
+.easy-section-heading-topright,
+.easy-section-bottomleft,
+.easy-section-bottomright {
+    background-image: none;
+}
+
+.easy-menu {
+    width: 700px;
+    float: none;
+    padding-left: 71%; /** FIX THIS!!! **/
+}
+
+.easy-menu li {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+.easy-menu-level1,
+.easy-menu-selected-level1 {
+    background-image: url("../html/circle-#FFFFFF.png");
+    padding-left: 20px;
+}
+
+.easy-menu-checked-level1 {
+    background-image: url("../html/checkmark-#FFFFFF.png");
+    padding-left: 20px;
+}
+
+.easy-read-only.easy-label {
+    height: 17px;
+}
+
+.easy-data-label {
+    height: 16px;
+    font-style:italic;
+	display: -moz-inline-stack;
+	display:inline-block;
+	word-wrap:break-word;
+}
+.brokerName-easy-data-label.easy-data-label{
+    width:40%;
+    max-width:none;
+    display:-moz-inline-box;
+	display:inline-block;
+    
+}
+.leftColumn {
+  width: 510px;
+  display: inline-block;
+}
+.easy-multi-select label,
+.easy-text-field label,
+.easy-select label,
+.easy-date-field label,
+.easy-calendar label {
+    height: 15px;
+    float: left;
+	max-width: 563px;
+    width: 100%;
+}
+
+.easy-section-error {
+    background-image: none;
+}
+
+.easy-field-error {
+    position: relative;
+    height: 25px;
+    display: inline;
+    border-color: #B80606;
+}
+
+.easy-text-field-label,
+.easy-select-label,
+.easy-combo-box-label,
+.easy-check-label,
+.easy-radio-label,
+.easy-calendar-label,
+.easy-textarea-label{
+    font-size: 0.95em;
+    float: left;
+	max-width: 563px;
+    width: 100%;
+}
+
+.easy-text-field-container, 
+.easy-select-container, 
+.easy-combo-box-container, 
+.easy-textarea-container, 
+.easy-check-container, 
+.easy-multi-select-container,
+.easy-calendar-container {
+    clear: right;
+}
+
+.easy-banner {
+    background: url("peel_banner.png") #fff no-repeat;
+    height: 77px;
+    width: 236px;
+    border: 0px;
+/* 
+	margin-left:300px;
+    margin-top: 10px;
+ */
+    /*background-color: #660085*/
+/*    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;*/
+    }
+
+.easy-banner-label {
+/* 
+    margin-left:300px;
+    margin-top: 40px;
+ */
+}
+
+.easy-section-heading {
+    border:0px;
+    border-radius:0px;
+}
+
+.easy-section-heading-topleft .easy-section-heading-topright, .easy-section-bottomleft, .easy-section-bottomright  {
+    display:none;
+}
+
+.easy-menu,
+.easy-menu li,
+.easy-menu-disabled-level1 {
+    color: #000000;
+}
+
+
+/* Theme Specific */
+
+.zebraDark,
+.zebraLight {
+    background-color: transparent;
+}
+
+.uploadSection,
+.remarkSection {
+    width: auto;
+}
+
+.coverage-description-header,
+.coverage-description-auto {
+    background-color: transparent;
+}
+
+.page .header-subTitle {
+    font-weight: normal;
+    font-size:20px;
+}
+
+
+/*---- for brovada one ui update ----*/
+
+.easy-section-heading-label {
+    font-size: 11pt;
+    font-weight: normal;
+    color: #5985C0
+}
+
+.body .easy-section {
+    border-radius:0px;
+    border:0px;
+}
+.abstract-summary-page .body .easy-section-heading {
+    color:#333;
+    border-radius:0px;
+    border:0px;
+}
+.abstract-summary-page .header-subTitle {
+    font-size:14pt;
+    font-weight: normal;
+    padding-bottom:20px
+}
+
+.policy-header {
+    float:right;
+    padding-top:10px;
+    font-size: 11pt;
+    margin-top:-47px
+}
+.policy-header>span:first-child:after {
+    content: '   :   ';
+}
+/*NOTE : this should really be done as localizeable text string, styling just to get it done quickly and affect only this page.*/
+.abstract-summary-page .easy-section-minmax.maximized:after {
+    content:'Hide details';
+}
+.abstract-summary-page .easy-section-minmax.minimized:after {
+    content:'Show details';
+}
+.abstract-summary-page .easy-section-heading-topleft {
+    width:1px;
+}
+.abstract-summary-page .easy-section-minmax {
+    color:#666;
+    margin-top:6px;
+    font-weight: normal;
+    right: 0;
+    background-image: none;
+    width: auto;
+    margin-right:5px;
+    font-size: 8pt;
+    position: absolute;
+}
+
+.button-container, .additionalinfo .button-container {
+    float:right;
+}
+
+.button-container.actionbar {
+    line-height: 20px;
+    padding: 5px 0px;
+}
+
+.button-container.actionbar input {
+    border-radius:3px;
+    background:grey;
+    letter-spacing:0;
+    font-size:13pt;
+    border:0px;
+    box-shadow:0 0 0;
+/*    padding:5px 10px 5px 10px;*/
+    min-width:90px;
+    text-shadow:none;
+}
+
+
+.button-container.actionbar input:hover {
+    color:#fff;
+    background:#AAC1DF;
+}
+
+.button-container.actionbar input {
+    color:#fff;
+    background:#5985C0;
+}
+
+.button-container.actionbar input.print-button,
+.button-container.actionbar input.download-button {
+    color:#fff !important;
+    background: #aaa !important;
+}
+
+body {
+    color:#333;
+    font-size:14px;
+}
+
+.easy-section-summary {
+    padding:0 25px;
+    width:auto;
+}
+
+/* attachments & remarks buttons. */
+.toolbar-container .toolbarButton {
+    color:#fff;
+    background:#5985C0;
+    font-size:13pt;
+    border:0px;
+}
+
+#acord-ui-content .dwellPolicyTypeCd-easy-combo-box-input{
+    max-width: 123px;
+	width: 100%;
+}
+
+.RSA-easy-section-content .odd-row {
+    background:white;
+    padding-bottom:4px;
+    padding-top:4px;
+}
+
+.panel-container .insuredTypeGroupDiv {
+    color: #333;
+}
+
+.RSA-easy-section-content .even-row {
+    background-color: #f4f4f4;
+    padding-bottom:4px;
+    padding-top:4px;
+}
+
+.panel-container {
+    margin-left:0px;
+}
+
+.broker-menu {
+    padding-right:40px;
+}
+
+.required-message {
+    font-weight: bold;
+    color: red;
+}
+
+.breadcrumbsContainer {
+    margin-top: 18px;
+    margin-bottom: 6px;
+}
+.breadcrumb {
+    color:#000;
+	padding-right:18px !important;
+}
+.infoSetSection-easy-section-heading-label,
+.infoSetSection-easy-section-heading {
+    background: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    height: 0 !important;
+}
+
+.infoSetSection-easy-section-content {
+    margin: 0 !important;
+}
+
+.infoset-name {
+    float: left;
+    padding-right: 10px;
+}
+
+.infoset-items {
+    padding-top: 15px;
+    font-weight: bold;    
+}
+
+.even-row {
+    background-color: transparent !important;
+}
+
+.odd-row {
+    background-color: #f5f5fc !important;
+}
+
+.riskAdd-easy-combo-box-input,
+#policyTypes-Options-filter {
+    background-color: #5985C0 !important;
+	color: white;
+	width: 50%;
+	
+	text-align: center;
+	border: medium none;
+	display: table;
+	height: 18px;
+	font-size: 12pt;
+	border-radius: 3px;
+	line-height: 22px
+   
+}
+
+.coverageAdd-easy-combo-box-input,
+input[id$="Coverage-Options-filter"]{
+    background-color: #5985C0;
+    color: white;
+    font-size: 11pt;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    max-width: 200px !important;
+    text-align: center;
+}
+
+.coverageAdd-easy-combo-box-container.easy-combo-box-container.easy-container {
+    clear: both;
+}
+
+.riskPackageHomeFormCd-easy-input,
+.riskPackageMobileFormCd-easy-input,
+.riskPackageUmbrellaFormCd-easy-input,
+.riskPackageWatercraftFormCd-easy-input,
+.riskPackageTrailerFormCd-easy-input {
+    max-width: 250px;
+}
+
+#acord-ui-content .spacer {
+    clear: both;
+    height: 30px;
+}
+
+#acord-ui-content .spacer.medium {
+    height: 20px;
+}
+
+#acord-ui-content .spacer.small {
+    height: 10px;
+}
+
+.ui-button-text {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.ui-datepicker {
+    border: 1px solid black;
+}
+
+.ui-datepicker-header {
+    border: none !important;
+}
+
+.discountsSurcharges .coverage-col-limit,
+.CoverageIncludedHeading {
+    display: none !important;
+}
+
+.partyInfoTypeOfName-easy-radio-input, .additionalInterestTypeOfName-easy-radio-input, .billingTypeOfName-easy-radio-input {
+    max-width: 260px !important;
+    margin: 5px 5px;
+}
+
+.partyInfoTypeOfName-easy-radio-label, .additionalInterestTypeOfName-easy-radio-label, .billingTypeOfName-easy-radio-label {
+	padding-top: 7px !important;
+}
+
+/* Makes the code column of the coverage drop down list wider to accommodate CNS coverage codes like DISSURHDHHP. */
+.easyJSComboCodeCol {
+	width: 120px;
+}
+.persPolicySubscriptionInd-easy-data-label{
+    display : none;
+    
+}
+.riskUnderlyingCoverage-easy-combo-box-label{
+    width:80px !important;
+}
+.riskUnderlyingCoverage-easy-input{
+    width:199px !important;
+    max-width:100% !important;
+}
+.breadcrumbs li:after {
+	-ms-transform: scale(0.707) rotate(45deg);
+	border-radius: 0 5px 0 20px !important;
+}
+/******************************************************************************/
+/* Combo Box Control */
+.easy-combo-box-options-list {
+   	float:left;
+}
+.dropDownButton .easy-combo-box-options-list{
+	float:none;
+}
+.easy-combo-box-container input[type=text]::-ms-clear {
+ 	display: none;
+ }
+ 
+ .easy-text-field-container input[type=text]::-ms-clear {
+ 	display: none;
+ }
+ 
+  /* Hide Subscription Policy */
+ .persPolicySubscriptionInd-easy-check {
+	display: none;
+ }
+ 
+ .persPolicyMethodPaymentCd-easy-combo-box {
+	display: none;
+ }
+ 
+ .persPolicyMethodPaymentCd {
+	display: none;
+ }
+
+  /* Hide dwellPackageFormCd */
+ .dwellPackageFormCd-easy-combo-box {
+	display: none;
+ }
+ 
+ 
+  /* set Deductible and Limit align right on rating page*/
+ .header-subTitle2-center-fifth-width  {
+    text-align: right;
+    width: 15%;
+}
+  
+ div.fifth-width-center {
+    width: 15%;
+    text-align: right;
+}
+
+/* Added by Mahmoud for MutltiFormFile dialog */
+.easy-upload-file-select-container input[type=file] {
+    display: inline;
+}
+
+
+/* "Driver History Search" button. */
+.driver-history-search-button {
+    background-image: url('ReportMagnify.png');
+    background-size: 100% auto;
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    margin-top: 3px;
+}
+
+/* "Driver History Search" in progress button. */
+.driver-history-search-in-progress-icon {
+    background-image: url('loading.gif');
+    background-size: 100% auto;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+/* "Location History Search" button. */
+.location-history-search-button {
+    background-image: url('ReportMagnify.png');
+    background-size: 100% auto;
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    margin-top: 3px;
+}
+
+/* "Location History Search" in progress button. */
+.location-history-search-in-progress-icon {
+    background-image: url('loading.gif');
+    background-size: 100% auto;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+  

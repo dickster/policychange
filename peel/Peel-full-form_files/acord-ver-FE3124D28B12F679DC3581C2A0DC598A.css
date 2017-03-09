@@ -1,0 +1,594 @@
+/******************************************************************************/
+/* General */
+
+.nested-form-submit {
+    display: none;
+}
+
+#acord-ui-content {
+    min-width: 890px;
+    width: 100%;
+    font-size: 9pt;
+    font-family: "klavika-web","Helvetica Neue",Helvetica,Arial,Geneva,sans-serif;
+    margin-top:-10px;
+    clear: both;
+}
+
+#acord-ui-content .easy-input,
+#acord-ui-content .easy-data-label {
+    max-width: 123px;
+    width: 100%;
+}
+
+#acord-ui-content .easy-radio {
+    position: relative;
+    clear: right;
+}
+
+#acord-ui-content .easy-radio-container {
+    float: left;
+}
+
+#acord-ui-content .easy-input[type="checkbox"] {
+    margin-left: 0px;
+    width: auto;
+}
+
+#acord-ui-content .subheading_1 {
+    margin-top: 10px;
+    background-color: #666666;
+}
+
+#acord-ui-content .easy-section,
+#page .easy-section {
+    background-color: #FFFFFF;
+    border: 0px solid #BFBFBF;
+    clear: both;
+    display: block;
+    float: left;
+    font-weight: normal;
+    overflow: visible;
+    position: relative;
+    text-align: left;
+    margin-bottom:0px;
+    margin-top:10px;
+}
+
+#acord-ui-content .easy-section-error {
+}
+
+#acord-ui-content .easy-section-summary {
+    color: #444444;
+    font-size: 10pt;
+}
+
+/* Shorten the date text fields so the date select button right aligns with 
+   the right edge of regular text fields. */
+#acord-ui-content .easy-date-field-input {
+    width: 102px;
+}
+
+#acord-ui-content .easy-data-label:empty{
+    min-height: 15px;
+}
+
+#acord-ui-content .easy-section-content,
+#page .easy-section-content {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    display: block;
+}
+
+#acord-ui-content .easy-section-heading,
+#page .easy-section-heading {
+    color: #333;
+    background: #e4e8f0;
+    font-size: 10pt;
+    border-bottom: 0px;
+}
+
+#acord-ui-content .easy-section-heading.minimized {
+    background-color: #e4e8f0;
+}
+
+#acord-ui-content .easy-section-heading.maximized {
+    background-color: #e4e8f0;
+}
+
+#acord-ui-content .persDriverLicense > .easy-section-content {
+    line-height: 15px;
+    margin-left: 10px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+#acord-ui-content .easy-widget {
+    margin-bottom: 2px;
+    vertical-align: top;
+}
+
+#acord-ui-content .easy-label {
+    display: inline-table;
+    float: left;
+    height: auto;
+    line-height: 15px;
+    margin-bottom: 0 !important;
+    width: 130px;
+    padding-top: 2px;
+    padding-bottom: 4px;
+}
+#acord-ui-content .easy-textarea-label {
+    width: 100%;
+}
+
+#acord-ui-content h2 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+#acord-ui-content .spacer {
+    clear: both;
+    height: 10px;
+}
+
+#acord-ui-content .required-message-pobox {
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/******************************************************************************/
+/* Column layout */
+
+#acord-ui-content .column5, .column10, .column15, .column20, .column22, .column23, .column25, .column29, .column30, .column33, .column40, .column45, .column50, .column55, .column75 {
+    position: relative;
+    float: left;
+    min-height: 1px;    
+}
+
+#acord-ui-content .column5  { width: 5%; }
+#acord-ui-content .column10 { width: 10%; }
+#acord-ui-content .column15 { width: 15%; }
+#acord-ui-content .column20 { width: 20%; }
+#acord-ui-content .column22 { width: 22%; }
+#acord-ui-content .column23 { width: 23%; }
+#acord-ui-content .column25 { width: 25%; }
+#acord-ui-content .column29 { width: 29%; }
+#acord-ui-content .column30 { width: 30%; }
+#acord-ui-content .column33 { width: 33.33%; }
+#acord-ui-content .column40 { width: 40%; }
+#acord-ui-content .column45 { width: 45%; }
+#acord-ui-content .column50 { width: 50%; }
+#acord-ui-content .column55 { width: 55%; }
+#acord-ui-content .column75 { width: 75%; }
+
+#acord-ui-content .column33 .easy-data-label {
+    height: auto;
+    line-height: 15px;
+    padding-bottom: 0;
+    padding-top: 0;
+    min-height: 1px;
+}
+
+
+/******************************************************************************/
+/* Tables */
+
+#acord-ui-content .table-heading {
+    display: inline;
+    float: left;
+    font-weight: bold;
+    margin: 0 0.8em 8px 0;
+    padding-left: 1px;
+    padding-right: 0;
+    margin-top: 5px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    color: #444444;
+}
+
+#acord-ui-content .table-cell {
+    float: left;
+    margin: 0 0.8em 0 0;
+    padding: 0;
+    max-width: none;
+}
+
+#acord-ui-content .table-cell .easy-input {
+    max-width: 100% !important;
+    width: 100%;
+}
+
+#acord-ui-content .table-cell .easy-date-field-input {
+    width: 70%;
+}
+
+#acord-ui-content .table-cell-tool-bar {
+    float: right;
+    width: 50px;
+}
+
+#acord-ui-content .row .table-cell-tool-bar {
+    float: left;
+    width: 20px;
+}
+
+/******************************************************************************/
+/* Questions */
+
+#acord-ui-content .questionCd {
+    float: left;
+    clear: left;
+    width: 400px;
+    color: #4C4747;
+}
+
+#acord-ui-content .questionCd .easy-data-label {
+    max-width: none;
+}
+
+#acord-ui-content .yesNoCd {
+    color: #4C4747;
+    float: left;
+}
+
+#acord-ui-content .yesNoCd .easy-input {
+    width: 120px;
+}
+
+#acord-ui-content .yesNoCd label {
+    margin-right: 20px;
+}
+
+/******************************************************************************/
+/* Subheadings */
+
+#acord-ui-content .easy-section-heading.subheading1 {
+    color: #00488B;
+    background-color: #ECF2F8;
+}
+
+#acord-ui-content .easy-section-heading.subheading1 .easy-section-heading-topleft {
+    background-image: none;
+}
+
+#acord-ui-content .easy-section-heading.subheading1 .easy-section-heading-topright {
+    background-image: none;
+}
+
+#acord-ui-content .easy-section-heading-label,
+#page .easy-section-heading-label{
+    background-image: none;
+    font-size: 11pt;
+    font-weight: normal;
+}
+
+#acord-ui-content .inline {
+    display: inline-block;
+}
+
+#acord-ui-content fieldset {
+    padding-top: 8px;
+    margin: 20px 10px 8px 0px;
+    border: 1px solid #BFBFBF;
+    border-radius: 10px;
+
+}
+
+#acord-ui-content fieldset > .table-cell-tool-bar {
+    margin-top: -20px;
+}
+
+#acord-ui-content .ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#acord-ui-content .coverage-row {
+    margin-bottom: 0px;
+}
+
+#acord-ui-content .coverage-row .table-cell {
+    line-height: 30px;
+}
+
+/* Indent the Additional Living Expenses condo coverages. */
+#acord-ui-content .coverage-row[id*="_csio:ARIB"] .coverage-description,
+#acord-ui-content .coverage-row[id*="_csio:ARLA"] .coverage-description,
+#acord-ui-content .coverage-row[id*="_csio:ARAP"] .coverage-description {
+    margin-left: 15px;
+}
+
+/* Add space before and after coverages E, F & G. */
+#acord-ui-content .coverage-row[id*="_csio:PL"] {
+    margin-top: 1em;
+}
+#acord-ui-content .coverage-row[id*="_csio:VLPD"] {
+    margin-bottom: 1em;
+}
+
+#acord-ui-content .coverage-col-limit, #acord-ui-content .coverage-col-deductible {
+    width: 124px;
+    height: 24px; /* This prevents empty deductible/limit cells from collapsing. */
+}
+
+#acord-ui-content table-cell.coverage-col-limit, #acord-ui-content table-cell.coverage-col-deductible {
+    color: black;
+}
+
+#acord-ui-content .coverage-col-limit select, #acord-ui-content .coverage-col-limit input[type=text],
+#acord-ui-content .coverage-col-deductible select, #acord-ui-content .coverage-col-deductible input[type=text] {
+    width: 100%;
+}
+
+#acord-ui-content .option .coverage-description {
+    margin-left: 15px;
+}
+
+#acord-ui-content .easy-text-area-input {
+    width: 100%;
+    max-width: none;
+    margin-left: 0px;
+}
+
+#acord-ui-content .easy-list-panel-add-coverage {
+    display: none;
+}
+
+/** This gets used in EasyListPanel.  Search for tag.put("class", CLASS_PREFIX + CLASS_ACTION_REMOVE + itemType); */
+#acord-ui-content .easy-list-panel-remove-coverage {
+    background: url("../delete_blue.png") no-repeat scroll 0 0 / 80% auto transparent;
+    float: right;
+    height: 100%;
+    width: 17px;
+    background-position: left center;    
+}
+
+/* DD : changes below made for ui update release may, 2014. should be refactored (possibly base easylibrary values changed?)*/
+
+#acord-ui-content .easy-list-panel-add-section {
+    border:0px;
+}
+
+#acord-ui-content .easy-list-panel-add-section table.easy-list-panel-add-button {
+    margin-left:1px;
+    background-color: #dfdfdf;
+    margin-top:-3px;
+    width:200px;
+    text-align: left;
+    border:0px;
+    font-size:11pt;
+    padding:4px;
+}
+
+#acord-ui-content .easy-list-panel-add-section .easy-list-panel-add-button tr:hover td {
+    background-color:#B7D6F2;
+    color:#000;
+}
+
+#page .easy-list-panel-add-button .easy-list-panel-add-button-left-cell {
+    width:30px;
+}
+
+#page .easy-list-panel-add-button .easy-list-panel-add-button-right-cell {
+    width:170px;
+    color:#555;
+}
+
+#page .easy-section-content .easy-list-panel-add-button-right-cell {
+    font-size:9pt;
+}
+
+#page .easy-section-bottomleft, .easy-section-bottomright, .easy-section-heading-topleft, .easy-section-heading-topright {
+    visibility: hidden;
+}
+
+#sideBarContainer .easy-section-heading {
+    background: #4B90D0;
+}
+
+#sideBarContainer .easy-section-heading-label {
+    color:#f8f8f8;
+    font-weight:bold;
+}
+
+#policyDetailsPanel {
+    margin-top: -10px;
+}
+
+#page .easy-section-content .easy-list-panel-add-button {
+    color:#4040e0;
+}
+
+#page .easy-list-panel-remove-section {
+    height:16px;
+    width:16px;
+    top:5px;
+}
+
+#page .easy-list-panel-add-button-left-cell {
+    background-size: 50% auto;
+}
+
+#acord-ui-content .easy-list-panel-add-section table.easy-list-panel-add-button {
+    outline: 1px solid #aaa;
+    margin-bottom:20px;
+}
+
+.launchPanelSection-easy-section-content .easy-section-content {
+    padding-left:10px;
+}
+
+#page .launchPanelSection-easy-section-heading-label.easy-section-heading-label,
+#page .policyDetailsSection-easy-section-heading-label.easy-section-heading-label {
+    font-size:12pt;
+}
+
+#acord-ui-content .dwellPolicyTypeCd-easy-combo-box-input, #acord-ui-content .riskDeductible-easy-combo-box-input {
+    max-width: 210px;
+}
+
+#acord-ui-content .coverage-row .table-cell-tool-bar {
+    width: 0px;
+    height: 23px;
+}
+
+#acord-ui-content .watercraftCoverages .coverage-row .table-cell-tool-bar {
+    width: auto;
+}
+
+#acord-ui-content .policePartyInfoEmailAddr-easy-text-field,
+#acord-ui-content .policePartyInfoAddr1-easy-text-field,
+#acord-ui-content .policePartyInfoAddr2-easy-text-field,
+#acord-ui-content .policePartyInfoPostalCode-easy-text-field,
+#acord-ui-content .policePartyInfoCountryCd-easy-combo-box,
+#acord-ui-content .policePartyInfoHomePhoneNumber-easy-text-field,
+#acord-ui-content .policePartyInfoCellPhoneNumber-easy-text-field {
+    display: none;
+}
+
+#acord-ui-content .hideSectionBorder .easy-section {
+    margin-top: 0;
+}
+
+#acord-ui-content .hideSectionBorder .easy-section-content {
+    padding: 0;
+    width: 100%;
+}
+
+#acord-ui-content .hideSectionBorder .easy-section-heading {
+    display: none;
+}
+
+/******************************************************************************/
+/* Summary View */
+
+#acord-ui-content.summary {
+    width: 1128px;
+    border-bottom: 1px solid lightgrey;
+    padding: 5px;
+    /*background-color: #F5F5F5;*/
+    margin-top: -5px;
+    color: #4C4747;
+}
+
+#acord-ui-content.summary .easy-data-label {
+    font-weight: bold;
+}
+
+#acord-ui-content.summary .summaryLine {
+    font-size: 12pt;
+}
+
+#acord-ui-content.summary .vehicleSummary,
+#acord-ui-content.summary .dwellSummary {
+    margin-bottom: 15px;
+    float: left;
+}
+
+#acord-ui-content.summary .colHeading {
+    float: left;
+    font-size: 10pt;
+    padding-right: 20px;
+}
+
+#acord-ui-content.summary .colData {
+    float: left;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+#acord-ui-content.summary .vehicles.colHeading,
+#acord-ui-content.summary .vehicle {
+    width: 450px;
+}
+
+#acord-ui-content.summary .locations.colHeading,
+#acord-ui-content.summary .dwell {
+    width: 300px;
+}
+
+#acord-ui-content.summary .drivers.colHeading,
+#acord-ui-content.summary .driver {
+    width: 250px;
+}
+
+#acord-ui-content.summary .watercrafts.colHeading,
+#acord-ui-content.summary .travelTrailers.colHeading {
+    width: 300px;
+}
+
+#acord-ui-content.summary .watercraftListViews,
+#acord-ui-content.summary .travelTrailerListViews {
+    float: left;
+    width: 300px;
+    padding-right: 20px;
+}
+
+#acord-ui-content.summary .driverListViews {
+    float: left;
+}
+
+#acord-ui-content.summary .driverListView,
+#acord-ui-content.summary .watercraftListView,
+#acord-ui-content.summary .travelTrailerListView {
+    float: left;
+    clear: left;
+}
+
+#acord-ui-content.summary .usePct.colHeading,
+#acord-ui-content.summary .claims.colHeading,
+#acord-ui-content.summary .convictions.colHeading,
+#acord-ui-content.summary .usePct,
+#acord-ui-content.summary .claims,
+#acord-ui-content.summary .convictions {
+    width: 100px;
+    text-align: center;
+}
+
+#acord-ui-content.summary .summaryRemarksLabel {
+    font-size: 10pt;
+}
+
+#acord-ui-content.summary .summaryRemarksText {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.broker-chooser th {
+    background :lightgrey;
+}
+
+.broker-chooser .selected {
+    background: lightblue;
+}
+
+.broker-list {
+    cursor: pointer;
+}
+
+.fullAddress {
+	display: inline-block;
+	width: 32%;
+	margin-right: 8px;
+}
+
+.quoteTable {
+    table-layout: fixed;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0px;
+    text-align: center; 
+    font-weight: bold;
+    font-size: 15pt;
+}
+
+.consumerQuoteResults select {
+    height: 22px;
+    font-size: 9pt;
+    padding: 0;
+}

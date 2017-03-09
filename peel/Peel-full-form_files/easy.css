@@ -1,0 +1,484 @@
+
+.ui-dialog, .ui-dialog-titlebar {
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+.ui-dialog-titlebar {
+    font-size: 12pt !important;
+    padding: 5px 12px !important;
+}
+.ui-dialog-content {
+    color: #5a5a5a !important;
+    font-size: 11pt;
+}
+.ui-dialog-buttonpane {
+    border: 0 none !important;
+}
+.confirm-button {
+    background-color: #ffffff !important;
+    background-image: none !important;
+    border: 0.1em solid #767171 !important;
+    border-radius: 0 !important;
+    color: #5b9bd5 !important;
+    height: 30px;
+    letter-spacing: 0.05em;
+    min-width: 75px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.easy-banner {
+    font-size: 24px;
+    font-weight: bold;
+    padding-left: 0;
+    text-align: left;
+}
+.easy-footer {
+    font-size: 10px;
+    font-weight: bold;
+    padding-left: 0;
+    padding-top: 0;
+    text-align: left;
+}
+.easy-footer-label {
+    padding-top: 10px;
+    text-align: left;
+}
+.easy-footer-logo {
+}
+.easy-section {
+    border: 1px solid #bfbfbf;
+    clear: both;
+    display: block;
+    float: left;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: visible;
+    position: relative;
+    width: 100%;
+}
+.easy-section.minimized .easy-section-content {
+    display: none;
+}
+.easy-section.maximized .easy-section-summary {
+    display: none;
+}
+.easy-section-heading {
+    background: #e4e8f0 none repeat scroll 0 0;
+    border-bottom: 1px solid #bfbfbf;
+    margin: 0;
+    min-height: 25px;
+    position: relative;
+}
+.easy-section-heading-topleft {
+    background-image: url("easy_section_corner_topleft.png");
+    float: left;
+    height: 8px;
+    left: -1px;
+    position: relative;
+    top: -1px;
+    width: 8px;
+}
+.easy-section-heading-label {
+    float: left;
+    font-size: 12pt;
+    font-weight: bold;
+    height: 20px;
+    margin: 0 0 0 5px;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    top: 3px;
+    white-space: nowrap;
+    width: 85%;
+}
+.easy-section-heading-topright {
+    background-image: url("easy_section_corner_topright.png");
+    float: right;
+    height: 8px;
+    position: relative;
+    right: -1px;
+    top: -1px;
+    width: 8px;
+}
+.easy-section-error {
+    background-color: #dc143c !important;
+}
+.easy-section-minmax {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 60% auto;
+    cursor: pointer;
+    float: left;
+    height: 25px;
+    position: relative;
+    width: 25px;
+}
+.easy-section-minmax.maximized {
+    background-image: url("Open_State_Grey.png");
+}
+.easy-section-minmax.minimized {
+    background-image: url("Closed_State_Grey.png");
+}
+.easy-section-summary, .easy-section-content {
+    float: left;
+    margin-top: 5px;
+    padding: 0 2%;
+    width: 96%;
+}
+.easy-section-summary p {
+}
+.easy-section-bottomleft {
+    background-image: url("easy_section_corner_bottomleft.png");
+    bottom: -1px;
+    float: left;
+    height: 8px;
+    left: -1px;
+    position: relative;
+    width: 8px;
+}
+.easy-section-bottomright {
+    background-image: url("easy_section_corner_bottomright.png");
+    bottom: -1px;
+    float: right;
+    height: 8px;
+    position: relative;
+    right: -1px;
+    width: 8px;
+}
+.easy-section-edit {
+    background: transparent url("edit_white.png") no-repeat scroll 0 0 / 100% auto;
+    float: right;
+    height: 22px;
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
+    width: 22px;
+}
+.easy-message-section {
+}
+.easy-message-section li {
+    color: black;
+    cursor: default;
+    list-style: outside none none;
+    overflow: visible;
+}
+.easy-message-section ul {
+    margin: 0;
+    overflow: visible;
+    padding: 0;
+}
+.easy-message-section-category {
+    background-color: lightgray;
+    font-weight: bold;
+    padding: 2px;
+}
+.easy-message-section-message {
+    font-size: 12px;
+    margin: 2px;
+    width: 830px;
+}
+.easy-message-section-level {
+    height: 12px;
+    margin: 2px;
+    width: 45px;
+}
+.easy-message-section-level-priority2 {
+    background: transparent url("easy_message_section_icon_alert.png") no-repeat scroll right top;
+}
+.easy-message-section-level-priority3, .easy-message-section-level-priority4, .easy-message-section-level-priority5, .easy-message-section-level-priority6 {
+    background: transparent url("easy_message_section_icon_error.png") no-repeat scroll right top;
+}
+.easy-progress {
+    color: #fff;
+    display: none;
+    height: 200px;
+    left: 50%;
+    margin: -100px 10px 0 -100px;
+    overflow: hidden;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    width: 200px;
+    z-index: 1006;
+}
+.easy-progress span {
+    border: 0 none;
+    left: -50px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+}
+.easy-input.error, .easy-text-area-input.error, .easy-combo-box-options-filter.error {
+    background-color: #ffd0d0;
+}
+.easy-data-label {
+    display: inline;
+    height: 15px;
+    margin-top: 2px;
+}
+.easy-text-field {
+    position: relative;
+}
+.easy-text-field-input {
+    position: relative;
+}
+.easy-date-field {
+    position: relative;
+}
+.yui-skin-sam {
+    vertical-align: middle;
+}
+.ui-datepicker-header {
+    background: #ffffff none repeat-x scroll 50% 50% !important;
+    border: 1px solid #000000 !important;
+}
+.easy-select {
+    position: relative;
+}
+.easy-select-input {
+    position: relative;
+}
+.easy-combo-box-options {
+    display: inline-block;
+    z-index: 999;
+}
+.easy-combo-box-options-list {
+    background: white none repeat scroll 0 0;
+    border: 1px solid #aaaaaa;
+    max-height: 150px;
+    max-width: 500px;
+    min-width: 200px;
+    overflow: auto;
+}
+.easy-combo-box-input {
+    cursor: default;
+    text-shadow: 0 0 0 #000;
+}
+.easy-combo-box-option {
+    cursor: default;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+.easy-combo-box-options-filter {
+    border: 1px solid #999999;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: default;
+    padding-left: 6px;
+}
+.easy-combo-box-option.highlight {
+    background-color: #3775d7;
+    color: #ffffff;
+}
+.easy-radio {
+    clear: both;
+    position: relative;
+}
+.easy-radio-container {
+}
+.easy-radio-input {
+}
+.easy-check {
+    position: relative;
+}
+.easy-check-container {
+}
+.easy-check-container {
+}
+.easy-check label {
+}
+.easy-text-area {
+    margin: 1px;
+    position: relative;
+    width: 100%;
+}
+.easy-text-area-input {
+    border: 1px solid #b7b7b7;
+    width: 100%;
+}
+.easy-field-error {
+    background-color: transparent;
+    color: red;
+    cursor: default;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    height: 1em;
+    text-align: center;
+    vertical-align: middle;
+    width: 16px;
+}
+.easy-text-field-error-message {
+    background-color: lightgrey;
+    border: 1px dotted grey;
+    color: black;
+    cursor: help;
+    font-size: 12px;
+    font-weight: normal;
+}
+.easy-tooltip {
+    background-color: Khaki;
+    border: 1px solid lightgray;
+    color: sienna;
+    font-size: 12px;
+    height: 12px;
+    left: -9999px;
+    padding: 5px;
+    position: absolute;
+    text-align: left;
+    width: 200px;
+    z-index: 999;
+}
+.easy-upload-file-select {
+}
+.easy-upload-item-text, .easy-upload-item-link {
+    float: left;
+    height: 25px;
+    overflow: hidden;
+    padding-left: 6px;
+    padding-top: 0;
+    width: 85%;
+}
+.easy-upload-delete-button {
+    color: royalblue;
+    cursor: pointer;
+    float: right;
+    margin-top: 2px;
+    padding: 0 6px 0 0;
+    text-decoration: none;
+}
+.yui-calcontainer {
+    width: 160px;
+}
+a.calnav {
+    color: blue !important;
+    display: inline-block;
+    padding: 0 !important;
+    text-decoration: underline !important;
+    width: 110px;
+}
+.easy-list-panel-remove-section {
+    background: transparent url("delete_grey.png") no-repeat scroll 0 0 / 100% auto;
+    float: right;
+    height: 22px;
+    position: relative;
+    top: 2px;
+    width: 22px;
+}
+.easy-list-panel-add-section {
+    border-color: #bfbfbf;
+    border-radius: 10px;
+    border-style: dashed;
+    border-width: thin;
+    float: left;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    width: 99%;
+}
+.easy-list-panel-add-button {
+    background-color: #4a91ff;
+    border: medium none;
+    border-radius: 3px;
+    color: #ffffff;
+    display: table;
+    font-size: 12pt;
+    height: 24px;
+    line-height: 22px;
+    text-align: center;
+    width: 25%;
+}
+.easy-list-panel-add-button span {
+    vertical-align: middle;
+}
+.easy-list-panel-add-button .easy-list-panel-add-button-left-cell {
+    background-image: url("plus_grey.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 20% !important;
+}
+.easy-list-panel-add-button-right-cell {
+    font-size: 12pt;
+    width: 80%;
+}
+.easy-list-panel-add-row {
+    float: left;
+    margin-bottom: 15px;
+}
+.easy-list-panel-add-row .easy-list-panel-add-button {
+    background-color: transparent;
+    border: medium none;
+    color: #939598;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+}
+.easy-list-panel-add-row .easy-list-panel-add-button-left-cell {
+    display: none;
+}
+.easy-list-panel-add-row .easy-list-panel-add-button-right-cell {
+    color: #4e91ce;
+    font-size: 11pt;
+    padding-left: 5px;
+    width: 300px;
+}
+.easy-list-panel-remove-row {
+    background: transparent url("delete_blue.png") no-repeat scroll 0 0 / 100% auto;
+    float: right;
+    height: 17px;
+    position: relative;
+    top: 3px;
+    width: 17px;
+}
+.row {
+    border-radius: 0;
+    clear: both;
+    float: left;
+    width: 100%;
+}
+.striped .evenRow {
+    background-color: transparent;
+}
+.striped .oddRow {
+    background-color: #f2efe9;
+}
+.disabled {
+    background-color: rgb(235, 235, 228);
+}
+.easyJSComboCodeCol {
+    display: block;
+    float: left;
+    width: 80px;
+}
+.easy-combo-box-options-list div {
+    min-height: 1em;
+}
+.input-group-addon {
+    display: none;
+}
+.listHeader {
+    clear: both;
+    color: #333;
+    display: block;
+    font-size: 10pt;
+    font-weight: bold;
+    margin: 0 0 10px;
+}
+.easy-combo-box-options-list .easy-drop-down-button-option, a {
+    color: black;
+    font-size: 14px;
+    text-decoration: none;
+}
+.easy-combo-box-options-list .easy-drop-down-button-option:hover {
+    background-color: #3775d7;
+    color: #ffffff;
+}
+input.easy-list-panel-add-button {
+    height: 30px;
+    padding: 0 !important;
+    width: 223px;
+}
+input, select, textarea {
+    box-sizing: border-box;
+}

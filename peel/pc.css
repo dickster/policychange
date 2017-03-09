@@ -1,0 +1,78 @@
+.popover-content {
+    max-height: 375px;
+    overflow-y: scroll;
+    padding:0;
+}
+
+li .change-values {
+     margin-left:25px;
+    /* display:block; */
+}
+.fa.fa-minus-circle {
+    color:#5b0000;
+}
+.fa.fa-plus-circle {
+    color:#005000;
+}
+.fa.fa-stack-1x span {
+    color: white;
+    font-size: .5em;
+    margin-left: 9px;
+    margin-top: -9px;
+    padding:3px 4px;
+    background:red;
+    font-family: sans-serif;
+}
+
+.fa.fa-asterisk {
+    color: blue;
+    /* font-size: 25px; */
+}
+
+.popover { 
+    min-width:350px;
+}
+
+.btn-circle {
+    width: 29px;
+    height: 29px;
+    text-align: -webkit-center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+.btn-circle>i.fa {
+    margin-top: -5px;
+}
+
+
+.change-item div:first-child:before {
+    font-family: FontAwesome;
+}
+
+.change-item-add div:first-child:before {
+    content:'\f055';
+}
+.change-item-modify div:first-child:before {
+    content:'\f0d8';
+}
+.change-item-delete div:first-child:before {
+    content:'\f056';
+}
+
+
+
+
+.change-item .change-reject,
+.change-item .change-accept {
+    display:none;
+}
+
+.change-item.change-item-accepted .change-accept {
+    display:inline-block;
+}
+.change-item:not(.change-item-accepted) .change-reject {
+    display:inline-block;
+}

@@ -17,10 +17,44 @@
             integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
             crossorigin="anonymous"></script>
 
-    <!--<script id="entry-template" type="text/x-handlebars-template">-->
-    <!--</script>    -->
 
+    <script id="title" type="text/x-handlebars-template">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-asterisk fa-stack-2x"></i>
+            <i class="fa fa-stack-1x" >
+                <span class="badge">{{changes.length}}</span>
+            </i>
+        </span>
+        <span>{{config.header}}</span>
+        <span class="pull-right">
+            <button class="btn btn-circle btn-primary"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
+            <button class="btn btn-circle btn-primary"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
+        </span>
+    </script>
 
+    <script id="content" type="text/x-handlebars-template">
+        <ui class="list-group">
+            {{#each changes}}   <!-- handlebars loop -->
+            <li class="list-group-item change-item change-item-{{type}}" data-change-id="{{uid}}">
+                <div>
+                    <!--listen to change-action-event if you want a hook to populate this element-->
+                    <span>{{summary}}</span>
+                </div>
+                <div class="change-values">
+                    {{#each formattedValues}}
+                    <div class="change-value">
+                        <span>{{label}}</span> : <span>{{value}}</span>
+                        <span class="change-actions pull-right">
+                            <span class="change-action change-accept">{{{@root.config.acceptIcon}}}</span>
+                            <span class="change-action change-reject">{{{@root.config.rejectIcon}}}</span>
+                        </span>
+                    </div>
+                    {{/each}}
+                </div>
+            </li>
+            {{/each}} <!-- handlebars loop -->
+        </ui>
+    </script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -47,7 +81,7 @@
         </div>
     </div>
 
-    <div class="pop-div pull-right">
+    <div class="pull-right change-dock">
         <a href="#" data-toggle="popover">&nbsp;<i class="fa fa-bars  "></i></a>
     </div>
 
@@ -60,6 +94,7 @@
                 <input class="form-control" data-change-id="937" type="text" value="apple">
             </div>
         </div>
+        <div class="kludge"></div>
         <div class="form-group">
             <div class="col-md-2">
                 <label>Vehicle Manufacturer</label>
@@ -78,47 +113,6 @@
     </form>
 
 </div>
-
-<!--TODO : use <script tag to define a handlebars template! -->
-<div style="display:none" class="change-template">
-    <div id='title' style='display:none'>
-        <span class="fa-stack fa-lg">
-            <i class="fa fa-asterisk fa-stack-2x"></i>
-            <i class="fa fa-stack-1x" >
-                <span class="badge">{{changes.length}}</span>
-            </i>
-        </span>
-        <span>{{config.header}}</span>
-        <span class="pull-right">
-            <button class="btn btn-circle btn-primary"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
-            <button class="btn btn-circle btn-primary"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
-        </span>
-    </div>
-
-    <div id='content'>
-        <ui class="list-group">
-            {{#each changes}}   <!-- handlebars loop -->
-            <li class="list-group-item change-item change-item-{{type}}" data-change-id="{{uid}}">
-                <div>
-                    <!--listen to change-action-event if you want a hook to populate this element-->
-                    <span>{{summary}}</span>
-                </div>
-                {{#each formattedValues}}
-                <div class="change-values">
-                    <span>{{label}}</span> : <span>{{value}}</span>
-                    <span class="change-actions pull-right">
-                        <span class="change-accept">{{{@root.config.acceptIcon}}}</span>
-                        <span class="change-reject">{{{@root.config.rejectIcon}}}</span>
-                    </span>
-                </div>
-                {{/each}}
-            </li>
-            {{/each}} <!-- handlebars loop -->
-        </ui>
-    </div>
-
-</div>
-
 
 
 </body>

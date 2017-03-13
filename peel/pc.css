@@ -4,10 +4,18 @@
     padding:0;
 }
 
-li .change-values {
-     margin-left:25px;
-    /* display:block; */
+.kludge {
+    display:block;
+    height:900px;
+    width:100px;
+    background:#f0f0f8;
 }
+
+
+.change-value {
+     margin-left:25px;
+}
+
 .fa.fa-minus-circle {
     color:#5b0000;
 }
@@ -26,7 +34,29 @@ li .change-values {
 
 .fa.fa-asterisk {
     color: blue;
-    /* font-size: 25px; */
+}
+
+.popover-content .change-item:hover {
+    background:aliceblue;
+    cursor:pointer;
+}
+
+.popover {
+    position:fixed;
+}
+
+.change-dock {
+    position:fixed;
+    top: 0;
+    right: 100px;
+}
+
+
+/*TODO : this should be configurable*/
+.pop-div {
+    position: fixed;
+    top: 0;
+    right: 176px;
 }
 
 .popover { 
@@ -47,32 +77,35 @@ li .change-values {
     margin-top: -5px;
 }
 
-
-.change-item div:first-child:before {
+.change-item>div:first-child:before {
     font-family: FontAwesome;
 }
 
-.change-item-add div:first-child:before {
+.change-item-add> div:first-child:before {
     content:'\f055';
 }
-.change-item-modify div:first-child:before {
+.change-item-modify> div:first-child:before {
     content:'\f0d8';
 }
-.change-item-delete div:first-child:before {
+.change-item-delete> div:first-child:before {
     content:'\f056';
 }
 
 
 
 
-.change-item .change-reject,
-.change-item .change-accept {
-    display:none;
+.change-value .change-action {
+    /* display:none; */
 }
 
-.change-item.change-item-accepted .change-accept {
+.change-value.active .change-action.change-accept {
     display:inline-block;
+    outline:1px solid blue;
 }
-.change-item:not(.change-item-accepted) .change-reject {
+.change-value:not(.active) .change-action.change-reject {
     display:inline-block;
+    outline:1px solid red;
+}
+
+.change-value.active .change-action-reject {
 }

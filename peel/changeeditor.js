@@ -36,8 +36,6 @@ $.widget( "wtw.changeEditor", {
         var content = config.content;
         var shown = this.editorShown.bind(this);
 
-        this.init(options);
-
         this.element.addClass('change-editor');
 
         this.element.popover({
@@ -76,9 +74,25 @@ $.widget( "wtw.changeEditor", {
 
     },
 
-    init : function(options) {
+    init : function($content, options) {
         this.formatData(options);
         this.prototypeInputs(options);
+        this.initState($content, options);
+    },
+
+    initState : function($content, options) {
+        var $this = this;
+        $.each(options.changes, function(i,change) {
+            var $input = $this.getChangeInput(options,change.uid);
+            var input = $input.get(0);
+            var currentValue = $input.get(0).changeValue();
+            $.each(change.values, function(idx, value) {
+                // TODO : ignore case and/or whitespace?
+                if (currentValue==value) {
+                    // find associated change item:change-value[index] and set it to active.
+                }
+            });
+        });
     },
 
     formatData : function(options) {
@@ -103,7 +117,7 @@ $.widget( "wtw.changeEditor", {
 
     getChangeInput : function(opts, uid) {
         // TODO : remove need for options param.
-        console.log('options?? ' + this.options);
+        console.log('options?? is this accessible? ' + this.options.config.uidSelectorTemplate);
         var selector = opts.config.uidSelectorTemplate.replace('${uid}', uid);
         return $(selector);
     },
@@ -165,7 +179,7 @@ $.widget( "wtw.changeEditor", {
     },
 
     viewChange : function($changeItem, change, options) {
-//    getChangeInput(change);
+        // getChangeInput(change);
         var selector = options.config.uidSelectorTemplate.replace('${uid}', change.uid);
         var input = $(selector);
         if ($(selector).length==0) {
@@ -196,8 +210,7 @@ $.widget( "wtw.changeEditor", {
     editorShown : function($popover, options) {
         var callback = options.config.onChangeAdded ? options.config.onChangeAdded.bind(this) : this.defaultOnChangeAdded.bind(this);
         var $content = $popover.data('bs.popover').tip().find('.popover-content');
-
-
+        this.init($content, options);
 
         $content.find('.change-item').each(function(i) {
             callback($(this), options, options.changes[i]);

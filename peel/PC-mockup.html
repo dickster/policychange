@@ -35,7 +35,8 @@
     <script id="content" type="text/x-handlebars-template">
         <ui class="list-group">
             {{#each changes}}   <!-- handlebars loop -->
-            <li class="list-group-item change-item change-item-{{type}}" data-change-id="{{uid}}">
+            <!--TODO : add the data-change-ref attribute programmatically.-->
+            <li class="list-group-item change-item change-item-{{type}}" data-change-ref="{{uid}}">
                 <div>
                     <!--listen to change-action-event if you want a hook to populate this element-->
                     <span>{{summary}}</span>

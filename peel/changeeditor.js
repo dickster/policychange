@@ -61,9 +61,7 @@ $.widget( "wtw.changeEditor", {
         this.element.popover('show');
     },
 
-
     // trigger events when initialized, summary dialog expanded/collapsed.  change dialog shown/hidden.
-
 
     _scrollTo: function(change) {
 
@@ -82,19 +80,23 @@ $.widget( "wtw.changeEditor", {
         this.prototypeInputs(options);
     },
 
-    initState : function($content, options) {
+    initChangeState : function(i,change) {
         var $this = this;
-        $.each(options.changes, function(i,change) {
-            var $input = $this.getChangeInput(change.uid);
-            var input = $input.get(0);
-            var currentValue = $input.get(0).changeValue();
-            $.each(change.values, function(idx, value) {
-                // TODO : ignore case and/or whitespace?
-                if (currentValue===value) {
-                    // getChangeItem(change.uid);
-                }
-            });
+        var $input = $this.getChangeInput(change.uid);
+        var input = $input.get(0);
+        var currentValue = $input.get(0).changeValue();
+        $.each(change.values, function(idx, value) {
+            // TODO : ignore case and/or whitespace?
+            if (currentValue===value) {
+                $this.getChangeItem(change.uid);
+                $this.updateActiveState($this.getChangeItem(change.uid), change, idx);
+            }
         });
+    },
+
+    initState : function($content, options) {
+        var initChangeState = this.initChangeState.bind(this);
+        $.each(options.changes, initChangeState);
     },
 
     formatData : function(options) {
@@ -170,21 +172,22 @@ $.widget( "wtw.changeEditor", {
         return result;
     },
 
-    setChangeValue : function($action, change, index) {
+    updateActiveState: function ($changeItem, change, index) {
+        // remove all other (if any) active items, and highlight this one.
+        // TODO : chain these two lines together after debugging...
+        $changeItem.find('.change-value').removeClass('active');
+        $changeItem.find('.change-value').eq(index).addClass('active');
+    },
+
+    setActiveChangeValue : function($action, change, index) {
         var value = change.values[index];
-        console.log('setting change value ' + change.uid + ' to ' + value);
         var $input = this.getChangeInput(change.uid);
-        // TODO : can i use get() instead of get(0);
-        var input = $input.get(0);
         $input.get(0).changeValue(value);
-        console.log(' value is now set to ' + $input.get(0).changeValue());
-        // now deal with the UI  (set the active change).
-        if (index==0) {
-            $action.parentsUntil('.change-value').addClass('active');
-        }
-        else {
-            $action.parentsUntil('.change-value').removeClass('active');
-        }
+        this.updateActiveState($action.parentsUntil('.change-item'),change,index);
+    },
+
+    updateChangeValue : function($changeValue, change, index) {
+        // update active state.
     },
 
     rejectChange : function() {
@@ -198,12 +201,12 @@ $.widget( "wtw.changeEditor", {
     defaultOnChangeAdded : function($changeItem, options, change) {
         var $changeValues = $changeItem.find('.change-value');
         var viewChange = this.viewChange.bind(this);
-        var setChange = this.setChangeValue.bind(this);
+        var setActiveChange = this.setActiveChangeValue.bind(this);
 
-        // if you click on the unselected icon, it will accept the change (set its value and update status).
+        // if you click on the *unselected* icon, it will accept the change (set its value and update status).
         $.each($changeValues, function(i, changeValue) {
             $(changeValue).find('.change-reject').click(function(e) {
-                setChange($(this), change, i);
+                setActiveChange($(this), change, i);
             });
         });
 

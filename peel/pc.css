@@ -95,17 +95,33 @@
 
 
 .change-value .change-action {
-    /* display:none; */
+     display:none;
 }
 
 .change-value.active .change-action.change-accept {
     display:inline-block;
-    outline:1px solid blue;
+    /*outline:1px solid blue;*/
 }
 .change-value:not(.active) .change-action.change-reject {
     display:inline-block;
-    outline:1px solid red;
+    /*outline:1px solid red;*/
 }
 
-.change-value.active .change-action-reject {
+.change-value:not(.active) .change-action.change-accept {
+    display:none;
+}
+
+.change-value.active .change-action.change-reject {
+    display:none;
+}
+
+@keyframes highlight {
+    from { outline:none; }
+    to { outline:3px solid lightblue;}
+}
+
+[data-change-id].active {
+    animation-name: highlight;
+    animation-duration: 190ms;
+    animation-iteration-count:2;
 }

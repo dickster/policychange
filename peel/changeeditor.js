@@ -32,6 +32,7 @@ $.widget( "wtw.changeEditor", {
 
         // TODO : $.extend(), so caller can pass in their own options.
         var options = $.extend(this.options, this.options, this.defaultOptions);
+        // TODO put options and other things ($content) in higher scope so all functions get access.
         var config = options.config;
         var title = config.title;
         var content = config.content;
@@ -94,7 +95,7 @@ $.widget( "wtw.changeEditor", {
         });
     },
 
-    initState : function($content, options) {
+    initState : function(options) {
         var initChangeState = this.initChangeState.bind(this);
         $.each(options.changes, initChangeState);
     },
@@ -127,7 +128,6 @@ $.widget( "wtw.changeEditor", {
         return $(selector);
     },
 
-
     getAllChangeInputs : function(uid) {
         var selector = this.options.config.uidSelectorTemplate.replace('="${uid}"', '');
         if ($(selector).length==0) {
@@ -136,7 +136,6 @@ $.widget( "wtw.changeEditor", {
         return $(selector);
     },
 
-
     getChangeItem : function(uid) {
         var selector = this.options.config.itemSelectorTemplate.replace('${uid}', uid);
         if ($(selector).length==0) {
@@ -144,7 +143,6 @@ $.widget( "wtw.changeEditor", {
         }
         return $(selector);
     },
-
 
     prototypeInputs: function(options) {
         var cv = this.changeValue;
@@ -203,12 +201,14 @@ $.widget( "wtw.changeEditor", {
         alert('rejected');
     },
 
-    viewChange : function($changeItem, change, options) {
-        $('html, body').animate({scrollTop: this.getChangeInput(change.uid).offset().top}, 400);
-        $changeItem.parent().find('.change-item').removeClass('active');
+    viewChange : function($changeItem, uid) {
+        // select the item in the main panel
+        $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
+        // ..now deal with the form input itself
+        $('html, body').animate({scrollTop: this.getChangeInput(uid).offset().top}, 400);
         this.getAllChangeInputs().removeClass('active');
-        this.getChangeInput(change.uid).addClass('active');
+        this.getChangeInput(uid).addClass('active');
     },
 
     defaultOnChangeAdded : function($changeItem, options, change) {
@@ -226,18 +226,41 @@ $.widget( "wtw.changeEditor", {
         // if you click on item row, it will scroll the window and highlight the change in the form.
         $changeItem.click(function(e) {
             // TODO : add highlight change animation.
-            viewChange($changeItem, change, options);
+            viewChange($changeItem, change.uid);
         });
     },
 
+    advanceActiveChange: function ($content, delta) {
+        var $items = $content.find('.change-item');
+        var $active = $content.find('.change-item.active');
+        var index = ($active.length!=0) ? $items.index($active)+delta : 0;
+        var count = $items.length;
+        index = (index<0) ? count - 1 :
+                (index>=count) ? 0 :
+                    index;
+        $active.removeClass('active');
+//        this.viewChange($active.attr(options.config.ui$items.eq(index));
+    },
 
+    initPrevNextButtons: function ($popover, options) {
+        var advance = this.advanceActiveChange.bind(this);
+        $popover.find('.next-change').click(function() {
+            advance($popover, 1);
+        });
+        $popover.find('.prev-change').click(function() {
+            advance($popover, -1);
+        });
+    },
 
-    editorShown : function($popover, options) {
+    editorShown : function($popoverTrigger, options) {
+        // the trigger is the element that the popover is attached to.  we need the actual popover itself.
+        var $popover = $popoverTrigger.data('bs.popover').tip();
         var callback = options.config.onChangeAdded ? options.config.onChangeAdded.bind(this) : this.defaultOnChangeAdded.bind(this);
-        var $content = $popover.data('bs.popover').tip().find('.popover-content');
-        this.initState($content, options);
+        var $pop = $popover.data('bs.popover').tip()
+        this.initState(options);
+        this.initPrevNextButtons($popover, options);
 
-        $content.find('.change-item').each(function(i) {
+        $popover.find('.change-item').each(function(i) {
             callback($(this), options, options.changes[i]);
         });
     }

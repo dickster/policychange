@@ -89,7 +89,7 @@ $.widget( "wtw.changeEditor", {
             // TODO : ignore case and/or whitespace?
             if (currentValue===value) {
                 $this.getChangeItem(change.uid);
-                $this.updateActiveState($this.getChangeItem(change.uid), change, idx);
+                $this.updateActiveValue($this.getChangeItem(change.uid), change, idx);
             }
         });
     },
@@ -123,6 +123,15 @@ $.widget( "wtw.changeEditor", {
         var selector = this.options.config.uidSelectorTemplate.replace('${uid}', uid);
         if ($(selector).length==0) {
             throw 'can not find element matching "' + selector + '" when trying to view change  (there should be a form input that matches this)';
+        }
+        return $(selector);
+    },
+
+
+    getAllChangeInputs : function(uid) {
+        var selector = this.options.config.uidSelectorTemplate.replace('="${uid}"', '');
+        if ($(selector).length==0) {
+            throw 'can not find any change form inputs "' + selector;
         }
         return $(selector);
     },
@@ -172,7 +181,7 @@ $.widget( "wtw.changeEditor", {
         return result;
     },
 
-    updateActiveState: function ($changeItem, change, index) {
+    updateActiveValue: function ($changeItem, change, index) {
         // remove all other (if any) active items, and highlight this one.
         // TODO : chain these two lines together after debugging...
         $changeItem.find('.change-value').removeClass('active');
@@ -196,6 +205,10 @@ $.widget( "wtw.changeEditor", {
 
     viewChange : function($changeItem, change, options) {
         $('html, body').animate({scrollTop: this.getChangeInput(change.uid).offset().top}, 400);
+        $changeItem.parent().find('.change-item').removeClass('active');
+        $changeItem.addClass('active');
+        this.getAllChangeInputs().removeClass('active');
+        this.getChangeInput(change.uid).addClass('active');
     },
 
     defaultOnChangeAdded : function($changeItem, options, change) {
@@ -240,30 +253,6 @@ $.widget( "wtw.changeEditor", {
 
 
 
-
-
-// var setChangeValue = function($icon,change,value) {
-//     var $item = $icon.parentsUntil('[data-change-id]');
-//     var changeId = $item.attr('data-change-id');
-//     var $input = $('[data-change-id="'+changeId+']"');
-//     $input.val(value);
-//     updateChangeValueStatus($item, change, value);
-// };
-
-
-var updateChangeValueStatus = function($item, change, value) {
-    // var index = $.inArray(change.values, value);
-    //
-    // if (index=-1) {
-    //     $item.removeClass('change-rejected').addClass('change-override');
-    // }
-    // if (index==0) {
-    //     $item.removeClass('change-rejected').removeClass('change-override');
-    // }
-    // if (index==1) {
-    //     $item.addClass('change-rejected').removeClass('change-override');
-    // }
-};
 
 
 

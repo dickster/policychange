@@ -27,16 +27,16 @@
         </span>
         <span>{{config.header}}</span>
         <span class="pull-right">
-            <button class="btn btn-circle btn-primary"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
-            <button class="btn btn-circle btn-primary"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
+            <button class="btn btn-sm btn-info"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
+            <button class="btn btn-sm btn-info"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
         </span>
     </script>
 
     <script id="content" type="text/x-handlebars-template">
-        <ui class="list-group">
+        <div class="list-group">
             {{#each changes}}   <!-- handlebars loop -->
             <!--TODO : add the data-change-ref attribute programmatically.-->
-            <li class="list-group-item change-item change-item-{{type}}" data-change-ref="{{uid}}">
+            <a class="list-group-item change-item change-item-{{type}}" data-change-ref="{{uid}}">
                 <div>
                     <!--listen to change-action-event if you want a hook to populate this element-->
                     <span>{{summary}}</span>
@@ -52,9 +52,9 @@
                     </div>
                     {{/each}}
                 </div>
-            </li>
+            </a>
             {{/each}} <!-- handlebars loop -->
-        </ui>
+        </div>
     </script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">

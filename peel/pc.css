@@ -37,7 +37,7 @@
 }
 
 .popover-content .change-item:hover {
-    background:aliceblue;
+    /*background:aliceblue;*/
     cursor:pointer;
 }
 
@@ -62,20 +62,7 @@
 .popover { 
     min-width:350px;
 }
-
-.btn-circle {
-    width: 29px;
-    height: 29px;
-    text-align: -webkit-center;
-    padding: 6px 0;
-    font-size: 12px;
-    line-height: 1.428571429;
-    border-radius: 15px;
-}
-
-.btn-circle>i.fa {
-    margin-top: -5px;
-}
+/*--------------------*/
 
 .change-item>div:first-child:before {
     font-family: FontAwesome;
@@ -117,11 +104,11 @@
 
 @keyframes highlight {
     from { outline:none; }
-    to { outline:3px solid lightblue;}
+    to { outline:3px solid lightsalmon;}
 }
 
 [data-change-id].active {
     animation-name: highlight;
-    animation-duration: 190ms;
+    animation-duration: 340ms;
     animation-iteration-count:2;
 }

@@ -15,7 +15,7 @@ $.widget( "wtw.changeEditor", {
             acceptIcon: '<i class="fa fa-check-circle"/>',
             onChangeAdded:null,                 //this.defaultOnChangeAdded,  //if null, uses default callback.
             uidSelectorTemplate: '[data-change-id="${uid}"]',
-            itemSelectorTemplate: '[data-change-ref="${uid}"]',
+            itemChangeRefAttr: 'data-change-ref',
             open: true,
             expanded:false,
             trigger: 'click',
@@ -137,7 +137,7 @@ $.widget( "wtw.changeEditor", {
     },
 
     getChangeItem : function(uid) {
-        var selector = this.options.config.itemSelectorTemplate.replace('${uid}', uid);
+        var selector = '['+this.options.config.itemChangeRefAttr +'="'+ uid+'"]';
         if ($(selector).length==0) {
             throw 'can not find element matching "' + selector + '" when trying to view change  (there should be a form input that matches this)';
         }
@@ -190,7 +190,7 @@ $.widget( "wtw.changeEditor", {
         var value = change.values[index];
         var $input = this.getChangeInput(change.uid);
         $input.get(0).changeValue(value);
-        this.updateActiveState($action.parentsUntil('.change-item'),change,index);
+        this.updateActiveValue($action.parentsUntil('.change-item'),change,index);
     },
 
     updateChangeValue : function($changeValue, change, index) {
@@ -201,17 +201,25 @@ $.widget( "wtw.changeEditor", {
         alert('rejected');
     },
 
-    viewChange : function($changeItem, uid) {
+    activeInput: function (input) {
+        this.getAllChangeInputs().removeClass('active');
+        $('html, body').animate({
+            scrollTop: input.offset().top}, 350, function() {
+            input.addClass('active');
+        });
+    },
+
+    viewChange : function($changeItem) {
         // select the item in the main panel
+        var uid = $changeItem.attr(this.options.config.itemChangeRefAttr);
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
         // ..now deal with the form input itself
-        $('html, body').animate({scrollTop: this.getChangeInput(uid).offset().top}, 400);
-        this.getAllChangeInputs().removeClass('active');
-        this.getChangeInput(uid).addClass('active');
+        this.activeInput(this.getChangeInput(uid));
     },
 
     defaultOnChangeAdded : function($changeItem, options, change) {
+        $changeItem.attr('data-change-ref',change.uid);
         var $changeValues = $changeItem.find('.change-value');
         var viewChange = this.viewChange.bind(this);
         var setActiveChange = this.setActiveChangeValue.bind(this);
@@ -226,7 +234,7 @@ $.widget( "wtw.changeEditor", {
         // if you click on item row, it will scroll the window and highlight the change in the form.
         $changeItem.click(function(e) {
             // TODO : add highlight change animation.
-            viewChange($changeItem, change.uid);
+            viewChange($changeItem);
         });
     },
 
@@ -239,7 +247,7 @@ $.widget( "wtw.changeEditor", {
                 (index>=count) ? 0 :
                     index;
         $active.removeClass('active');
-//        this.viewChange($active.attr(options.config.ui$items.eq(index));
+        this.viewChange($items.eq(index));
     },
 
     initPrevNextButtons: function ($popover, options) {
@@ -256,13 +264,15 @@ $.widget( "wtw.changeEditor", {
         // the trigger is the element that the popover is attached to.  we need the actual popover itself.
         var $popover = $popoverTrigger.data('bs.popover').tip();
         var callback = options.config.onChangeAdded ? options.config.onChangeAdded.bind(this) : this.defaultOnChangeAdded.bind(this);
-        var $pop = $popover.data('bs.popover').tip()
-        this.initState(options);
+        var $pop = $popover.data('bs.popover').tip();
+
         this.initPrevNextButtons($popover, options);
 
         $popover.find('.change-item').each(function(i) {
             callback($(this), options, options.changes[i]);
         });
+
+        this.initState(options);
     }
 
 });

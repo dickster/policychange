@@ -109,6 +109,6 @@
 
 [data-change-id].active {
     animation-name: highlight;
-    animation-duration: 340ms;
+    animation-duration: 240ms;
     animation-iteration-count:2;
 }

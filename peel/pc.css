@@ -8,9 +8,6 @@
     background:#f0f0f8;
 }
 
-.change-value {
-     margin-left:25px;
-}
 
 .fa.fa-minus-circle {
     color:#5b0000;
@@ -32,6 +29,11 @@
     color: blue;
 }
 
+
+.change-panel-popover .change-value {
+     margin-left:25px;
+}
+
 .change-panel-popover .popover-content .change-item:hover {
     cursor:pointer;
 }
@@ -51,8 +53,50 @@
     max-height: 375px;
     overflow-y: scroll;
 }
+
+
+.change-input-popover .change-value .change-input-accept {
+    visibility:hidden;
+    padding-left:5px;
+    display:inline-block;
+    width:24px;
+}
+
+.change-input-popover .change-value.accepted .change-input-accept {
+    visibility:visible;
+    color: #88c;
+}
+
+.change-input-popover .change-value.accepted .change-input-accept i.fa:before {
+    content: '\f00c';
+}
+
+.change-input-popover .change-value:hover .change-input-accept {
+    color:forestgreen;
+    visibility: visible;
+}
+
+.btn-group-xxs>.btn {
+    padding: 1px 3px;
+    font-size: 8px;
+    line-height: 1;
+    border-radius: 0;
+}
+
 .popover-content {
     padding:0;
+}
+
+.change-input-popover .change-value {
+    padding:4px 0;
+}
+
+.change-input-popover .list-group-item {
+    border:none;
+}
+
+.change-input {
+    padding:2px 0;
 }
 
 .change-input-popover.popover {
@@ -86,6 +130,7 @@
 }
 .change-values {
     font-size:smaller;
+    /* padding: 5px 0px; */
 }
 
 .list-group-item.change-item {

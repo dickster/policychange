@@ -62,21 +62,18 @@
     </script>
 
     <script id="dialogContent" type="text/x-handlebars-template">
-        <div class="list-group">
-            <a class="list-group-item change-input change-input-{{type}}">
-                <div class="change-values">
-                    {{#each formattedValues}}
-                    <div class="change-value">
-                        <span class="change-input-accept"><i class="fa fa-check-circle"/></span>
-                        <span>{{label}}</span> : <span class="value">{{value}}</span>
-                    </div>
-                    {{/each}}
-                </div>
-            </a>
+            <div class="list-group change-values change-input-{{type}}">
+                {{#each formattedValues}}
+                <a class="change-value list-group-item">
+                    <span class="change-input-accept"><i class="fa fa-check-circle"/></span>
+                    <span>{{label}}</span> : <span class="change-input-value">{{value}}</span>
+                </a>
+                {{/each}}
+            </div>
         </div>
-        <div class="btn-group pull-right">
-            <button class="btn btn-xs btn-default next-change"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
-            <button class="btn btn-xs btn-default prev-change"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
+        <div class="btn-group btn-group-xxs pull-right">
+            <button class="btn btn-default next-change"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
+            <button class="btn btn-default prev-change"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
         </div>
     </script>
 
@@ -106,7 +103,7 @@
     </div>
 
     <div class="pull-right change-dock">
-        <a href="#" data-toggle="popover">&nbsp;<i class="fa fa-bars  ">Changes</i></a>
+        <a href="#" data-toggle="popover">&nbsp;<i class="fa fa-bars  "></i></a>
     </div>
 
     <form class="form-horizontal">

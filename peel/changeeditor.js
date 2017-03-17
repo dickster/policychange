@@ -1,3 +1,5 @@
+// TODO : refactor changeInput popover code into it's own file.
+// use underscore to make all methods private
 
 $.widget( "wtw.changeEditor", {
 
@@ -26,7 +28,7 @@ $.widget( "wtw.changeEditor", {
             title:'#title',
             content:'#content',
             header: 'Changes',
-            valueLabels: ['broker', 'carrier'],
+            valueLabels: ['Broker', 'Carrier'],
             uidLabels:{840:'Vehicle Manufacturer?',937:'Fruit'},
         },
     },
@@ -105,10 +107,30 @@ $.widget( "wtw.changeEditor", {
         this.activateInput($next,true);
     },
 
+    updateChangeInputValues: function ($changeValues) {
+
+    },
+
     setInputChangeValue: function (acceptIcon, $input) {
-        var v = $(acceptIcon).siblings('.value').text();
+        var v = $(acceptIcon).siblings('.change-input-value').text();
         console.log('setting value ' + v);
         $input.get(0).changeValue(v);
+        $(acceptIcon).parents('.change-values').find('.change-value').removeClass('accepted');
+        $(acceptIcon).parents('.change-value').addClass('accepted');
+    },
+
+    updateChangeInputState: function ($popover, $input) {
+        var currentValue = $input.get(0).changeValue();
+
+        $popover.find('.change-value').each(function(i, value) {
+            // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
+            if (currentValue===$(value).find('.change-input-value').text()) {
+                $(this).addClass('accepted');
+            }
+            else {
+                $(this).removeClass('accepted');
+            }
+        });
     },
 
     // maybe i should just create these popups on a 'as-needed basis'?
@@ -140,6 +162,7 @@ $.widget( "wtw.changeEditor", {
 
             $icon.on('shown.bs.popover', function() {
                 var $popover = $icon.data('bs.popover').tip();
+                $this.updateChangeInputState($popover, $input);
                 $popover.find('.next-change').click(function() {
                     $this.activateNextInput($input);
                 });
@@ -152,8 +175,6 @@ $.widget( "wtw.changeEditor", {
             });
 
         });
-
-
 
     },
 
@@ -271,15 +292,7 @@ $.widget( "wtw.changeEditor", {
         var value = change.values[index];
         var $input = this.getChangeInput(change.uid);
         $input.get(0).changeValue(value);
-        this.updateActiveValue($action.parentsUntil('.change-item'),change,index);
-    },
-
-    updateChangeValue : function($changeValue, change, index) {
-        // update active state.
-    },
-
-    rejectChange : function() {
-        alert('rejected');
+        this.updateActiveValue($action.parents('.change-item'),change,index);
     },
 
     activateInput: function ($input, showPopup) {
@@ -297,6 +310,7 @@ $.widget( "wtw.changeEditor", {
     viewChange : function($changeItem) {
         // select the item in the main panel
         var uid = $changeItem.attr(this.options.config.itemChangeRefAttr);
+        $('.change-input').popover('hide');
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
         // ..now deal with the form input itself

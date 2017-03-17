@@ -26,10 +26,10 @@
             </i>
         </span>
         <span>{{config.header}}</span>
-        <span class="pull-right">
-            <button class="btn btn-sm btn-default next-change"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
-            <button class="btn btn-sm btn-default prev-change"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
-        </span>
+        <div class="btn-group pull-right">
+            <button class="btn btn-xs btn-default next-change"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
+            <button class="btn btn-xs btn-default prev-change"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
+        </div>
     </script>
 
     <script id="content" type="text/x-handlebars-template">
@@ -52,6 +52,38 @@
                 </div>
             </a>
             {{/each}}
+        </div>
+    </script>
+
+
+    <script id="dialogTitle" type="text/x-handlebars-template">
+        <span>{{summary}}</span>
+
+    </script>
+
+    <script id="dialogContent" type="text/x-handlebars-template">
+        <div class="list-group">
+            <a class="list-group-item change-item change-item-{{type}}">
+                <div>
+                    <span>{{summary}}</span>
+                </div>
+                <div class="change-values">
+                    {{#each formattedValues}}
+                    <div class="change-value">
+                        <span>{{label}}</span> : <span>{{value}}</span>
+                        <span class="change-actions pull-right">
+                            <span class="change-action change-accept">{{{@root.config.acceptIcon}}}</span>
+                            <span class="change-action change-reject">{{{@root.config.rejectIcon}}}</span>
+                        </span>
+                    </div>
+                    {{/each}}
+                </div>
+            </a>
+            {{/each}}
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-xs btn-default next-change"> <i class="fa fa-arrow-circle-o-up fa-2x"></i> </button>
+            <button class="btn btn-xs btn-default prev-change"> <i class="fa fa-arrow-circle-o-down fa-2x"></i> </button>
         </div>
     </script>
 
@@ -81,7 +113,7 @@
     </div>
 
     <div class="pull-right change-dock">
-        <a href="#" data-toggle="popover">&nbsp;<i class="fa fa-bars  "></i></a>
+        <a href="#" data-toggle="popover">&nbsp;<i class="fa fa-bars  ">Changes</i></a>
     </div>
 
     <form class="form-horizontal">
@@ -91,6 +123,7 @@
             </div>
             <div class="col-md-3">
                 <input class="form-control" data-change-id="937" type="text" value="apple">
+                <li class="fa fa-asterisk change-input"></li>
             </div>
         </div>
         <div class="kludge"></div>
@@ -106,6 +139,7 @@
                     <option>BMW</option>
                     <option>Fiat</option>
                 </select>
+                <li class="fa fa-asterisk change-input"></li>
             </div>
         </div>
 

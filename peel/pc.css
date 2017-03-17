@@ -85,6 +85,14 @@
      display:none;
 }
 
+.change-values {
+    font-size:smaller;
+}
+
+.list-group-item.change-item {
+    padding:8px 8px;
+}
+
 .change-value.active .change-action.change-accept {
     display:inline-block;
     /*outline:1px solid blue;*/
@@ -102,9 +110,15 @@
     display:none;
 }
 
+li.change-input {
+    position:absolute;
+    top:0;
+    right:0;
+}
+
 @keyframes highlight {
-    from { outline:none; }
-    to { outline:3px solid lightsalmon;}
+    from { border-size:inherit; }
+    to { border-size:5px; border-color: #ffe982;}
 }
 
 [data-change-id].active {

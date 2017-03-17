@@ -1,16 +1,12 @@
-.popover-content {
-    max-height: 375px;
-    overflow-y: scroll;
-    padding:0;
-}
 
+
+/* just to create empty space in demo form.*/
 .kludge {
     display:block;
     height:900px;
     width:100px;
     background:#f0f0f8;
 }
-
 
 .change-value {
      margin-left:25px;
@@ -36,38 +32,46 @@
     color: blue;
 }
 
-.popover-content .change-item:hover {
-    /*background:aliceblue;*/
+.change-panel-popover .popover-content .change-item:hover {
     cursor:pointer;
 }
-
-.popover {
+.change-panel-popover .popover-content .change-action:hover {
+    cursor:default;
+}
+.change-panel-popover.popover {
     position:fixed;
+    min-width:350px;
+}
+.change-panel-popover .popover-content {
+    max-height: 375px;
+    overflow-y: scroll;
+    padding:0;
+}
+.change-panel-popover .popover-content {
+    max-height: 375px;
+    overflow-y: scroll;
+}
+.popover-content {
+    padding:0;
 }
 
+.change-input-popover.popover {
+    min-width:350px;
+}
+.popover .list-group { margin-bottom:0; }
+/*TODO : this should be configurable.  this is the link that the popover is attached to.
+ i have positioned fixed to the top right of the screen. */
 .change-dock {
     position:fixed;
     top: 0;
-    right: 100px;
+    right: 200px;
 }
 
-
-/*TODO : this should be configurable*/
-.pop-div {
-    position: fixed;
-    top: 0;
-    right: 176px;
-}
-
-.popover { 
-    min-width:350px;
-}
 /*--------------------*/
 
 .change-item>div:first-child:before {
     font-family: FontAwesome;
 }
-
 .change-item-add> div:first-child:before {
     content:'\f055';
 }
@@ -77,14 +81,9 @@
 .change-item-delete> div:first-child:before {
     content:'\f056';
 }
-
-
-
-
 .change-value .change-action {
      display:none;
 }
-
 .change-values {
     font-size:smaller;
 }

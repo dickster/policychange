@@ -95,7 +95,7 @@
     border:none;
 }
 
-.change-input {
+.change-input-icon {
     padding:2px 0;
 }
 
@@ -154,7 +154,7 @@
     display:none;
 }
 
-li.change-input {
+li.change-input-icon {
     position:absolute;
     top:0;
     right:0;

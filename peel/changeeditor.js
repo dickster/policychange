@@ -69,6 +69,16 @@ $.widget( "wtw.changeEditor", {
             shown($(this), options);
         });
         this.element.popover('show');
+
+        $('body').on('click', function (e) {
+            $('.change-input-icon').each(function () {
+                //the 'is' for buttons that trigger popups
+                //the 'has' for icons within a button that triggers a popup
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    $(this).popover('hide');
+                }
+            });
+        });
     },
 
     // trigger events when initialized, summary dialog expanded/collapsed.  change dialog shown/hidden.
@@ -140,12 +150,11 @@ $.widget( "wtw.changeEditor", {
             console.log("input popup for " + change.uid);
             var $input = $this.getChangeInput(change.uid);
             // TODO : make this icon snippet configurable.
-            var $icon = $('<li class="fa fa-asterisk change-input"></li>');
+            var $icon = $('<li class="fa fa-asterisk change-input-icon"></li>');
             $icon.insertAfter($input);
             $icon.popover({
                 placement: 'bottom',
-                trigger: 'click',
-                container:'body',
+                trigger: 'manual',
                 html : true,
                 title: function() {
                     var template = Handlebars.compile($('#dialogTitle').html());
@@ -159,6 +168,8 @@ $.widget( "wtw.changeEditor", {
             .data('bs.popover')
             .tip()
             .addClass('change-input-popover');
+
+            $icon.click(function() { $(this).popover('show');  });
 
             $icon.on('shown.bs.popover', function() {
                 var $popover = $icon.data('bs.popover').tip();

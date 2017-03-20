@@ -11,15 +11,14 @@ $.widget( "wtw.changeEditor", {
             //                       use an id.
             {type:'modify',         uid: 937,               values: ['apple','orange'],     summary:'to-be-generated' },
             {type:'delete',         uid: 840,               values: ['Ford','Toyota'],      summary:'to-be-generated' }
-            //changes.push({type:  uid: ))
-            // changeEditor.trigger('refresh');
         ],
 
         // all view customization data goes here.
         config: {
             rejectIcon: '<i class="fa fa-circle-o"/>',
             acceptIcon: '<i class="fa fa-check-circle"/>',
-            onChangeAdded:null,                 //this.defaultOnChangeAdded,  //if null, uses default callback.
+            inputIcon: '<li class="fa fa-asterisk change-input-icon"></li>',
+            onChangeAdded:null,
             uidSelectorTemplate: '[data-change-id="${uid}"]',
             itemChangeRefAttr: 'data-change-ref',
             open: true,
@@ -36,53 +35,39 @@ $.widget( "wtw.changeEditor", {
     _create: function() {
         var options = $.extend(this.options, this.options, this.defaultOptions);
         this.element.addClass('change-editor');
-        this.formatData(options);
-        this.prototypeInputs(options);
-        this.createPopup(this.element, options);
-        this.createInputPopups(options);
+        this._formatData(options);
+        this._prototypeInputs(options);
+        this._createPopup(this.element, options);
+        this._createInputPopups(options);
     },
 
-    // trigger events when initialized, summary dialog expanded/collapsed.  change dialog shown/hidden.
-
-    _scrollTo: function(change) {
-
-    },
-
-    _createChangeSummary: function(change) {
-
-    },
-
-    _createChange: function(change) {
-
-    },
-
-    getInputIcon: function ($input) {
+    _getInputIcon: function ($input) {
         // icon is assumed to be the next element in DOM.
         return $input.next();
     },
 
-    activatePrevInput: function ($input) {
-        var $inputs = this.getAllChangeInputs();
+    _activatePrevInput: function ($input) {
+        var $inputs = this._getAllChangeInputs();
         var i = $inputs.index($input);
         var $prev = $inputs.eq( (i - 1 + $inputs.length) % $inputs.length );
-        this.getInputIcon($input).popover('hide');
-        this.activateInput($prev,true);
+        this._getInputIcon($input).popover('hide');
+        this._activateInput($prev,true);
     },
 
-    activateNextInput: function ($input) {
-        var $inputs = this.getAllChangeInputs();
+    _activateNextInput: function ($input) {
+        var $inputs = this._getAllChangeInputs();
         var i = $inputs.index($input);
         var $next = $inputs.eq( (i + 1) % $inputs.length );
         $input.popover('hide');
         // TODO : read this attribute from config. not hard coded.
-        this.activateInput($next,true);
+        this._activateInput($next,true);
     },
 
-    updateChangeInputValues: function ($changeValues) {
+    _updateChangeInputValues: function ($changeValues) {
 
     },
 
-    setInputChangeValue: function (acceptIcon, $input) {
+    _setInputChangeValue: function (acceptIcon, $input) {
         var v = $(acceptIcon).siblings('.change-input-value').text();
         console.log('setting value ' + v);
         $input.get(0).changeValue(v);
@@ -90,7 +75,7 @@ $.widget( "wtw.changeEditor", {
         $(acceptIcon).parents('.change-value').addClass('accepted');
     },
 
-    updateChangeInputState: function ($popover, $input) {
+    _updateChangeInputState: function ($popover, $input) {
         var currentValue = $input.get(0).changeValue();
 
         $popover.find('.change-value').each(function(i, value) {
@@ -104,12 +89,7 @@ $.widget( "wtw.changeEditor", {
         });
     },
 
-    createInputIcon: function () {
-        // make this an options value.  options.config.inputIcon = ...
-        return $('<li class="fa fa-asterisk change-input-icon"></li>');
-    },
-
-    toggleInputPopup: function ($icon, $input, change) {
+    _toggleInputPopup: function ($icon, $input, change) {
         var $this = this;
         // show lazily instantiated popover.
         if ($icon.data('bs.popover')) {
@@ -138,37 +118,37 @@ $.widget( "wtw.changeEditor", {
 
         $icon.on('shown.bs.popover', function() {
             var $popover = $icon.data('bs.popover').tip();
-            $this.updateChangeInputState($popover, $input);
+            $this._updateChangeInputState($popover, $input);
             $popover.find('.next-change').click(function() {
-                $this.activateNextInput($input);
+                $this._activateNextInput($input);
             });
             $popover.find('.prev-change').click(function() {
-                $this.activatePrevInput($input);
+                $this._activatePrevInput($input);
             });
             $popover.find('.change-input-accept').click(function() {
-                $this.setInputChangeValue(this, $input);
+                $this._setInputChangeValue(this, $input);
             });
         });
 
     },
 
-    createInputPopups: function (options) {
+    _createInputPopups: function (options) {
         var $this = this;
         $.each(options.changes, function(i,change) {
-            var $input = $this.getChangeInput(change.uid);
-            var $icon = $this.createInputIcon();
+            var $input = $this._getChangeInput(change.uid);
+            var $icon = $(options.config.inputIcon);
             $icon.insertAfter($input);
 
             $icon.click(function() {
-                $this.toggleInputPopup($(this), $input, change);
+                $this._toggleInputPopup($(this), $input, change);
             });
 
         });
 
     },
 
-    createPopup: function (element, options) {
-        var shown = this.editorShown.bind(this);
+    _createPopup: function (element, options) {
+        var shown = this._editorShown.bind(this);
         var config = options.config;
         var title = config.title;
         var content = config.content;
@@ -208,26 +188,26 @@ $.widget( "wtw.changeEditor", {
         });
     },
 
-    initChangeState : function(i,change) {
+    _initChangeState : function(i, change) {
         var $this = this;
-        var $input = $this.getChangeInput(change.uid);
+        var $input = $this._getChangeInput(change.uid);
         var input = $input.get(0);
         var currentValue = $input.get(0).changeValue();
         $.each(change.values, function(idx, value) {
             // TODO : ignore case and/or whitespace?
             if (currentValue===value) {
-                $this.getChangeItem(change.uid);
-                $this.updateActiveValue($this.getChangeItem(change.uid), change, idx);
+                $this._getChangeItem(change.uid);
+                $this._updateActiveValue($this._getChangeItem(change.uid), change, idx);
             }
         });
     },
 
-    initState : function(options) {
-        var initChangeState = this.initChangeState.bind(this);
+    _initState : function(options) {
+        var initChangeState = this._initChangeState.bind(this);
         $.each(options.changes, initChangeState);
     },
 
-    formatData : function(options) {
+    _formatData : function(options) {
         var config = options.config;
         $.each(options.changes, function(i,change) {
             console.log('change'+change);
@@ -248,7 +228,7 @@ $.widget( "wtw.changeEditor", {
         });
     },
 
-    getChangeInput : function(uid) {
+    _getChangeInput : function(uid) {
         var selector = this.options.config.uidSelectorTemplate.replace('${uid}', uid);
         var $result = $(selector);
         if ($result.length==0) {
@@ -257,7 +237,7 @@ $.widget( "wtw.changeEditor", {
         return $result;
     },
 
-    getAllChangeInputs : function(uid) {
+    _getAllChangeInputs : function(uid) {
         var selector = this.options.config.uidSelectorTemplate.replace('="${uid}"', '');
         if ($(selector).length==0) {
             throw 'can not find any change form inputs "' + selector;
@@ -265,7 +245,7 @@ $.widget( "wtw.changeEditor", {
         return $(selector);
     },
 
-    getChangeItem : function(uid) {
+    _getChangeItem : function(uid) {
         var selector = '['+this.options.config.itemChangeRefAttr +'="'+ uid+'"]';
         if ($(selector).length==0) {
             throw 'can not find element matching "' + selector + '" when trying to view change  (there should be a form input that matches this)';
@@ -275,11 +255,11 @@ $.widget( "wtw.changeEditor", {
 
     // add a generic "changeValue" function to all form inputs.
     // it is responsible for getting/setting values.
-    prototypeInputs: function(options) {
+    _prototypeInputs: function(options) {
         var cv = this.changeValue;
         var $this = this;
         $.each(options.changes, function(i,change) {
-            var $input = $this.getChangeInput(change.uid);
+            var $input = $this._getChangeInput(change.uid);
             var input = $input.get(0);
             input.changeValue = cv;
         });
@@ -309,29 +289,29 @@ $.widget( "wtw.changeEditor", {
         return result;
     },
 
-    updateActiveValue: function ($changeItem, change, index) {
+    _updateActiveValue: function ($changeItem, change, index) {
         // remove all other (if any) active items, and highlight this one.
         // TODO : chain these two lines together after debugging...
         $changeItem.find('.change-value').removeClass('active');
         $changeItem.find('.change-value').eq(index).addClass('active');
     },
 
-    setActiveChangeValue : function($action, change, index) {
+    _setActiveChangeValue : function($action, change, index) {
         var value = change.values[index];
-        var $input = this.getChangeInput(change.uid);
+        var $input = this._getChangeInput(change.uid);
         $input.get(0).changeValue(value);
-        this.updateActiveValue($action.parents('.change-item'),change,index);
+        this._updateActiveValue($action.parents('.change-item'),change,index);
     },
 
-    activateInput: function ($input, showPopup) {
+    _activateInput: function ($input, showPopup) {
         if ($input.length==0) return;
-        this.getAllChangeInputs().removeClass('active');
+        this._getAllChangeInputs().removeClass('active');
         $('html, body').animate({
             scrollTop: $input.offset().top}, 350, function() {
             $input.addClass('active');
         });
         if (showPopup) {
-            this.getInputIcon($input).popover('show');
+            this._getInputIcon($input).popover('show');
         }
     },
 
@@ -342,14 +322,14 @@ $.widget( "wtw.changeEditor", {
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
         // ..now deal with the form input itself
-        this.activateInput(this.getChangeInput(uid));
+        this._activateInput(this._getChangeInput(uid));
     },
 
-    defaultOnChangeAdded : function($changeItem, options, change) {
+    onChangeAdded : function($changeItem, options, change) {
         $changeItem.attr('data-change-ref',change.uid);
         var $changeValues = $changeItem.find('.change-value');
+        var setActiveChange = this._setActiveChangeValue.bind(this);
         var viewChange = this.viewChange.bind(this);
-        var setActiveChange = this.setActiveChangeValue.bind(this);
 
         // if you click on the *unselected* icon, it will accept the change (set its value and update status).
         $.each($changeValues, function(i, changeValue) {
@@ -365,7 +345,7 @@ $.widget( "wtw.changeEditor", {
         });
     },
 
-    advanceActiveChange: function ($content, delta) {
+    _advanceActiveChange: function ($content, delta) {
         var $items = $content.find('.change-item');
         var $active = $content.find('.change-item.active');
         var index = ($active.length!=0) ? $items.index($active)+delta : 0;
@@ -377,8 +357,8 @@ $.widget( "wtw.changeEditor", {
         this.viewChange($items.eq(index));
     },
 
-    initPrevNextButtons: function ($popover, options) {
-        var advance = this.advanceActiveChange.bind(this);
+    _initPrevNextButtons: function ($popover, options) {
+        var advance = this._advanceActiveChange.bind(this);
         $popover.find('.next-change').click(function() {
             advance($popover, 1);
         });
@@ -387,18 +367,18 @@ $.widget( "wtw.changeEditor", {
         });
     },
 
-    editorShown : function($popoverTrigger, options) {
+    _editorShown : function($popoverTrigger, options) {
         // the trigger is the element that the popover is attached to.  we need the actual popover itself.
         var $popover = $popoverTrigger.data('bs.popover').tip();
-        var callback = options.config.onChangeAdded ? options.config.onChangeAdded.bind(this) : this.defaultOnChangeAdded.bind(this);
+        var callback = options.config.onChangeAdded ? options.config.onChangeAdded.bind(this) : this.onChangeAdded.bind(this);
 
-        this.initPrevNextButtons($popover, options);
+        this._initPrevNextButtons($popover, options);
 
         $popover.find('.change-item').each(function(i) {
             callback($(this), options, options.changes[i]);
         });
 
-        this.initState(options);
+        this._initState(options);
     }
 
 });

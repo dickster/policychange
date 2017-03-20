@@ -35,7 +35,11 @@ $.widget( "wtw.changeEditor", {
 
     _create: function() {
         var options = $.extend(this.options, this.options, this.defaultOptions);
-        this.init(this.element, options);
+        this.element.addClass('change-editor');
+        this.formatData(options);
+        this.prototypeInputs(options);
+        this.createPopup(this.element, options);
+        this.createInputPopups(options);
     },
 
     // trigger events when initialized, summary dialog expanded/collapsed.  change dialog shown/hidden.
@@ -100,46 +104,63 @@ $.widget( "wtw.changeEditor", {
         });
     },
 
-    // maybe i should just create these popups on a 'as-needed basis'?
+    createInputIcon: function () {
+        // make this an options value.  options.config.inputIcon = ...
+        return $('<li class="fa fa-asterisk change-input-icon"></li>');
+    },
+
+    toggleInputPopup: function ($icon, $input, change) {
+        var $this = this;
+        // show lazily instantiated popover.
+        if ($icon.data('bs.popover')) {
+            $icon.popover('toggle');
+            return;
+        }
+
+        // create if doesn't exist.
+        $icon.popover({
+            placement: 'bottom',
+            trigger: 'manual',
+            html : true,
+            title: function() {
+                var template = Handlebars.compile($('#dialogTitle').html());
+                return template(change);
+            },
+            content: function() {
+                var template = Handlebars.compile($('#dialogContent').html());
+                return template(change);
+            }
+        })
+        .data('bs.popover')
+        .tip()
+        .addClass('change-input-popover');
+        $icon.popover('show');
+
+        $icon.on('shown.bs.popover', function() {
+            var $popover = $icon.data('bs.popover').tip();
+            $this.updateChangeInputState($popover, $input);
+            $popover.find('.next-change').click(function() {
+                $this.activateNextInput($input);
+            });
+            $popover.find('.prev-change').click(function() {
+                $this.activatePrevInput($input);
+            });
+            $popover.find('.change-input-accept').click(function() {
+                $this.setInputChangeValue(this, $input);
+            });
+        });
+
+    },
+
     createInputPopups: function (options) {
         var $this = this;
         $.each(options.changes, function(i,change) {
-            console.log("input popup for " + change.uid);
             var $input = $this.getChangeInput(change.uid);
-            // TODO : make this icon snippet configurable.
-            var $icon = $('<li class="fa fa-asterisk change-input-icon"></li>');
+            var $icon = $this.createInputIcon();
             $icon.insertAfter($input);
-            $icon.popover({
-                placement: 'bottom',
-                trigger: 'manual',
-                html : true,
-                title: function() {
-                    var template = Handlebars.compile($('#dialogTitle').html());
-                    return template(change);
-                },
-                content: function() {
-                    var template = Handlebars.compile($('#dialogContent').html());
-                    return template(change);
-                }
-            })
-            .data('bs.popover')
-            .tip()
-            .addClass('change-input-popover');
 
-            $icon.click(function() { $(this).popover('show');  });
-
-            $icon.on('shown.bs.popover', function() {
-                var $popover = $icon.data('bs.popover').tip();
-                $this.updateChangeInputState($popover, $input);
-                $popover.find('.next-change').click(function() {
-                    $this.activateNextInput($input);
-                });
-                $popover.find('.prev-change').click(function() {
-                    $this.activatePrevInput($input);
-                });
-                $popover.find('.change-input-accept').click(function() {
-                    $this.setInputChangeValue(this, $input);
-                });
+            $icon.click(function() {
+                $this.toggleInputPopup($(this), $input, change);
             });
 
         });
@@ -185,12 +206,6 @@ $.widget( "wtw.changeEditor", {
                 }
             });
         });
-    },
-    init : function(element, options) {
-        element.addClass('change-editor');
-        this.formatData(options);
-        this.prototypeInputs(options);
-        this.createPopup(element, options);
     },
 
     initChangeState : function(i,change) {
@@ -378,7 +393,6 @@ $.widget( "wtw.changeEditor", {
         var callback = options.config.onChangeAdded ? options.config.onChangeAdded.bind(this) : this.defaultOnChangeAdded.bind(this);
 
         this.initPrevNextButtons($popover, options);
-        this.createInputPopups(options);
 
         $popover.find('.change-item').each(function(i) {
             callback($(this), options, options.changes[i]);

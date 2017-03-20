@@ -157,12 +157,12 @@
 li.change-input-icon {
     position:absolute;
     top:0;
-    right:0;
+    right: 18px;
 }
 
 @keyframes highlight {
     from { border-size:inherit; }
-    to { border-size:5px; border-color: #ffe982;}
+    to { border-width:3px; border-color: #ffd13f;}
 }
 
 [data-change-id].active {

@@ -34,51 +34,8 @@ $.widget( "wtw.changeEditor", {
     },
 
     _create: function() {
-
-        // TODO : $.extend(), so caller can pass in their own options.
         var options = $.extend(this.options, this.options, this.defaultOptions);
-        // TODO put options and other things ($content) in higher scope so all functions get access.
-        var config = options.config;
-        var title = config.title;
-        var content = config.content;
-        var shown = this.editorShown.bind(this);
-
-        this.init(options);
-
-        this.element.addClass('change-editor');
-
-        this.element.popover({
-                placement: 'bottom',
-                trigger: 'click',
-                container:'body',
-                html : true,
-                title: function() {
-                    var template = Handlebars.compile($(title).html());
-                    return template(options);
-                },
-                content: function() {
-                    var template = Handlebars.compile($(content).html());
-                    return template(options);
-                }
-            })
-            .data('bs.popover')
-            .tip()
-            .addClass('change-panel-popover');
-
-        this.element.on('shown.bs.popover', function() {
-            shown($(this), options);
-        });
-        this.element.popover('show');
-
-        $('body').on('click', function (e) {
-            $('.change-input-icon').each(function () {
-                //the 'is' for buttons that trigger popups
-                //the 'has' for icons within a button that triggers a popup
-                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                    $(this).popover('hide');
-                }
-            });
-        });
+        this.init(this.element, options);
     },
 
     // trigger events when initialized, summary dialog expanded/collapsed.  change dialog shown/hidden.
@@ -189,9 +146,51 @@ $.widget( "wtw.changeEditor", {
 
     },
 
-    init : function(options) {
+    createPopup: function (element, options) {
+        var shown = this.editorShown.bind(this);
+        var config = options.config;
+        var title = config.title;
+        var content = config.content;
+
+        element.popover({
+            placement: 'bottom',
+            trigger: 'click',
+            container:'body',
+            html : true,
+            title: function() {
+                var template = Handlebars.compile($(title).html());
+                return template(options);
+            },
+            content: function() {
+                var template = Handlebars.compile($(content).html());
+                return template(options);
+            }
+        })
+            .data('bs.popover')
+            .tip()
+            .addClass('change-panel-popover');
+
+        element.on('shown.bs.popover', function() {
+            shown($(this), options);
+        });
+        element.popover('show');
+
+        // hide any change input popovers when you click somewhere else on screen.
+        $('body').on('click', function (e) {
+            $('.change-input-icon').each(function () {
+                //the 'is' for buttons that trigger popups
+                //the 'has' for icons within a button that triggers a popup
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    $(this).popover('hide');
+                }
+            });
+        });
+    },
+    init : function(element, options) {
+        element.addClass('change-editor');
         this.formatData(options);
         this.prototypeInputs(options);
+        this.createPopup(element, options);
     },
 
     initChangeState : function(i,change) {
@@ -214,9 +213,10 @@ $.widget( "wtw.changeEditor", {
     },
 
     formatData : function(options) {
+        var config = options.config;
         $.each(options.changes, function(i,change) {
             console.log('change'+change);
-            change.summary = options.config.uidLabels[change.uid];
+            change.summary = config.uidLabels[change.uid];
             if (!change.summary) {
                 change.summary = '['+change.uid+']';
                 console.log('no label was given for the change with id ' + change.uid + '  (using id as default label)');
@@ -226,7 +226,7 @@ $.widget( "wtw.changeEditor", {
                 console.log('value'+value);
                 change.formattedValues.push(
                     {   value: value,
-                        label:options.config.valueLabels[i]
+                        label:config.valueLabels[i]
                     }
                 );
             });
@@ -258,6 +258,8 @@ $.widget( "wtw.changeEditor", {
         return $(selector);
     },
 
+    // add a generic "changeValue" function to all form inputs.
+    // it is responsible for getting/setting values.
     prototypeInputs: function(options) {
         var cv = this.changeValue;
         var $this = this;

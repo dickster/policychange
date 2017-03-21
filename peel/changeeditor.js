@@ -1,6 +1,13 @@
 // TODO : refactor changeInput popover code into it's own file.
 // use underscore to make all methods private
 
+
+// TODO : add datalist options to text fields to show all possible values.
+
+// note : in order to override methods for basic widget, see
+// https://learn.jquery.com/jquery-ui/widget-factory/extending-widgets/
+
+
 $.widget( "wtw.changeEditor", {
 
     defaultOptions: {
@@ -33,12 +40,37 @@ $.widget( "wtw.changeEditor", {
     },
 
     _create: function() {
+        var $this = this;
         var options = $.extend(this.options, this.options, this.defaultOptions);
         this.element.addClass('change-editor');
         this._formatData(options);
-        this._prototypeInputs(options);
         this._createPopup(this.element, options);
         this._createInputPopups(options);
+        this._setValHooks(options);
+    },
+
+    _valHook : function($elem) {
+        // override if you want to set a specific get/set method for change input values.
+        // they will just default to jquery's val().
+        // for example, a EasyJSCombo box might require a special method to find an underlying hidden elements value.
+    },
+
+    _setValHooks: function (options) {
+        var $this = this;
+        $.fn.changeVal = function(value) {
+            var hook = $this._valHook(this);
+            if (!hook) {
+                var type = this.prop('tagName').toLowerCase();
+                type = (type == 'input' && this.prop('type')) ? this.prop('type') : type;
+                // use jquery's val method as the default hook.
+                hook = this.val;
+            }
+            var result = hook.apply(this,arguments);
+            if (arguments) {
+                $(this).trigger('change.updated');
+            }
+            return result;
+        }
     },
 
     _getInputIcon: function ($input) {
@@ -63,23 +95,19 @@ $.widget( "wtw.changeEditor", {
         this._activateInput($next,true);
     },
 
-    _updateChangeInputValues: function ($changeValues) {
-
-    },
-
     _setInputChangeValue: function (acceptIcon, $input) {
+        // assumes that the value is a sibling.
+        // TODO : maybe i should use a hidden field in conjuction with a user friendly readable span.
+        // that way i can have any format of data in hidden input.
         var v = $(acceptIcon).siblings('.change-input-value').text();
-        console.log('setting value ' + v);
-        $input.get(0).changeValue(v);
-        $(acceptIcon).parents('.change-values').find('.change-value').removeClass('accepted');
-        $(acceptIcon).parents('.change-value').addClass('accepted');
+        $input.changeVal(v);
     },
 
     _updateChangeInputState: function ($popover, $input) {
-        var currentValue = $input.get(0).changeValue();
+        var currentValue = $input.changeVal();
 
         $popover.find('.change-value').each(function(i, value) {
-            // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
+             // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
             if (currentValue===$(value).find('.change-input-value').text()) {
                 $(this).addClass('accepted');
             }
@@ -114,6 +142,7 @@ $.widget( "wtw.changeEditor", {
         .data('bs.popover')
         .tip()
         .addClass('change-input-popover');
+
         $icon.popover('show');
 
         $icon.on('shown.bs.popover', function() {
@@ -136,6 +165,9 @@ $.widget( "wtw.changeEditor", {
         var $this = this;
         $.each(options.changes, function(i,change) {
             var $input = $this._getChangeInput(change.uid);
+            $input.on('change.updated', function() {
+               //this = ;//input field.
+            });
             var $icon = $(options.config.inputIcon);
             $icon.insertAfter($input);
 
@@ -167,9 +199,9 @@ $.widget( "wtw.changeEditor", {
                 return template(options);
             }
         })
-            .data('bs.popover')
-            .tip()
-            .addClass('change-panel-popover');
+        .data('bs.popover')
+        .tip()
+        .addClass('change-panel-popover');
 
         element.on('shown.bs.popover', function() {
             shown($(this), options);
@@ -189,10 +221,11 @@ $.widget( "wtw.changeEditor", {
     },
 
     _initChangeState : function(i, change) {
+        // instead of doing this, the plugin should take responsibility of setting the values initially
+        //  that way it doesn't have to inspect and compare.  it can just set it and forget it?
         var $this = this;
         var $input = $this._getChangeInput(change.uid);
-        var input = $input.get(0);
-        var currentValue = $input.get(0).changeValue();
+        var currentValue = $input.changeVal();
         $.each(change.values, function(idx, value) {
             // TODO : ignore case and/or whitespace?
             if (currentValue===value) {
@@ -253,42 +286,6 @@ $.widget( "wtw.changeEditor", {
         return $(selector);
     },
 
-    // add a generic "changeValue" function to all form inputs.
-    // it is responsible for getting/setting values.
-    _prototypeInputs: function(options) {
-        var cv = this.changeValue;
-        var $this = this;
-        $.each(options.changes, function(i,change) {
-            var $input = $this._getChangeInput(change.uid);
-            var input = $input.get(0);
-            input.changeValue = cv;
-        });
-    },
-
-    changeValue : function(value) {
-        // TODO : refactor into method and pass function into switch.
-        var $this = $(this);
-        if (value) {
-            console.log('setting value for ' + $this.attr('data-change-id') + ' to ' + value);
-            if (this.type=='text') {
-                $this.val(value);
-            }
-            else if (this.type='select') {
-                $this.val(value);
-            }
-        }
-        else {
-            var result = '';
-            if (this.type == 'text') {
-                result = $this.val();
-            }
-            else if (this.type = 'select') {
-                result = $this.val();
-            }
-        }
-        return result;
-    },
-
     _updateActiveValue: function ($changeItem, change, index) {
         // remove all other (if any) active items, and highlight this one.
         // TODO : chain these two lines together after debugging...
@@ -299,8 +296,8 @@ $.widget( "wtw.changeEditor", {
     _setActiveChangeValue : function($action, change, index) {
         var value = change.values[index];
         var $input = this._getChangeInput(change.uid);
-        $input.get(0).changeValue(value);
-        this._updateActiveValue($action.parents('.change-item'),change,index);
+        $input.changeVal(value);
+//        this._updateActiveValue($action.parents('.change-item'),change,index);
     },
 
     _activateInput: function ($input, showPopup) {

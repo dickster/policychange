@@ -22,8 +22,14 @@ $.widget( "wtw.changeEditor", {
             acceptIcon: '<i class="fa fa-check-circle"/>',
             inputIcon: '<li class="fa fa-asterisk change-input-icon"></li>',
             onChangeAdded:null,
+            idAttr:'data-change-id',
+            refAttr:'data-change-ref',
+
+            // @Deprecated.  use idAttr & refAttr instead!
             uidSelectorTemplate: '[data-change-id="${uid}"]',
+            // @Deprecated.  use idAttr & refAttr instead!
             itemChangeRefAttr: 'data-change-ref',
+
             open: true,
             expanded:false,
             trigger: 'click',
@@ -36,51 +42,13 @@ $.widget( "wtw.changeEditor", {
     },
 
     _create: function() {
-        this.options = $.extend(this.options, this.options, this.defaultOptions);
+        this.options = $.extend(this.defaultOptions,this.options);
         this.element.addClass('change-editor');
         this._formatData();
         this._createPopup(this.element);
-        //this._createInputPopups();
-        this._setValHooks();
-    },
-
-    _valHook : function($elem) {
-        // override if you want to set a specific get/set method for change input values.
-        // they will just default to jquery's val().
-        // for example, a EasyJSCombo box might require a special method to find an underlying hidden elements value.
-    },
-
-    _setValHooks: function () {
-        var $this = this;
-        $.fn.changeVal = function(value) {
-            var hook = $this._valHook(this);
-            if (!hook) {
-                var type = this.prop('tagName').toLowerCase();
-                type = (type == 'input' && this.prop('type')) ? this.prop('type') : type;
-                // use jquery's val method as the default hook.
-                hook = this.val;
-            }
-            var result = hook.apply(this,arguments);
-            if (arguments.length) {
-                this.trigger('change.wtw', [
-                    this.attr('data-change-id'),value
-                ]);
-            }
-            return result;
-        }
-
     },
 
 
-    // TODO : refactor all these methods to be prototyped on input jquery objects.
-    // that way i don't have to muck around with context all the time.
-    // also i should make 2 extensions of popover - changePanelPopover & changeInputPopover
-    // each class would contain a reference to the popover & it's associated element (icon or link).
-
-    _getInputIcon: function ($input) {
-        // icon is assumed to be the next element in DOM.
-        return $input.next();
-    },
 
     _activatePrevInput: function ($input) {
         var $inputs = this._getAllChangeInputs();
@@ -123,71 +91,7 @@ $.widget( "wtw.changeEditor", {
         });
     },
 
-    _toggleInputPopup: function ($input) {
-        var $this = this;
-        var $icon = this._getInputIcon($input);
-        var change = this._getInputChange($input);
-        // show lazily instantiated popover.
-        if ($icon.data('bs.popover')) {
-            $icon.popover('toggle');
-            return;
-        }
 
-        // create if doesn't exist.
-        $icon.popover({
-            placement: 'bottom',
-            trigger: 'manual',
-            html : true,
-            title: function() {
-                var template = Handlebars.compile($('#dialogTitle').html());
-                return template(change);
-            },
-            content: function() {
-                var template = Handlebars.compile($('#dialogContent').html());
-                return template(change);
-            }
-        })
-            .data('bs.popover')
-            .tip()
-            .addClass('change-input-popover');
-
-        $icon.popover('show');
-
-        $icon.on('shown.bs.popover', function() {
-            var $popover = $icon.data('bs.popover').tip();
-            $this._updateChangeInputState($input);
-            $popover.find('.next-change').click(function() {
-                $this._activateNextInput($input);
-            });
-            $popover.find('.prev-change').click(function() {
-                $this._activatePrevInput($input);
-            });
-            $popover.find('.change-input-accept').click(function() {
-                $input.changeVal($this._getInputChangeValue(this));
-            });
-        });
-    },
-
-    getInputChangeId: function ($input) {
-        return $input.attr('data-change-id');
-    },
-
-    _getInputChange: function ($input) {
-        var uid = this.getInputChangeId($input);
-        var changes = this.options.changes;
-        for (var i = 0, len = changes.length; i < len; i++) {
-            if (changes[i] && changes[i].uid == uid)
-                return changes[i];
-        }
-        throw 'cant find change with id ' + uid;
-    },
-
-    _createInputPopups: function () {
-        var $this = this;
-        $.each(options.changes, function(i,change) {
-           // this.changeInput($this.options, change);
-        });
-    },
 
     _createPopup: function (element) {
         var $this = this;

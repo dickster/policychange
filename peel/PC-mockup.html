@@ -18,7 +18,7 @@
             crossorigin="anonymous"></script>
 
 
-    <script id="title" type="text/x-handlebars-template">
+    <script id="changePanelTitle" type="text/x-handlebars-template">
         <span class="fa-stack fa-lg">
             <i class="fa fa-asterisk fa-stack-2x"></i>
             <i class="fa fa-stack-1x" >
@@ -33,7 +33,7 @@
     </script>
 
 
-    <script id="content" type="text/x-handlebars-template">
+    <script id="changePanelContent" type="text/x-handlebars-template">
         <div class="list-group">
             {{#each changes}}
             <a class="list-group-item change-item change-item-{{type}}">
@@ -57,11 +57,11 @@
     </script>
 
 
-    <script id="dialogTitle" type="text/x-handlebars-template">
+    <script id="changeInputTitle" type="text/x-handlebars-template">
         "<span>{{summary}}</span>" has changed.
     </script>
 
-    <script id="dialogContent" type="text/x-handlebars-template">
+    <script id="changeInputContent" type="text/x-handlebars-template">
             <div class="list-group change-values change-input-{{type}}">
                 {{#each formattedValues}}
                 <a class="change-value list-group-item">
@@ -88,6 +88,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="./handlebars-v4.0.5.js"></script>
     <script src="./changePanel.js"></script>
+    <script src="./changeInput.js"></script>
     <script src="./ce.js"></script>
     <script src="./mockup.js"></script>
 </head>

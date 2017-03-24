@@ -48,20 +48,6 @@ $.widget( "wtw.changeEditor.deprecated", {
 
     _create: function() {
 
-        // create panel.
-        var changePanel = {
-
-        };
-
-        var inputChange = {
-            change:{type:'', uid:'', values:[]},
-            createIcon:function() { return $('<li/>');},
-            getIcon:function() { return this.next('.blah');},
-            update:function() { },
-            getPopover:function() { return $(this).data('bs.popover');
-
-        }
-
         // create $inputs that have popovers attached.
         var $this = this;
         var options = $.extend(this.options, this.options, this.defaultOptions);

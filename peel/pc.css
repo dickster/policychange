@@ -127,7 +127,7 @@
     content:'\f056';
 }
 .change-value .change-action {
-     display:none;
+     /* display:none; */
 }
 .change-values {
     font-size:smaller;
@@ -144,7 +144,7 @@
 }
 .change-value:not(.active) .change-action.change-reject {
     display:inline-block;
-    /*outline:1px solid red;*/
+    /* outline:1px solid red; */
 }
 
 .change-value:not(.active) .change-action.change-accept {

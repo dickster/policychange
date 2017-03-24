@@ -32,7 +32,13 @@ $( function() {
         },
     };
 
-    $('.change-editor').changeEditor(options).on('changeSelected', function() { alert('change');});
+    $('.change-editor').changeEditor(options)
+        .on('changeeditorselect', function(e,id) {
+            alert(id + ' selected');
+        })
+        .on('changeeditorupdate', function(e,id,value) {
+            alert(id + ' set to ' + value);
+        });
 
     // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
     $.each(options.changes, function(i,change) {

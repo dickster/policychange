@@ -24,6 +24,7 @@ $.widget( "wtw.changeEditor.deprecated", {
             //                       use an id.
             {type:'modify',         uid: 937,               values: ['apple','orange'],     summary:'to-be-generated' },
             {type:'delete',         uid: 840,               values: ['Ford','Toyota'],      summary:'to-be-generated' }
+            {type:'ADD',            uid: 999,               values: ['DEREK'],      summary:'to-be-generated' }
         ],
 
         // all view customization data goes here.
@@ -46,6 +47,22 @@ $.widget( "wtw.changeEditor.deprecated", {
     },
 
     _create: function() {
+
+        // create panel.
+        var changePanel = {
+
+        };
+
+        var inputChange = {
+            change:{type:'', uid:'', values:[]},
+            createIcon:function() { return $('<li/>');},
+            getIcon:function() { return this.next('.blah');},
+            update:function() { },
+            getPopover:function() { return $(this).data('bs.popover');
+
+        }
+
+        // create $inputs that have popovers attached.
         var $this = this;
         var options = $.extend(this.options, this.options, this.defaultOptions);
         this.element.addClass('change-editor');

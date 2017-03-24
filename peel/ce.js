@@ -194,30 +194,17 @@ $.widget( "wtw.changeEditor", {
         $changeItem.find('.change-value').eq(index).addClass('active');
     },
 
-    // _activateInput: function ($input, showPopup) {
-    //     if ($input.length==0) return;
-    //     this._getAllChangeInputs().removeClass('active');
-    //     $('html, body').animate({
-    //         scrollTop: $input.offset().top}, 350, function() {
-    //         $input.addClass('active');
-    //     });
-    //     if (showPopup) {
-    //         this._toggleInputPopup($input);
-    //     }
-    // },
-
     viewChange : function($changeItem) {
         // select the item in the main panel
         var uid = $changeItem.attr(this.options.config.itemChangeRefAttr);
         $('.change-input').popover('hide');
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
-        // ..now deal with the form input itself
-        this._trigger('changeSelected',[uid]);
     },
 
     onChangeAdded : function($changeItem, change) {
         var $this = this;
+        // manually set this attribute so we can use it later.
         $changeItem.attr('data-change-ref',change.uid);
         var $changeValues = $changeItem.find('.change-value');
         var viewChange = this.viewChange.bind(this);
@@ -226,14 +213,15 @@ $.widget( "wtw.changeEditor", {
         $.each($changeValues, function(i, changeValue) {
             $(changeValue).find('.change-reject').click(function(e) {
                 var value = change.values[i];
-                var $input = $this._getChangeInput(change.uid);
-                $input.changeVal(value);
+                $this._trigger('update', null, [change.uid, value]);
+                // var $input = $this._getChangeInput(change.uid);
+                // $input.changeVal(value);
             });
         });
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
         $changeItem.click(function(e) {
-            $this._trigger('wtw:changeSelected', [$changeItem])
+            $this._trigger('select', null, [change.uid])
             // TODO : add highlight change animation.
             viewChange($changeItem);
         });

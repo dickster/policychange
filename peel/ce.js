@@ -77,28 +77,12 @@ $.widget( "wtw.changeEditor", {
             shown($(this));
         });
         element.popover('show');
-
-        // hide any change input popovers when you click somewhere else on screen.
-        // i could probably do this in a better way by triggering an event in the on show ofa
-        // change input popover.  each popover would register itself (prototyped) that would hide itself
-        // unless it was the source of the target?  whatevs....
-        // $('body').on('click', function (e) {
-        //     $('.change-input-icon').each(function () {
-        //         //the 'is' for buttons that trigger popups
-        //         //the 'has' for icons within a button that triggers a popup
-        //         if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-        //             $(this).popover('hide');
-        //         }
-        //     });
-        // });
     },
 
     _updateState : function(change) {
-        // instead of doing this, the plugin should take responsibility of setting the values initially
-        //  that way it doesn't have to inspect and compare.  it can just set it and forget it?
-        var currentValue = change.values[0];
-        this._trigger('update',[change.uid, value]);
-        // $this._activateChangeValue($this._getChangeItem(change.uid), change, idx);
+        // for now, i assume index 0 will be the starting value.
+        // may need to configure this later?  add active index to change.
+        this._trigger('accept',null,[change.uid, change.values[0]]);
     },
 
     _initState : function() {
@@ -121,8 +105,11 @@ $.widget( "wtw.changeEditor", {
             $.each(change.values, function(i,value) {
                 console.log('value'+value);
                 change.formattedValues.push(
-                    {   value: value,
-                        label:config.valueLabels[i]
+                    {   label:config.valueLabels[i],
+                        value: value,
+                        displayValue: value
+                        // TODO : may need to differentiate between display value and actual value.
+                        // for example, selects will have key & value, dates maybe stored as long but displayed as text etc...
                     }
                 );
             });
@@ -162,7 +149,7 @@ $.widget( "wtw.changeEditor", {
         var $changeValues = $changeItem.find('.change-value');
         $.each($changeValues, function(i, changeValue) {
             $(changeValue).find('.change-reject').click(function(e) {
-                $this._trigger('update', null, [change.uid, change.values[i]]);
+                $this._trigger('accept', null, [change.uid, change.values[i]]);
             });
         });
 

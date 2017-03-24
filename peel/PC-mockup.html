@@ -56,7 +56,6 @@
         </div>
     </script>
 
-
     <script id="changeInputTitle" type="text/x-handlebars-template">
         "<span>{{summary}}</span>" has changed.
     </script>
@@ -65,8 +64,8 @@
             <div class="list-group change-values change-input-{{type}}">
                 {{#each formattedValues}}
                 <a class="change-value list-group-item">
-                    <span class="change-input-accept"><i class="fa fa-check-circle"/></span>
-                    <span>{{label}}</span> : <span class="change-input-value">{{value}}</span>
+                    <span class="change-input-accept" data-change-value='{{value}}'><i class="fa fa-check-circle"/></span>
+                    <span>{{label}}</span> : <span class="change-input-value">{{displayValue}}</span>
                 </a>
                 {{/each}}
             </div>
@@ -94,6 +93,7 @@
 </head>
 
 <body>
+
 
 <div class="container">
 

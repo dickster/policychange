@@ -9,6 +9,7 @@ $.widget( "wtw.changeInput", {
             type: 'modify',
             uid: 937,
             values: ['apple', 'orange'],
+            formattedValues:{label:'', value:'', index:1},
             summary: 'to-be-generated'
         },
 
@@ -37,12 +38,6 @@ $.widget( "wtw.changeInput", {
         //this.options = $.extend(defaultOptions, this.options);
         var $this = this;
 
-        this.element.on('change.wtw', function(e,uid, value) {
-            alert('changed');
-            //$this._updateChangeInputState($input);
-            // TODO : dispatch event here so change panel can listen to it.
-            $this._trigger('wtw:changed');
-        });
         this.icon = $(this.options.config.inputIcon);
         this.icon.insertAfter(this.element);
 
@@ -54,32 +49,34 @@ $.widget( "wtw.changeInput", {
         this.change = this.options.change;
 
         // set val hooks.
+        // put this at higher level...both widgets depend on this??...hmmm...maybe not.
         this._setValHooks();
     },
 
-    _valHook : function($elem) {    
+    _valHook : function($input) {
         // override if you want to set a specific get/set method for change input values.
         // they will just default to jquery's val().
         // for example, a EasyJSCombo box might require a special method to find an underlying hidden elements value.
     },
 
-    // i should only do this once!
     _setValHooks: function () {
+        // only do this once!
         if ($.fn.changeVal) return;
         var $this = this;
         $.fn.changeVal = function(value) {
             var hook = $this._valHook(this);
             if (!hook) {
                 var type = this.prop('tagName').toLowerCase();
+                // for inputs, we use the type as the key (e.g. 'text', 'radio' etc...)
+                // if not, we just use the tag (textarea, select, etc...)
                 type = (type == 'input' && this.prop('type')) ? this.prop('type') : type;
-                // use jquery's val method as the default hook.
-                hook = this.val;
+                hook = this.val;   // use jquery's val method as the default hook.
             }
             var result = hook.apply(this,arguments);
             if (arguments.length) {
                 // TODO : refactor the hard coded attribute...should be an option.
-                this.trigger('change.wtw', [
-                    this.attr('data-change-id'),
+                this.trigger('updated', [
+                    $this.change.uid,
                     value
                 ]);
             }
@@ -88,24 +85,6 @@ $.widget( "wtw.changeInput", {
 
     },
 
-
-    // _activatePrevInput: function ($input) {
-    //     var $inputs = this._getAllChangeInputs();
-    //     var i = $inputs.index($input);
-    //     var $prev = $inputs.eq( (i - 1 + $inputs.length) % $inputs.length );
-    //     this.icon.popover('hide');
-    //     this._activateInput($prev,true);
-    // },
-    //
-    // _activateNextInput: function () {
-    //     // TODO :
-    //     var $inputs = this._getAllChangeInputs();
-    //     var i = $inputs.index();
-    //     var $next = $inputs.eq( (i + 1) % $inputs.length );
-    //     this.icon.popover('hide');
-    //     this._activateInput($next,true);
-    // },
-
     _getChangeValue: function (acceptIcon) {
         // assumes that the value is a sibling.
         // TODO : maybe i should use a hidden field in conjuction with a user friendly readable span.
@@ -113,19 +92,43 @@ $.widget( "wtw.changeInput", {
         return $(acceptIcon).siblings('.change-input-value').text();
     },
 
-    _update: function () {
+    _compareChangeValue : function(current, $value) {
+        // need to deal with trim & data conversions later.
+        return current == $(value).find('.change-input-value').text();
+    },
+
+    _initState: function () {
+        if (this.popover) return;
+
         var $this = this;
         var currentValue = this.element.changeVal();
-        if (this.popover) return;
 
         this.popover.find('.change-value').each(function(i, value) {
             // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
-            if (currentValue===$(value).find('.change-input-value').text()) {
+            if (_compareChangeValue(currentValue,$(value))) {
                 $(this).addClass('accepted');
             }
             else {
                 $(this).removeClass('accepted');
             }
+        });
+    },
+
+    maybeAddButtons: function ($this) {
+        // argh...i can't find a hook that is called on creation after the content is set.
+        // show will be called multiple times and we have to guard against that.
+        if (this.initialized) return;
+        this.initialized = true;
+
+        $this.popover.find('.next-change').click(function () {
+            $this._trigger('next');
+        });
+        $this.popover.find('.prev-change').click(function () {
+            $this._trigger('prev');
+        });
+        $this.popover.find('.change-input-accept').click(function () {
+            var value = $(this).attr('data-change-value');
+            $this.element.changeVal(value);
         });
     },
 
@@ -159,54 +162,46 @@ $.widget( "wtw.changeInput", {
         this.icon.popover('show');
 
         this.icon.on('shown.bs.popover', function() {
-            $this._update();
-            $this.popover.find('.next-change').click(function() {
-                $this._activateNextInput($this.element);
-            });
-            $this.popover.find('.prev-change').click(function() {
-                $this._activatePrevInput($this.element);
-            });
-            $this.popover.find('.change-input-accept').click(function() {
-//                 var value = $this.element.changeVal();
-//                 $input.changeVal($this._getChangeValue(this));
-            });
+            $this._initState();
+            $this.maybeAddButtons($this);
         });
     },
 
-    _getInputChange: function ($input) {
-        var uid = this.getInputChangeId($input);
-        var changes = this.options.changes;
-        for (var i = 0, len = changes.length; i < len; i++) {
-            if (changes[i] && changes[i].uid == uid)
-                return changes[i];
-        }
-        throw 'cant find change with id ' + uid;
-    },
+    // _getInputChange: function ($input) {
+    //     var uid = this.getInputChangeId($input);
+    //     var changes = this.options.changes;
+    //     for (var i = 0, len = changes.length; i < len; i++) {
+    //         if (changes[i] && changes[i].uid == uid)
+    //             return changes[i];
+    //     }
+    //     throw 'cant find change with id ' + uid;
+    // },
 
-    _getAllChangeInputs : function(uid) {
-        var selector = this.options.config.uidSelectorTemplate.replace('="${uid}"', '');
-        if ($(selector).length==0) {
-            throw 'can not find any change form inputs "' + selector;
-        }
-        return $(selector);
-    },
+    // _getAllChangeInputs : function(uid) {
+    //     var selector = this.options.config.uidSelectorTemplate.replace('="${uid}"', '');
+    //     if ($(selector).length==0) {
+    //         throw 'can not find any change form inputs "' + selector;
+    //     }
+    //     return $(selector);
+    // },
 
     _setActiveChangeValue : function($action, change, index) {
         var value = change.values[index];
-        var $input = this._getChangeInput(change.uid);
-        $input.changeVal(value);
+        this.element.changeVal(value);
     },
 
-    _activate: function (showPopup) {
-        if ($input.length==0) return;
-        this._getAllChangeInputs().removeClass('active');
+    _activate: function() {
+       // this._getAllChangeInputs().removeClass('active');
+        var $this = this;
         $('html, body').animate({
             scrollTop: $input.offset().top}, 350, function() {
-            $input.addClass('active');
+            $this.element.addClass('active');
         });
-        if (showPopup) {
-            this._toggleInputPopup($input);
-        }
+    },
+
+    _activateAndShowPopup: function() {
+        this._activate();
+        this._toggleInputPopup(this.element);
     },
 
 });

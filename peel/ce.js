@@ -180,7 +180,7 @@ $.widget( "wtw.changeEditor", {
 
 
     _getChangeItem : function(uid) {
-        var selector = '['+this.options.config.itemChangeRefAttr +'="'+ uid+'"]';
+        var selector = '['+this.options.config.refAttr +'="'+ uid+'"]';
         if ($(selector).length==0) {
             throw 'can not find element matching "' + selector + '" when trying to view change  (there should be a form input that matches this)';
         }
@@ -213,7 +213,7 @@ $.widget( "wtw.changeEditor", {
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
         // ..now deal with the form input itself
-        this._activateInput(this._getChangeInput(uid));
+        this._trigger('changeSelected',[uid]);
     },
 
     onChangeAdded : function($changeItem, change) {
@@ -233,6 +233,7 @@ $.widget( "wtw.changeEditor", {
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
         $changeItem.click(function(e) {
+            $this._trigger('wtw:changeSelected', [$changeItem])
             // TODO : add highlight change animation.
             viewChange($changeItem);
         });

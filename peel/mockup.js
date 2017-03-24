@@ -1,6 +1,9 @@
 $( function() {
 
     var options = {
+
+        // widgetEventPrefix: 'wtw',
+
         changes:[
             // add/delete/modify.   instead of acord xpath    broker, carrier values.       ignore. don't include this.
             //                       use an id.
@@ -29,11 +32,12 @@ $( function() {
         },
     };
 
-    $('.change-editor').changeEditor(options);
+    $('.change-editor').changeEditor(options).on('changeSelected', function() { alert('change');});
 
     // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
     $.each(options.changes, function(i,change) {
-        $('[data-change-id="'+change.uid+'"]').changeInput({config:options.config, change:change});
+        $('[data-change-id="'+change.uid+'"]')
+            .changeInput({config:options.config, change:change})
     });
 
 });

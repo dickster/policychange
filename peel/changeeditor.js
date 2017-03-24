@@ -8,7 +8,7 @@
 // https://learn.jquery.com/jquery-ui/widget-factory/extending-widgets/
 
 
-$.widget( "wtw.changeEditor", {
+$.widget( "wtw.changeEditor.deprecated", {
     // CHANGE EDITOR.
 
     // TODO :

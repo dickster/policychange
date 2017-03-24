@@ -48,51 +48,6 @@ $.widget( "wtw.changeEditor", {
         this._createPopup(this.element);
     },
 
-
-
-    _activatePrevInput: function ($input) {
-        var $inputs = this._getAllChangeInputs();
-        var i = $inputs.index($input);
-        var $prev = $inputs.eq( (i - 1 + $inputs.length) % $inputs.length );
-        this._getInputIcon($input).popover('hide');
-        this._activateInput($prev,true);
-    },
-
-    _activateNextInput: function ($input) {
-        var $inputs = this._getAllChangeInputs();
-        var i = $inputs.index($input);
-        var $next = $inputs.eq( (i + 1) % $inputs.length );
-        this._getInputIcon($input).popover('hide');
-        this._activateInput($next,true);
-    },
-
-    _getInputChangeValue: function (acceptIcon) {
-        // assumes that the value is a sibling.
-        // TODO : maybe i should use a hidden field in conjuction with a user friendly readable span.
-        // that way i can have any format of data in hidden input.
-        return $(acceptIcon).siblings('.change-input-value').text();
-    },
-
-    _updateChangeInputState: function ($input) {
-        var $this = this;
-        var currentValue = $input.changeVal();
-        var pop = $this._getInputIcon($input).data('bs.popover');
-        if (!pop) return;
-        var $popover = pop.tip();
-
-        $popover.find('.change-value').each(function(i, value) {
-            // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
-            if (currentValue===$(value).find('.change-input-value').text()) {
-                $(this).addClass('accepted');
-            }
-            else {
-                $(this).removeClass('accepted');
-            }
-        });
-    },
-
-
-
     _createPopup: function (element) {
         var $this = this;
         var shown = this._editorShown.bind(this);
@@ -141,13 +96,9 @@ $.widget( "wtw.changeEditor", {
     _updateState : function(change) {
         // instead of doing this, the plugin should take responsibility of setting the values initially
         //  that way it doesn't have to inspect and compare.  it can just set it and forget it?
-        var $this = this;
-        var currentValue = 'foo';//$this._getChangeInput(change.uid).changeVal();
-        $.each(change.values, function (idx, value) {
-            if (currentValue === value) {     // TODO : ignore case and/or whitespace?
-                $this._updateActiveValue($this._getChangeItem(change.uid), change, idx);
-            }
-        });
+        var currentValue = change.values[0];
+        this._trigger('update',[change.uid, value]);
+        // $this._activateChangeValue($this._getChangeItem(change.uid), change, idx);
     },
 
     _initState : function() {
@@ -178,7 +129,6 @@ $.widget( "wtw.changeEditor", {
         });
     },
 
-
     _getChangeItem : function(uid) {
         var selector = '['+this.options.config.refAttr +'="'+ uid+'"]';
         if ($(selector).length==0) {
@@ -187,17 +137,18 @@ $.widget( "wtw.changeEditor", {
         return $(selector);
     },
 
-    _updateActiveValue: function ($changeItem, change, index) {
+    // TODO : refactor this be called by mediator....activeChangeValue(id,index,value);
+    _activateChangeValue: function ($changeItem, change, index) {
         // remove all other (if any) active items, and highlight this one.
         // TODO : chain these two lines together after debugging...
         $changeItem.find('.change-value').removeClass('active');
         $changeItem.find('.change-value').eq(index).addClass('active');
     },
 
-    viewChange : function($changeItem) {
+    _activateItem : function($changeItem) {
         // select the item in the main panel
         var uid = $changeItem.attr(this.options.config.itemChangeRefAttr);
-        $('.change-input').popover('hide');
+
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
     },
@@ -206,24 +157,19 @@ $.widget( "wtw.changeEditor", {
         var $this = this;
         // manually set this attribute so we can use it later.
         $changeItem.attr('data-change-ref',change.uid);
-        var $changeValues = $changeItem.find('.change-value');
-        var viewChange = this.viewChange.bind(this);
 
         // if you click on the *unselected* icon, it will accept the change (set its value and update status).
+        var $changeValues = $changeItem.find('.change-value');
         $.each($changeValues, function(i, changeValue) {
             $(changeValue).find('.change-reject').click(function(e) {
-                var value = change.values[i];
-                $this._trigger('update', null, [change.uid, value]);
-                // var $input = $this._getChangeInput(change.uid);
-                // $input.changeVal(value);
+                $this._trigger('update', null, [change.uid, change.values[i]]);
             });
         });
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
         $changeItem.click(function(e) {
-            $this._trigger('select', null, [change.uid])
-            // TODO : add highlight change animation.
-            viewChange($changeItem);
+            $this._activateItem($changeItem);
+            $this._trigger('select', null, [change.uid]);
         });
     },
 

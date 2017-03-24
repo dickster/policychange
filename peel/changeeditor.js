@@ -1,12 +1,25 @@
-// TODO : refactor changeInput popover code into it's own file.
-// use underscore to make all methods private
 
 
-// TODO : add datalist options to text fields to show all possible values.
 
-// note : in order to override methods for basic widget, see
-// https://learn.jquery.com/jquery-ui/widget-factory/extending-widgets/
 
+
+
+
+
+
+//
+//
+//
+//
+//
+//
+// DEPRECATED - use other version!!!!!!
+//
+//
+//
+//
+//
+//
 
 $.widget( "wtw.changeEditor.deprecated", {
     // CHANGE EDITOR.
@@ -266,7 +279,7 @@ $.widget( "wtw.changeEditor.deprecated", {
         var currentValue = $this._getChangeInput(change.uid).changeVal();
         $.each(change.values, function (idx, value) {
             if (currentValue === value) {     // TODO : ignore case and/or whitespace?
-                $this._updateActiveValue($this._getChangeItem(change.uid), change, idx);
+                $this._activateChangeValue($this._getChangeItem(change.uid), change, idx);
             }
         });
     },
@@ -324,7 +337,7 @@ $.widget( "wtw.changeEditor.deprecated", {
         return $(selector);
     },
 
-    _updateActiveValue: function ($changeItem, change, index) {
+    _activateChangeValue: function ($changeItem, change, index) {
         // remove all other (if any) active items, and highlight this one.
         // TODO : chain these two lines together after debugging...
         $changeItem.find('.change-value').removeClass('active');

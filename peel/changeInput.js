@@ -161,13 +161,14 @@ $.widget( "wtw.changeInput", {
         this.icon.on('shown.bs.popover', function() {
             $this._update();
             $this.popover.find('.next-change').click(function() {
-                $this._activateNextInput($input);
+                $this._activateNextInput($this.element);
             });
             $this.popover.find('.prev-change').click(function() {
-                $this._activatePrevInput($input);
+                $this._activatePrevInput($this.element);
             });
             $this.popover.find('.change-input-accept').click(function() {
-                $input.changeVal($this._getChangeValue(this));
+//                 var value = $this.element.changeVal();
+//                 $input.changeVal($this._getChangeValue(this));
             });
         });
     },

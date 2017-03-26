@@ -35,16 +35,19 @@ $( function() {
         },
     };
 
+    function getInput(id) {
+        return $('[data-change-id="'+id+'"]');
+    }
+
     $('.change-panel').changePanel(options)
         .on('changepanelselect', function(e,id) {
-            alert(id + ' selected');
+            getInput(id).changeInput('select', id);
         })
-        .on('changepanelaccept', function(e,id,value) {
-            alert(id + ' set to ' + value);
+        .on('changepanelaccept', function(e,id,index,value) {
+            getInput(id).changeInput('accept',id,index,value);
         });
 
     // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
-    var $inputs = [];
     $.each(options.changes, function(i,change) {
         var $input = $('[data-change-id="'+change.uid+'"]');
         $input.changeInput({config:options.config, change:change})
@@ -57,7 +60,6 @@ $( function() {
             .on('changeinputprev', function(e) {
                 alert('prev');
             });
-        $inputs.push($input);
     });
 
 

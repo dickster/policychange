@@ -149,7 +149,7 @@ $.widget( "wtw.changePanel", {
         var $changeValues = $changeItem.find('.change-value');
         $.each($changeValues, function(i, changeValue) {
             $(changeValue).find('.change-reject').click(function(e) {
-                $this._trigger('accept', null, [change.uid, change.values[i]]);
+                $this._trigger('accept', null, [change.uid, i, change.values[i]]);
             });
         });
 

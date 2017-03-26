@@ -82,12 +82,12 @@ $.widget( "wtw.changeInput", {
 
     },
 
-    _getChangeValue: function (acceptIcon) {
-        // assumes that the value is a sibling.
-        // TODO : maybe i should use a hidden field in conjuction with a user friendly readable span.
-        // that way i can have any format of data in hidden input.
-        return $(acceptIcon).siblings('.change-input-value').text();
-    },
+    // _getChangeValue: function (acceptIcon) {
+    //     // assumes that the value is a sibling.
+    //     // TODO : maybe i should use a hidden field in conjuction with a user friendly readable span.
+    //     // that way i can have any format of data in hidden input.
+    //     return $(acceptIcon).siblings('.change-input-value').text();
+    // },
 
     _compareChangeValue : function(current, $value) {
         // need to deal with trim & data conversions later.
@@ -162,30 +162,18 @@ $.widget( "wtw.changeInput", {
         });
     },
 
-    // _getInputChange: function ($input) {
-    //     var uid = this.getInputChangeId($input);
-    //     var changes = this.options.changes;
-    //     for (var i = 0, len = changes.length; i < len; i++) {
-    //         if (changes[i] && changes[i].uid == uid)
-    //             return changes[i];
-    //     }
-    //     throw 'cant find change with id ' + uid;
+    // _setActiveChangeValue : function($action, change, index) {
+    //     var value = this.options.change.values[index];
+    //     this.element.changeVal(value);
     // },
 
-    // _getAllChangeInputs : function(uid) {
-    //     var selector = this.options.config.uidSelectorTemplate.replace('="${uid}"', '');
-    //     if ($(selector).length==0) {
-    //         throw 'can not find any change form inputs "' + selector;
-    //     }
-    //     return $(selector);
-    // },
 
-    _setActiveChangeValue : function($action, change, index) {
-        var value = this.options.change.values[index];
-        this.element.changeVal(value);
+    accept: function(id, index, value)  {
+        var change = this.options.change;
+        alert('change ' + id + ' --> ' + value + '['+index+']');
     },
 
-    _activate: function() {
+    activate: function() {
        // this._getAllChangeInputs().removeClass('active');
         var $this = this;
         $('html, body').animate({
@@ -194,7 +182,7 @@ $.widget( "wtw.changeInput", {
         });
     },
 
-    _activateAndShowPopup: function() {
+    activateAndShowPopup: function() {
         this._activate();
         this._toggleInputPopup(this.element);
     },

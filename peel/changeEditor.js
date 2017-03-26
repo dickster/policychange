@@ -35,11 +35,11 @@ $( function() {
         },
     };
 
-    $('.change-editor').changeEditor(options)
-        .on('changeeditorselect', function(e,id) {
+    $('.change-panel').changePanel(options)
+        .on('changepanelselect', function(e,id) {
             alert(id + ' selected');
         })
-        .on('changeeditoraccept', function(e,id,value) {
+        .on('changepanelaccept', function(e,id,value) {
             alert(id + ' set to ' + value);
         });
 
@@ -51,9 +51,6 @@ $( function() {
             .on('changeinputupdate', function(e, id, value) {
                 alert('input ' + id + ' changed to ' + value);
             })
-            // .on('changeinputselect', function(e, delta) {
-            //     alert('input popup selected' + delta);
-            // })
             .on('changeinputnext', function(e) {
                 alert('next');
             })

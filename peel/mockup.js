@@ -1,5 +1,8 @@
 $( function() {
 
+    // TODO : refactor this into a proper changeEditor module pattern.
+    // it creates changePanel & changeInput widgets and mediates events.
+
     var options = {
 
         // widgetEventPrefix: 'wtw',
@@ -46,10 +49,16 @@ $( function() {
         var $input = $('[data-change-id="'+change.uid+'"]');
         $input.changeInput({config:options.config, change:change})
             .on('changeinputupdate', function(e, id, value) {
-                alert('input changed to ' + value);
+                alert('input ' + id + ' changed to ' + value);
             })
-            .on('changeinputselect', function(e, delta) {
-                alert('input popup selected' + delta);
+            // .on('changeinputselect', function(e, delta) {
+            //     alert('input popup selected' + delta);
+            // })
+            .on('changeinputnext', function(e) {
+                alert('next');
+            })
+            .on('changeinputprev', function(e) {
+                alert('prev');
             });
         $inputs.push($input);
     });

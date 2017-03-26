@@ -45,14 +45,13 @@ $.widget( "wtw.changeInput", {
             $this._toggleInputPopup();
         });
 
-        // create a handy alias/shortcut.
-        this.change = this.options.change;
-
         // set val hooks.
         // put this at higher level...both widgets depend on this??...hmmm...maybe not.
         this._setValHooks();
     },
 
+
+    // google jquery valHook to see an example of the pattern.   i am piggybacking on their approach to handling 'val()' method.
     _valHook : function($input) {
         // override if you want to set a specific get/set method for change input values.
         // they will just default to jquery's val().
@@ -73,12 +72,10 @@ $.widget( "wtw.changeInput", {
                 hook = this.val;   // use jquery's val method as the default hook.
             }
             var result = hook.apply(this,arguments);
+            // if a value was passed (i.e. a set, not a get) then trigger updated.
             if (arguments.length) {
                 // TODO : refactor the hard coded attribute...should be an option.
-                this.trigger('updated', [
-                    $this.change.uid,
-                    value
-                ]);
+                $this._trigger('update', null, [$this.options.change.uid, value]);
             }
             return result;
         }
@@ -94,43 +91,41 @@ $.widget( "wtw.changeInput", {
 
     _compareChangeValue : function(current, $value) {
         // need to deal with trim & data conversions later.
-        return current == $(value).find('.change-input-value').text();
+        return current == $value.find('.change-input-value').text();
     },
 
     _initState: function () {
-        if (this.popover) return;
-
         var $this = this;
         var currentValue = this.element.changeVal();
 
+        // create handy alias for popover content after it's created.
+        this.popover = this.icon.data('bs.popover').tip();
+
+        this.popover.addClass('change-input-popover');
+
         this.popover.find('.change-value').each(function(i, value) {
             // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
-            if (_compareChangeValue(currentValue,$(value))) {
+            if ($this._compareChangeValue(currentValue,$(value))) {
                 $(this).addClass('accepted');
             }
             else {
                 $(this).removeClass('accepted');
             }
         });
-    },
 
-    maybeAddButtons: function ($this) {
-        // argh...i can't find a hook that is called on creation after the content is set.
-        // show will be called multiple times and we have to guard against that.
-        if (this.initialized) return;
-        this.initialized = true;
-
-        $this.popover.find('.next-change').click(function () {
+        this.popover.find('.next-change').click(function () {
             $this._trigger('next');
         });
-        $this.popover.find('.prev-change').click(function () {
+        this.popover.find('.prev-change').click(function () {
             $this._trigger('prev');
         });
-        $this.popover.find('.change-input-accept').click(function () {
+        this.popover.find('.change-input-accept').click(function () {
             var value = $(this).attr('data-change-value');
             $this.element.changeVal(value);
         });
+
     },
+
 
     _toggleInputPopup: function () {
         var $this = this;
@@ -147,23 +142,23 @@ $.widget( "wtw.changeInput", {
             html : true,
             title: function() {
                 var template = Handlebars.compile($($this.options.config.inputTitle).html());
-                return template($this.change);
+                return template($this.options.change);
             },
             content: function() {
                 var template = Handlebars.compile($($this.options.config.inputContent).html());
-                return template($this.change);
+                return template($this.options.change);
             }
         })
 
-        // create handy alias for popover content.
-        this.popover = this.icon.data('bs.popover').tip();
-        this.popover.addClass('change-input-popover');
+        this.icon.data('bs.popover').tip().addClass('change-input-popover');
 
         this.icon.popover('show');
 
         this.icon.on('shown.bs.popover', function() {
+            // argh...i can't find a hook that is called on creation after the content is set.
+            // show will be called multiple times and we have to guard against that.
+            if (!this.popover);
             $this._initState();
-            $this.maybeAddButtons($this);
         });
     },
 
@@ -186,7 +181,7 @@ $.widget( "wtw.changeInput", {
     // },
 
     _setActiveChangeValue : function($action, change, index) {
-        var value = change.values[index];
+        var value = this.options.change.values[index];
         this.element.changeVal(value);
     },
 

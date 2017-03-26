@@ -261,15 +261,6 @@ $.widget( "wtw.changeEditor.deprecated", {
         // i could probably do this in a better way by triggering an event in the on show ofa
         // change input popover.  each popover would register itself (prototyped) that would hide itself
         // unless it was the source of the target?  whatevs....
-        $('body').on('click', function (e) {
-            $('.change-input-icon').each(function () {
-                //the 'is' for buttons that trigger popups
-                //the 'has' for icons within a button that triggers a popup
-                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                    $(this).popover('hide');
-                }
-            });
-        });
     },
 
     _updateState : function(change) {

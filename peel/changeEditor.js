@@ -51,8 +51,8 @@ $( function() {
     $.each(options.changes, function(i,change) {
         var $input = $('[data-change-id="'+change.uid+'"]');
         $input.changeInput({config:options.config, change:change})
-            .on('changeinputupdate', function(e, id, value) {
-                alert('input ' + id + ' changed to ' + value);
+            .on('changeinputupdate', function(e, id, index, value) {
+                alert('input ' + id + ' changed to ' + value + ' ['+index+']');
             })
             .on('changeinputnext', function(e) {
                 alert('next');

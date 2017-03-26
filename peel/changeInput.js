@@ -62,7 +62,7 @@ $.widget( "wtw.changeInput", {
         // only do this once!
         if ($.fn.changeVal) return;
         var $this = this;
-        $.fn.changeVal = function(value) {
+        $.fn.changeVal = function(value,index) {
             var hook = $this._valHook(this);
             if (!hook) {
                 var type = this.prop('tagName').toLowerCase();
@@ -74,20 +74,12 @@ $.widget( "wtw.changeInput", {
             var result = hook.apply(this,arguments);
             // if a value was passed (i.e. a set, not a get) then trigger updated.
             if (arguments.length) {
-                // TODO : refactor the hard coded attribute...should be an option.
-                $this._trigger('update', null, [$this.options.change.uid, value]);
+                $this._trigger('update', null, [$this.options.change.uid, index, value]);
             }
             return result;
         }
 
     },
-
-    // _getChangeValue: function (acceptIcon) {
-    //     // assumes that the value is a sibling.
-    //     // TODO : maybe i should use a hidden field in conjuction with a user friendly readable span.
-    //     // that way i can have any format of data in hidden input.
-    //     return $(acceptIcon).siblings('.change-input-value').text();
-    // },
 
     _compareChangeValue : function(current, $value) {
         // need to deal with trim & data conversions later.
@@ -121,11 +113,10 @@ $.widget( "wtw.changeInput", {
         });
         this.popover.find('.change-input-accept').click(function () {
             var value = $(this).attr('data-change-value');
-            $this.element.changeVal(value);
+            $this.element.changeVal(value,i);
         });
 
     },
-
 
     _toggleInputPopup: function () {
         var $this = this;
@@ -162,15 +153,11 @@ $.widget( "wtw.changeInput", {
         });
     },
 
-    // _setActiveChangeValue : function($action, change, index) {
-    //     var value = this.options.change.values[index];
-    //     this.element.changeVal(value);
-    // },
-
 
     accept: function(id, index, value)  {
         var change = this.options.change;
-        alert('change ' + id + ' --> ' + value + '['+index+']');
+        var value = this.options.change.values[index];
+        this.element.changeVal(value,index);
     },
 
     activate: function() {

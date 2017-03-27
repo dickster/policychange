@@ -82,7 +82,7 @@ $.widget( "wtw.changePanel", {
     _updateState : function(change) {
         // for now, i assume index 0 will be the starting value.
         // may need to configure this later?  add active index to change.
-        this._trigger('accept',null,[change.uid, change.values[0]]);
+        this._trigger('accept',null,[change.uid, 0, change.values[0]]);
     },
 
     _initState : function() {

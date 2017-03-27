@@ -1,3 +1,7 @@
+
+// TODO : make this into module pattern and invoke it.
+// wtw.changeEditor.init({options});
+
 $( function() {
 
     // TODO : refactor this into a proper changeEditor module pattern.
@@ -35,9 +39,6 @@ $( function() {
         },
     };
 
-    function getInput(id) {
-        return $('[data-change-id="'+id+'"]');
-    }
 
     $('.change-panel').changePanel(options)
         .on('changepanelselect', function(e,id) {
@@ -47,6 +48,7 @@ $( function() {
             getInput(id).changeInput('accept',id,index,value);
         });
 
+
     // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
     $.each(options.changes, function(i,change) {
         var $input = $('[data-change-id="'+change.uid+'"]');
@@ -55,12 +57,37 @@ $( function() {
                 alert('input ' + id + ' changed to ' + value + ' ['+index+']');
             })
             .on('changeinputnext', function(e) {
-                alert('next');
+                next($input);
             })
             .on('changeinputprev', function(e) {
-                alert('prev');
+                prev($input);
             });
     });
+
+
+    function getInput(id) {
+        return $('[data-change-id="'+id+'"]');
+    }
+
+    function next($input) {
+        var $inputs = $('[data-change-id]:visible');
+        var $current =  $inputs.index($input);
+        $current.changeInput('hide');
+        var next = current+1;
+        if (next>=$inputs.length) next = 0;
+        $inputs.eq(next).changeInput('activateAndShowPopup');
+    }
+
+    function prev($input) {
+        // TODO: add :isVisible to $inputs?
+        var $inputs = $('[data-change-id]:visible');
+        var current =  $inputs.index($input);
+        $current.changeInput('hide');
+        var prev = current-1;
+        if (prev<0) prev = $inputs.length-1;
+        $inputs.eq(prev).changeInput('activateAndShowPopup');
+    }
+
 
 
     // _activatePrevInput: function ($input) {

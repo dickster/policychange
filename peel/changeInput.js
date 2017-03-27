@@ -156,7 +156,6 @@ $.widget( "wtw.changeInput", {
 
     accept: function(id, index, value)  {
         var change = this.options.change;
-        var value = this.options.change.values[index];
         this.element.changeVal(value,index);
     },
 
@@ -170,7 +169,8 @@ $.widget( "wtw.changeInput", {
     },
 
     activateAndShowPopup: function() {
-        this._activate();
+        this.activate();
+        // shouldn't use toggle..should have a "show" method.
         this._toggleInputPopup(this.element);
     },
 

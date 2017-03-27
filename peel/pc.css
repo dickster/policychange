@@ -171,3 +171,10 @@ li.change-input-icon {
     animation-duration: 540ms;
     animation-iteration-count:2;
 }
+
+
+.change-item i {
+    float: right;
+    font-size: large;
+    color:#6d6;
+}

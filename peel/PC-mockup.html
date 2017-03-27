@@ -37,17 +37,11 @@
         <div class="list-group">
             {{#each changes}}
             <a class="list-group-item change-item change-item-{{type}}">
-                <div>
-                    <span>{{summary}}</span>
-                </div>
+                <span>{{summary}}</span><i class=" fa fa-toggle-on"></i>
                 <div class="change-values">
                     {{#each formattedValues}}
                     <div class="change-value">
                         <span>{{label}}</span> : <span>{{value}}</span>
-                        <span class="change-actions pull-right">
-                            <span class="change-action change-accept">{{{@root.config.acceptIcon}}}</span>
-                            <span class="change-action change-reject">{{{@root.config.rejectIcon}}}</span>
-                        </span>
                     </div>
                     {{/each}}
                 </div>
@@ -94,8 +88,6 @@
         $(function() {
             var options = {
                 changes:[
-                    // add/delete/modify.   instead of acord xpath    broker, carrier values.       ignore. don't include this.
-                    //                       use an id.
                     {type:'modify',         id: 937,               values: ['apple','orange'],     summary:'{to-be-generated}' },
                     {type:'delete',         id: 840,               values: ['Ford','Toyota'],      summary:'{to-be-generated}' }
                 ],

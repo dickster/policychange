@@ -1,7 +1,6 @@
 $.widget( "wtw.changeInput", {
     // CHANGE INPUT.
 
-
     // this variable for reference only...delete this later!
     sampleOptions: {
 
@@ -21,13 +20,13 @@ $.widget( "wtw.changeInput", {
 
     _create: function() {
         //this.options = $.extend(defaultOptions, this.options);
-        var $this = this;
+        var self = this;
 
         this.icon = $(this.options.config.inputIcon);
         this.icon.insertAfter(this.element);
 
         this.icon.click(function() {
-            $this._toggle();
+            self._toggle();
         });
 
         // set val hooks.
@@ -36,8 +35,8 @@ $.widget( "wtw.changeInput", {
 
         this.element.on('change', function(e) {
             var val = $(this).val();  // get the current value in the input  (NOT necessarily one of the values in the change values array).
-            var index = $this._getValueIndex();  // maybe null if it isn't one of the proposed change values.
-            $this.onChange(e,index,val);
+            var index = self._getValueIndex();  // maybe null if it isn't one of the proposed change values.
+            self.onChange(e,index,val);
         });
 
         // TODO: fix this so change is triggered after creation (because the listener isn't attached yet so this
@@ -47,7 +46,7 @@ $.widget( "wtw.changeInput", {
         setTimeout(function() {
             // trigger a change that will in effect broadcast the current value to the mediator.
             // ** maybe i should trigger using a custom event like 'initState'?? to avoid possible side effects?
-            $this.element.trigger('change');
+            self.element.trigger('change');
         },300);
     },
 
@@ -62,11 +61,11 @@ $.widget( "wtw.changeInput", {
     _setValHooks: function () {
         // only do this once!
         if ($.fn.changeVal) return;
-        var $this = this;
+        var self = this;
         $.fn.changeVal = function(value,index) {
-            var hook = $this._valHook(this);
-            $this.changeIndex = index;
-            console.log('change index = ' + $this.changeIndex);
+            var hook = self._valHook(this);
+            self.changeIndex = index;
+            console.log('change index = ' + self.changeIndex);
             if (!hook) {
                 var type = this.prop('tagName').toLowerCase();
                 // for inputs, we use the type as the key (e.g. 'text', 'radio' etc...)
@@ -104,7 +103,7 @@ $.widget( "wtw.changeInput", {
     },
 
     _initState: function () {
-        var $this = this;
+        var self = this;
         var currentValue = this.element.changeVal();
 
         // create handy alias for popover content after it's created.
@@ -114,7 +113,7 @@ $.widget( "wtw.changeInput", {
 
         content.find('.change-value').each(function(i, value) {
             // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
-            if ($this._compareChangeValue(currentValue,$(value))) {
+            if (self._compareChangeValue(currentValue,$(value))) {
                 $(this).addClass('accepted');
             }
             else {
@@ -122,15 +121,15 @@ $.widget( "wtw.changeInput", {
             }
             $(value).find('.change-input-accept').click(function () {
                 var value = $(this).attr('data-change-value');
-                $this.element.changeVal(value,i);
+                self.element.changeVal(value,i);
             });
         });
 
         content.find('.next-change').click(function () {
-            $this._trigger('next');
+            self._trigger('next');
         });
         content.find('.prev-change').click(function () {
-            $this._trigger('prev');
+            self._trigger('prev');
         });
     },
 
@@ -168,8 +167,7 @@ $.widget( "wtw.changeInput", {
     },
 
     _toggle: function () {
-        var $this = this;   // TODO : change $this to self.
-
+        var self = this;
         // show lazily instantiated popover.
         if (this.icon.data('bs.popover')) {
             this.icon.popover('toggle');
@@ -182,12 +180,12 @@ $.widget( "wtw.changeInput", {
             trigger: 'manual',
             html : true,
             title: function() {
-                var template = Handlebars.compile($($this.options.config.inputTitle).html());
-                return template($this.options.change);
+                var template = Handlebars.compile($(self.options.config.inputTitle).html());
+                return template(self.options.change);
             },
             content: function() {
-                var template = Handlebars.compile($($this.options.config.inputContent).html());
-                return template($this.options.change);
+                var template = Handlebars.compile($(self.options.config.inputContent).html());
+                return template(self.options.change);
             }
         })
 
@@ -196,7 +194,7 @@ $.widget( "wtw.changeInput", {
         this.icon.popover('show');
 
         this.icon.on('shown.bs.popover', function() {
-            $this._initState();
+            self._initState();
         });
     },
 

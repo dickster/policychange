@@ -87,7 +87,7 @@ $.widget( "wtw.changePanel", {
     },
 
     onChangeAdded : function($changeItem, change) {
-        var $this = this;
+        var self = this;
         // manually set this attribute so we can use it later.
         $changeItem.attr('data-change-ref',change.id);
 
@@ -95,15 +95,15 @@ $.widget( "wtw.changePanel", {
         var $changeValues = $changeItem.find('.change-value');
         $.each($changeValues, function(i, changeValue) {
             $(changeValue).find('.change-reject').click(function(e) {
-                $this._trigger('accept', null, [change.id, i, change.values[i]]);
+                self._trigger('accept', null, [change.id, i, change.values[i]]);
             });
         });
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
         $changeItem.click(function(e) {
-            $this._activate($changeItem);
+            self._activate($changeItem);
             // notify the world that we want to focus on this change. parent mediator will dispatch as needed.
-            $this._trigger('select', null, [change.id]);
+            self._trigger('select', null, [change.id]);
         });
     },
 
@@ -120,25 +120,25 @@ $.widget( "wtw.changePanel", {
     },
 
     _initPrevNextButtons: function ($popover) {
-        var $this = this;
+        var self = this;
         $popover.find('.next-change').click(function() {
-            $this.select($popover, 1);
+            self.select($popover, 1);
         });
         $popover.find('.prev-change').click(function() {
-            $this.select($popover, -1);
+            self.select($popover, -1);
         });
     },
 
     _editorShown : function($popoverTrigger) {
         // the trigger is the element that the popover is attached to.  we need the actual popover itself.
-        var $this = this;
+        var self = this;
         var $popover = $popoverTrigger.data('bs.popover').tip();
         var callback = this.options.config.onChangeAdded ? this.options.config.onChangeAdded.bind(this) : this.onChangeAdded.bind(this);
 
         this._initPrevNextButtons($popover);
 
         $popover.find('.change-item').each(function(i) {
-            callback($(this), $this.options.changes[i]);
+            callback($(this), self.options.changes[i]);
         });
 
         this._initState();

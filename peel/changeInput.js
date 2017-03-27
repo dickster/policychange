@@ -75,6 +75,7 @@ $.widget( "wtw.changeInput", {
             // if a value was passed (i.e. a set, not a get) then trigger updated.
             if (arguments.length) {
                 $this._trigger('update', null, [$this.options.change.uid, index, value]);
+                $this._updateState(value,index);
             }
             return result;
         }
@@ -90,7 +91,7 @@ $.widget( "wtw.changeInput", {
         var currentValue = this.element.changeVal();
 
         // create handy alias for popover content after it's created.
-        var content = this.icon.data('bs.popover').tip();
+        var content = this._getPopoverContent();
 
         content.addClass('change-input-popover');
 
@@ -114,7 +115,19 @@ $.widget( "wtw.changeInput", {
         content.find('.prev-change').click(function () {
             $this._trigger('prev');
         });
+    },
 
+    _updateState: function(value,index) {
+        var content = this._getPopoverContent();
+        if (!content) return;
+        this._getPopoverContent().find('.change-value').each(function(i, value) {
+            if (i==index) {
+                $(this).addClass('accepted');
+            }
+            else {
+                $(this).removeClass('accepted');
+            }
+        });
     },
 
     hide: function() {
@@ -130,6 +143,11 @@ $.widget( "wtw.changeInput", {
         else {
             this._toggle();
         }
+    },
+
+    _getPopoverContent: function () {
+        var pop = this.icon.data('bs.popover');
+        return (pop) ? pop.tip() : null;
     },
 
     _toggle: function () {
@@ -156,7 +174,7 @@ $.widget( "wtw.changeInput", {
             }
         })
 
-        this.icon.data('bs.popover').tip().addClass('change-input-popover');
+        this._getPopoverContent().addClass('change-input-popover');
 
         this.icon.popover('show');
 
@@ -171,7 +189,8 @@ $.widget( "wtw.changeInput", {
     },
 
     activate: function() {
-       // this._getAllChangeInputs().removeClass('active');
+        // TODO : don't hard code attribute.
+        $('[data-change-id]').removeClass('active');
         var $input = this.element;
         $('html, body').animate({
             scrollTop: $input.offset().top}, 350, function() {

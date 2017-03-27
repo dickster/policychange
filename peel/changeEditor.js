@@ -42,19 +42,18 @@ $( function() {
 
     $('.change-panel').changePanel(options)
         .on('changepanelselect', function(e,id) {
-            getInput(id).changeInput('select', id);
+            getInput(id).changeInput('activate', id);
         })
         .on('changepanelaccept', function(e,id,index,value) {
             getInput(id).changeInput('accept',id,index,value);
         });
-
 
     // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
     $.each(options.changes, function(i,change) {
         var $input = $('[data-change-id="'+change.uid+'"]');
         $input.changeInput({config:options.config, change:change})
             .on('changeinputupdate', function(e, id, index, value) {
-                alert('input ' + id + ' changed to ' + value + ' ['+index+']');
+                console.log('input ' + id + ' changed to ' + value + ' ['+index+']');
             })
             .on('changeinputnext', function(e) {
                 next($input);
@@ -64,6 +63,17 @@ $( function() {
             });
     });
 
+    // if you click somewhere outside of input popup, then hide them.
+    // (you must check to make sure the click didn't happen inside a visible popup - in that case just leave it).
+    $('body').on('click', function (e) {
+        $('.change-input-icon').each(function () {
+            //the 'is' for buttons that trigger popups
+            //the 'has' for icons within a button that triggers a popup
+            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                $(this).popover('hide');
+            }
+        });
+    });
 
     function getInput(id) {
         return $('[data-change-id="'+id+'"]');

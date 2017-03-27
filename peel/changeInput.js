@@ -54,6 +54,12 @@ $.widget( "wtw.changeInput", {
             var index = $this._getValueIndex();
             $this.onChange(val, index);
         });
+
+        setTimeout(function() {
+            // trigger a change that will in effect broadcast the current value to the mediator.
+            // ** maybe i should trigger using a custom event like 'initState'?? to avoid possible side effects?
+            $this.element.trigger('change');
+        },100);
     },
 
 

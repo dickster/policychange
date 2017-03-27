@@ -7,7 +7,7 @@ $.widget( "wtw.changeInput", {
 
         change: {
             type: 'modify',
-            uid: 937,
+            id: 937,
             values: ['apple', 'orange'],
             formattedValues:{label:'', value:''},
             summary: 'to-be-generated'
@@ -35,16 +35,20 @@ $.widget( "wtw.changeInput", {
         this._setValHooks();
 
         this.element.on('change', function(e) {
-            var val = $(this).val();
-            var index = $this._getValueIndex();
-            $this.onChange(val, index);
+            var val = $(this).val();  // get the current value in the input  (NOT necessarily one of the values in the change values array).
+            var index = $this._getValueIndex();  // maybe null if it isn't one of the proposed change values.
+            $this.onChange(e,index,val);
         });
+
+        // TODO: fix this so change is triggered after creation (because the listener isn't attached yet so this
+        // event will not be handled.
+        // the editor could do a $allInputs.triggerInitialBlahBlahBlah().
 
         setTimeout(function() {
             // trigger a change that will in effect broadcast the current value to the mediator.
             // ** maybe i should trigger using a custom event like 'initState'?? to avoid possible side effects?
             $this.element.trigger('change');
-        },100);
+        },300);
     },
 
 
@@ -88,8 +92,8 @@ $.widget( "wtw.changeInput", {
         return result;  // @Nullable!
     },
 
-    onChange: function (value, index) {
-        var id = this.options.change.uid;
+    onChange: function (e,index,value) {
+        var id = this.options.change.id;
         this._trigger('update', null, [id, index, value]);
         this._updateState(value,index);
     },

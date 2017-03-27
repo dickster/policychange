@@ -7,7 +7,7 @@ var result =
             {   type:'add',
                 value:'',
                 previous:'',
-                uid:''
+                id:''
             },
         //  more changes here...
         ],

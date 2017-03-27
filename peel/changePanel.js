@@ -50,10 +50,10 @@ $.widget( "wtw.changePanel", {
         var config = this.options.config;
         $.each(this.options.changes, function(i,change) {
             console.log('change'+change);
-            change.summary = config.uidLabels[change.uid];
+            change.summary = config.idLabels[change.id];
             if (!change.summary) {
-                change.summary = '['+change.uid+']';
-                console.log('no label was given for the change with id ' + change.uid + '  (using id as default label)');
+                change.summary = '['+change.id+']';
+                console.log('no label was given for the change with id ' + change.id + '  (using id as default label)');
             }
             change.formattedValues = [];
             $.each(change.values, function(i,value) {
@@ -80,7 +80,7 @@ $.widget( "wtw.changePanel", {
 
     _activate : function($changeItem) {
         // select the item in the main panel
-        var uid = $changeItem.attr(this.options.config.itemChangeRefAttr);
+        var id = $changeItem.attr(this.options.config.itemChangeRefAttr);
 
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
@@ -89,13 +89,13 @@ $.widget( "wtw.changePanel", {
     onChangeAdded : function($changeItem, change) {
         var $this = this;
         // manually set this attribute so we can use it later.
-        $changeItem.attr('data-change-ref',change.uid);
+        $changeItem.attr('data-change-ref',change.id);
 
         // if you click on the *unselected* icon, it will accept the change (set its value and update status).
         var $changeValues = $changeItem.find('.change-value');
         $.each($changeValues, function(i, changeValue) {
             $(changeValue).find('.change-reject').click(function(e) {
-                $this._trigger('accept', null, [change.uid, i, change.values[i]]);
+                $this._trigger('accept', null, [change.id, i, change.values[i]]);
             });
         });
 
@@ -103,7 +103,7 @@ $.widget( "wtw.changePanel", {
         $changeItem.click(function(e) {
             $this._activate($changeItem);
             // notify the world that we want to focus on this change. parent mediator will dispatch as needed.
-            $this._trigger('select', null, [change.uid]);
+            $this._trigger('select', null, [change.id]);
         });
     },
 

@@ -48,6 +48,12 @@ $.widget( "wtw.changeInput", {
         // set val hooks.
         // put this at higher level...both widgets depend on this??...hmmm...maybe not.
         this._setValHooks();
+
+        this.element.on('change', function(e) {
+            var val = $(this).val();
+            var index = $this._getValueIndex();
+            $this.onChange(val, index);
+        });
     },
 
 
@@ -64,6 +70,8 @@ $.widget( "wtw.changeInput", {
         var $this = this;
         $.fn.changeVal = function(value,index) {
             var hook = $this._valHook(this);
+            $this.changeIndex = index;
+            console.log('change index = ' + $this.changeIndex);
             if (!hook) {
                 var type = this.prop('tagName').toLowerCase();
                 // for inputs, we use the type as the key (e.g. 'text', 'radio' etc...)
@@ -72,13 +80,27 @@ $.widget( "wtw.changeInput", {
                 hook = this.val;   // use jquery's val method as the default hook.
             }
             var result = hook.apply(this,arguments);
-            // if a value was passed (i.e. a set, not a get) then trigger updated.
-            if (arguments.length) {
-                $this._trigger('update', null, [$this.options.change.uid, index, value]);
-                $this._updateState(value,index);
-            }
+            this.trigger("change");
             return result;
         }
+    },
+
+    _getValueIndex: function () {
+        var result = null;
+        var values = this.options.change.values;
+        var value = this.element.val();
+        $.each(values, function(i,v) {
+            if (value == v) {   // TODO : need a proper comparator..not just equality check.
+                result = i;
+            }
+        });
+        return result;  // @Nullable!
+    },
+
+    onChange: function (value, index) {
+        var id = this.options.change.uid;
+        this._trigger('update', null, [id, index, value]);
+        this._updateState(value,index);
     },
 
     _compareChangeValue : function(current, $value) {
@@ -184,7 +206,6 @@ $.widget( "wtw.changeInput", {
     },
 
     accept: function(id, index, value)  {
-        var change = this.options.change;
         this.element.changeVal(value,index);
     },
 

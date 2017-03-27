@@ -53,7 +53,7 @@ $( function() {
         var $input = $('[data-change-id="'+change.uid+'"]');
         $input.changeInput({config:options.config, change:change})
             .on('changeinputupdate', function(e, id, index, value) {
-                console.log('input ' + id + ' changed to ' + value + ' ['+index+']');
+                $('.change-panel').changePanel('updateChange', id, index, value);
             })
             .on('changeinputnext', function(e) {
                 next($input);

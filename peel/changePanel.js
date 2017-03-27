@@ -79,17 +79,9 @@ $.widget( "wtw.changePanel", {
         element.popover('show');
     },
 
-    _updateState : function(change) {
-        // for now, i assume index 0 will be the starting value.
-        // may need to configure this later?  add active index to change.
-        this._trigger('accept',null,[change.uid, 0, change.values[0]]);
-    },
-
     _initState : function() {
-        var $this = this;
-        $.each(this.options.changes, function(i,change) {
-            $this._updateState.call($this, change);
-        });
+        // i'll just wait for the inputs to call me when they are initialized.
+        // they can tell me their current state.
     },
 
     _formatData : function() {
@@ -116,14 +108,6 @@ $.widget( "wtw.changePanel", {
         });
     },
 
-    _getChangeItem : function(uid) {
-        var selector = '['+this.options.config.refAttr +'="'+ uid+'"]';
-        if ($(selector).length==0) {
-            throw 'can not find element matching "' + selector + '" when trying to view change  (there should be a form input that matches this)';
-        }
-        return $(selector);
-    },
-
     // TODO : refactor this be called by mediator....activeChangeValue(id,index,value);
     _activateChangeValue: function ($changeItem, change, index) {
         // remove all other (if any) active items, and highlight this one.
@@ -132,7 +116,7 @@ $.widget( "wtw.changePanel", {
         $changeItem.find('.change-value').eq(index).addClass('active');
     },
 
-    _activateItem : function($changeItem) {
+    _activate : function($changeItem) {
         // select the item in the main panel
         var uid = $changeItem.attr(this.options.config.itemChangeRefAttr);
 
@@ -155,12 +139,13 @@ $.widget( "wtw.changePanel", {
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
         $changeItem.click(function(e) {
-            $this._activateItem($changeItem);
+            $this._activate($changeItem);
+            // notify the world that we want to focus on this change. parent mediator will dispatch as needed.
             $this._trigger('select', null, [change.uid]);
         });
     },
 
-    _advanceActiveChange: function ($content, delta) {
+    _select: function ($content, delta) {
         var $items = $content.find('.change-item');
         var $active = $content.find('.change-item.active');
         var index = ($active.length!=0) ? $items.index($active)+delta : 0;
@@ -173,12 +158,12 @@ $.widget( "wtw.changePanel", {
     },
 
     _initPrevNextButtons: function ($popover) {
-        var advance = this._advanceActiveChange.bind(this);
+        var $this = this;
         $popover.find('.next-change').click(function() {
-            advance($popover, 1);
+            $this.select($popover, 1);
         });
         $popover.find('.prev-change').click(function() {
-            advance($popover, -1);
+            $this.select($popover, -1);
         });
     },
 
@@ -195,6 +180,22 @@ $.widget( "wtw.changePanel", {
         });
 
         this._initState();
+    },
+
+    getPopoverContent: function () {
+        var pop = this.element.data('bs.popover');
+        return pop ? pop.tip() : null;
+    },
+
+    updateChange:function(id, index, value) {
+        this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .change-value').each(function(i, value) {
+            if (i==index) {
+                $(this).addClass('active');
+            }
+            else {
+                $(this).removeClass('active');
+            }
+        });
     }
 
 });

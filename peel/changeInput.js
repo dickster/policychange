@@ -9,27 +9,12 @@ $.widget( "wtw.changeInput", {
             type: 'modify',
             uid: 937,
             values: ['apple', 'orange'],
-            formattedValues:{label:'', value:'', index:1},
+            formattedValues:{label:'', value:''},
             summary: 'to-be-generated'
         },
 
-        // all view customization data goes here.
-        config: {
-            rejectIcon: '<i class="fa fa-circle-o"/>',
-            acceptIcon: '<i class="fa fa-check-circle"/>',
-            inputIcon: '<li class="fa fa-asterisk change-input-icon"></li>',
-            onChangeAdded:null,
-            uidSelectorTemplate: '[data-change-id="${uid}"]',
-            itemChangeRefAttr: 'data-change-ref',
-            open: true,
-            expanded:false,
-            trigger: 'click',
-            title:'#title',
-            content:'#content',
-            header: 'Changes',
-            valueLabels: ['Broker', 'Carrier'],
-            uidLabels:{840:'Vehicle Manufacturer?',937:'Fruit'},
-        },
+        config : {//....
+        }
     },
 
     // -----------------------------------------

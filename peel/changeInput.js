@@ -42,7 +42,7 @@ $.widget( "wtw.changeInput", {
         this.icon.insertAfter(this.element);
 
         this.icon.click(function() {
-            $this._toggleInputPopup();
+            $this._toggle();
         });
 
         // set val hooks.
@@ -78,7 +78,6 @@ $.widget( "wtw.changeInput", {
             }
             return result;
         }
-
     },
 
     _compareChangeValue : function(current, $value) {
@@ -91,11 +90,11 @@ $.widget( "wtw.changeInput", {
         var currentValue = this.element.changeVal();
 
         // create handy alias for popover content after it's created.
-        this.popover = this.icon.data('bs.popover').tip();
+        var content = this.icon.data('bs.popover').tip();
 
-        this.popover.addClass('change-input-popover');
+        content.addClass('change-input-popover');
 
-        this.popover.find('.change-value').each(function(i, value) {
+        content.find('.change-value').each(function(i, value) {
             // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
             if ($this._compareChangeValue(currentValue,$(value))) {
                 $(this).addClass('accepted');
@@ -103,23 +102,39 @@ $.widget( "wtw.changeInput", {
             else {
                 $(this).removeClass('accepted');
             }
+            $(value).find('.change-input-accept').click(function () {
+                var value = $(this).attr('data-change-value');
+                $this.element.changeVal(value,i);
+            });
         });
 
-        this.popover.find('.next-change').click(function () {
+        content.find('.next-change').click(function () {
             $this._trigger('next');
         });
-        this.popover.find('.prev-change').click(function () {
+        content.find('.prev-change').click(function () {
             $this._trigger('prev');
-        });
-        this.popover.find('.change-input-accept').click(function () {
-            var value = $(this).attr('data-change-value');
-            $this.element.changeVal(value,i);
         });
 
     },
 
-    _toggleInputPopup: function () {
-        var $this = this;
+    hide: function() {
+        if (this.icon.data('bs.popover')) {
+            this.icon.popover('hide');
+        }
+    },
+
+    show: function() {
+        if (this.icon.data('bs.popover')) {
+            this.icon.popover('show');
+        }
+        else {
+            this._toggle();
+        }
+    },
+
+    _toggle: function () {
+        var $this = this;   // TODO : change $this to self.
+
         // show lazily instantiated popover.
         if (this.icon.data('bs.popover')) {
             this.icon.popover('toggle');
@@ -146,13 +161,9 @@ $.widget( "wtw.changeInput", {
         this.icon.popover('show');
 
         this.icon.on('shown.bs.popover', function() {
-            // argh...i can't find a hook that is called on creation after the content is set.
-            // show will be called multiple times and we have to guard against that.
-            if (!this.popover);
             $this._initState();
         });
     },
-
 
     accept: function(id, index, value)  {
         var change = this.options.change;
@@ -161,17 +172,16 @@ $.widget( "wtw.changeInput", {
 
     activate: function() {
        // this._getAllChangeInputs().removeClass('active');
-        var $this = this;
+        var $input = this.element;
         $('html, body').animate({
             scrollTop: $input.offset().top}, 350, function() {
-            $this.element.addClass('active');
+            $input.addClass('active');
         });
     },
 
     activateAndShowPopup: function() {
         this.activate();
-        // shouldn't use toggle..should have a "show" method.
-        this._toggleInputPopup(this.element);
+        this.show();
     },
 
 });

@@ -69,44 +69,23 @@ $( function() {
         return $('[data-change-id="'+id+'"]');
     }
 
-    function next($input) {
+    function go($input, delta) {
         var $inputs = $('[data-change-id]:visible');
-        var $current =  $inputs.index($input);
-        $current.changeInput('hide');
-        var next = current+1;
-        if (next>=$inputs.length) next = 0;
-        $inputs.eq(next).changeInput('activateAndShowPopup');
+        var from  = $inputs.index($input);
+        var to = from + delta;
+        // TODO :assert from is defined >=0.
+        if (to>=$inputs.length) to = 0;
+        if (to<0) to = $inputs.length-1;
+        $input.changeInput('hide');
+        $inputs.eq(to).changeInput('activateAndShowPopup');
+    }
+
+    function next($input) {
+        go($input, 1);
     }
 
     function prev($input) {
-        // TODO: add :isVisible to $inputs?
-        var $inputs = $('[data-change-id]:visible');
-        var current =  $inputs.index($input);
-        $current.changeInput('hide');
-        var prev = current-1;
-        if (prev<0) prev = $inputs.length-1;
-        $inputs.eq(prev).changeInput('activateAndShowPopup');
+        go($input,1);
     }
-
-
-
-    // _activatePrevInput: function ($input) {
-    //     var $inputs = this._getAllChangeInputs();
-    //     var i = $inputs.index($input);
-    //     var $prev = $inputs.eq( (i - 1 + $inputs.length) % $inputs.length );
-    //     this.icon.popover('hide');
-    //     this._activateInput($prev,true);
-    // },
-    //
-    // _activateNextInput: function () {
-    //     // TODO :
-    //     var $inputs = this._getAllChangeInputs();
-    //     var i = $inputs.index();
-    //     var $next = $inputs.eq( (i + 1) % $inputs.length );
-    //     this.icon.popover('hide');
-    //     this._activateInput($next,true);
-    // },
-
-
 
 });

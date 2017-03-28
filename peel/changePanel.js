@@ -5,69 +5,41 @@
 $.widget( "wtw.changePanel", {
 
     _create: function() {
-        this.element.addClass('change-editor');
-        this._formatData();
-        this._createPopup(this.element);
-    },
-
-    _createPopup: function (element) {
         var $this = this;
         var shown = this._editorShown.bind(this);
         var config = this.options.config;
         var title = config.title;
         var content = config.content;
 
-        element.popover({
-            placement: 'bottom',
-            trigger: 'click',
-            container:'body',
-            html : true,
-            title: function() {
-                var template = Handlebars.compile($(title).html());
-                return template($this.options);
-            },
-            content: function() {
-                var template = Handlebars.compile($(content).html());
-                return template($this.options);
-            }
-        })
+        this.element.addClass('change-editor');
+
+        this.element.popover({
+                placement: 'bottom',
+                trigger: 'click',
+                container:'body',
+                html : true,
+                title: function() {
+                    var template = Handlebars.compile($(title).html());
+                    return template($this.options);
+                },
+                content: function() {
+                    var template = Handlebars.compile($(content).html());
+                    return template($this.options);
+                }
+            })
             .data('bs.popover')
             .tip()
             .addClass('change-panel-popover');
 
-        element.on('shown.bs.popover', function() {
+        this.element.on('shown.bs.popover', function() {
             shown($(this));
         });
-        element.popover('show');
+        this.element.popover('show');
     },
 
     _initState : function() {
         // i'll just wait for the inputs to call me when they are initialized.
         // they can tell me their current state.
-    },
-
-    _formatData : function() {
-        var config = this.options.config;
-        $.each(this.options.changes, function(i,change) {
-            console.log('change'+change);
-            change.summary = config.idLabels[change.id];
-            if (!change.summary) {
-                change.summary = '['+change.id+']';
-                console.log('no label was given for the change with id ' + change.id + '  (using id as default label)');
-            }
-            change.formattedValues = [];
-            $.each(change.values, function(i,value) {
-                console.log('value'+value);
-                change.formattedValues.push(
-                    {   label:config.valueLabels[i],
-                        value: value,
-                        displayValue: value
-                        // TODO : may need to differentiate between display value and actual value.
-                        // for example, selects will have key & value, dates maybe stored as long but displayed as text etc...
-                    }
-                );
-            });
-        });
     },
 
     // TODO : refactor this be called by mediator....activeChangeValue(id,index,value);
@@ -91,12 +63,13 @@ $.widget( "wtw.changePanel", {
         // manually set this attribute so we can use it later.
         $changeItem.attr('data-change-ref',change.id);
 
-        // if you click on the *unselected* icon, it will accept the change (set its value and update status).
         var $changeValues = $changeItem.find('.change-value');
-        $.each($changeValues, function(i, changeValue) {
-            $(changeValue).find('.change-reject').click(function(e) {
-                self._trigger('accept', null, [change.id, i, change.values[i]]);
-            });
+        // assumes there are two toggle buttons that "on" means use first value = value[0]
+        $changeItem.find('.fa-toggle-off').click(function(e) {
+            self._trigger('set', null, [change.id, 0, change.values[0]]);
+        });
+        $changeItem.find('.fa-toggle-on').click(function(e) {
+            self._trigger('set', null, [change.id, 1, change.values[1]]);
         });
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
@@ -150,12 +123,12 @@ $.widget( "wtw.changePanel", {
     },
 
     updateChange:function(id, index, value) {
-        this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .change-value').each(function(i, value) {
+        this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section').each(function(i, value) {
             if (i==index) {
-                $(this).addClass('active');
+                $(this).addClass('accepted');
             }
             else {
-                $(this).removeClass('active');
+                $(this).removeClass('accepted');
             }
         });
     }

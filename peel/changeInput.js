@@ -1,21 +1,6 @@
 $.widget( "wtw.changeInput", {
     // CHANGE INPUT.
 
-    // this variable for reference only...delete this later!
-    sampleOptions: {
-
-        change: {
-            type: 'modify',
-            id: 937,
-            values: ['apple', 'orange'],
-            formattedValues:{label:'', value:''},
-            summary: 'to-be-generated'
-        },
-
-        config : {//....
-        }
-    },
-
     // -----------------------------------------
 
     _create: function() {
@@ -198,7 +183,7 @@ $.widget( "wtw.changeInput", {
         });
     },
 
-    accept: function(id, index, value)  {
+    set: function(id, index, value)  {
         this.element.changeVal(value,index);
     },
 

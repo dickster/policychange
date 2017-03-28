@@ -38,12 +38,14 @@ wtw.changeEditor = (function() {
         this.options = $.extend(true,{},opts,defaultOptions);
         var config = this.options.config;
 
+        formatChanges(this.options);
+
         $('.change-panel').changePanel(this.options)
             .on('changepanelselect', function(e,id) {
                 getInput(id).changeInput('activate', id);
             })
-            .on('changepanelaccept', function(e,id,index,value) {
-                getInput(id).changeInput('accept',id,index,value);
+            .on('changepanelset', function(e,id,index,value) {
+                getInput(id).changeInput('set',id,index,value);
             });
 
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
@@ -71,6 +73,29 @@ wtw.changeEditor = (function() {
                     $(this).popover('hide');
                 }
             });
+        });
+    };
+
+    var formatChanges = function(options) {
+        var config = options.config;
+        $.each(options.changes, function(i,change) {
+            change.summary = config.idLabels[change.id];
+            if (!change.summary) {
+                change.summary = '['+change.id+']';
+                console.log('no label was given for the change with id ' + change.id + '  (using id as default label)');
+            }
+            var sizes = ['sm','md','lg'];
+            change.dflt = {};
+            change.dflt.desc = change.values[0];  // TODO : later may need to store a key instead of text!
+            change.dflt.size = sizes[Math.trunc(Math.min(change.dflt.desc.length/13,2))];
+            change.dflt.label = options.config.valueLabels[0];
+            change.dflt.value = '';
+
+            change.previous = {};
+            change.previous.label = options.config.valueLabels[1];
+            change.previous.desc = change.values[1];
+            change.previous.value = change.previous.desc;   // TODO : later may need to store a key instead of text!
+            change.previous.size = sizes[Math.trunc(Math.min(change.previous.desc.length/13,2))];
         });
     };
 

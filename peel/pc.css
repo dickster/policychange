@@ -35,10 +35,17 @@
      margin-left:25px;
 }
 
+.change-item.list-group-item.active {
+    text-shadow: none;
+    background: #ddd;
+    border-color: #ccc;
+    color: #447;
+}
+
 .change-panel-popover .popover-content .change-item:hover {
     cursor:pointer;
 }
-.change-panel-popover .popover-content .change-action:hover {
+.change-panel-popover .popover-content .toggle i:hover {
     cursor:default;
 }
 .change-panel-popover.popover {
@@ -114,46 +121,35 @@
 
 /*--------------------*/
 
-.change-item>div:first-child:before {
+.change-item .summary:before {
     font-family: FontAwesome;
+    padding-right:10px;
 }
-.change-item-add> div:first-child:before {
+.change-item-add .summary:before {
     content:'\f055';
 }
-.change-item-modify> div:first-child:before {
+.change-item-modify .summary:before {
     content:'\f0d8';
+    color: #99a;
 }
-.change-item-delete> div:first-child:before {
+.change-item-delete .summary:before {
     content:'\f056';
-}
-.change-value .change-action {
-     /* display:none; */
-}
-.change-values {
-    font-size:smaller;
-    /* padding: 5px 0px; */
 }
 
 .list-group-item.change-item {
     padding:8px 8px;
 }
 
-.change-value.active .change-action.change-accept {
-    display:inline-block;
-    /*outline:1px solid blue;*/
+.change-item .fa {
+    /* display:none; */
 }
-.change-value:not(.active) .change-action.change-reject {
+.change-item:not(.accepted) .fa-toggle-off {
     display:inline-block;
-    /* outline:1px solid red; */
+}
+.change-item.accepted .fa-toggle-on {
+    display:inline-block;
 }
 
-.change-value:not(.active) .change-action.change-accept {
-    display:none;
-}
-
-.change-value.active .change-action.change-reject {
-    display:none;
-}
 
 li.change-input-icon {
     position:absolute;
@@ -176,5 +172,46 @@ li.change-input-icon {
 .change-item i {
     float: right;
     font-size: large;
-    color:#6d6;
+    color: lightslategray;
 }
+
+.change-value.lg {
+    margin-left:25px;
+    display:inline-block;
+}
+.change-value.sm {
+    /* margin-left:25px; */
+}
+
+.change-item .summary {
+    display:block;
+}
+
+.change-summary .change-value {
+    display:block;
+}
+
+
+.change-panel-title {
+    font-size: 22px;
+    color: #666;
+    vertical-align: middle;
+    font-weight: normal;
+}
+
+.change-aside.sm,
+.change-aside.md {
+    font-style:italic;
+    font-size  :smaller;   
+    padding-left:5px;
+}
+
+
+.change-item section.accepted {
+    display: block;
+}
+
+.change-item section:not(.accepted) {
+    display:none;
+}
+

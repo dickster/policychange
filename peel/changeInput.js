@@ -33,6 +33,19 @@ $.widget( "wtw.changeInput", {
             // ** maybe i should trigger using a custom event like 'initState'?? to avoid possible side effects?
             self.element.trigger('change');
         },300);
+
+
+        // add data list if it's a text input.  handy so user can see both options directly in form widget.
+        if (this.element.is('input:text')) {
+            var id = 'chg'+this.options.change.id;
+            this.element.attr('list',id);
+            var $datalist = $('<datalist id="'+id+'"></datalist>');
+            $.each(this.options.change.values, function(i,value) {
+                $datalist.append($('<option>'+value+'</option>'));
+            });
+            $datalist.insertAfter(this.element);
+        }
+
     },
 
 

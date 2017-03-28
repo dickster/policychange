@@ -105,7 +105,7 @@ $.widget( "wtw.changeInput", {
                 $(this).removeClass('accepted');
             }
             $(value).find('.change-input-accept').click(function () {
-                var value = $(this).attr('data-change-value');
+                var value = self.options.change.values[i];
                 self.element.changeVal(value,i);
             });
         });

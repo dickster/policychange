@@ -123,14 +123,20 @@ $.widget( "wtw.changePanel", {
     },
 
     updateChange:function(id, index, value) {
-        this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section').each(function(i, value) {
-            if (i==index) {
-                $(this).addClass('accepted');
-            }
-            else {
-                $(this).removeClass('accepted');
-            }
-        });
+        var $sections = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section');
+        $sections.removeClass('accepted');
+
+        // CAVEAt : index can null/undefined.
+        // if one of the change values isn't set. .: it's overridden by user to be something else.
+        // in this case, the toggle button doesn't make sense so we'll show the "override state"
+        if (Number.isInteger(index)) {
+            $sections.eq(index).addClass('accepted');
+        }
+        else {
+            var $override = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section.toggle-override');
+            $override.addClass('accepted');
+            $override.find('.change-value').text(value);
+        }
     }
 
 });

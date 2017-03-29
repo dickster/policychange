@@ -36,14 +36,16 @@
         $(function() {
             var options = {
                 changes:[
-                    {type:'modify',         id: 28,               values: ['Chrysler','Fiat-Chrysler'],     summary:'{to-be-generated}' },
-                    {type:'modify',         id: 31,               values: ['100 Main Street','2560 PollywoggerLongName Ave East'],      summary:'{to-be-generated}' }
+                    {type:'modify',         id: 28,               values: ['Chrysler','Fiat-Chrysler']      },
+                    {type:'modify',         id: 29,               values: ['joewiggins@hotmail.com','joe.q.wiggins@gmail.com'] },
+                    {type:'modify',         id: 30,               values: ['birthdayX','birthdayY']  },
+                    {type:'modify',         id: 31,               values: ['100 Main Street','2560 PollywoggerLongName Ave East'] }
                 ],
 
                 // all view customization data goes here.
                 config: {
                     valueLabels:['Broker','Carrier'],
-                    idLabels:{28:'Company Name?',31:'Address'},
+                    idLabels:{28:'Company Name?',31:'Address', 29:'Email', 30:'Birthdate'},
                 },
             };
             wtw.changeEditor.init(options);
@@ -64,7 +66,6 @@
         </div>
     </script>
 
-
     <script id="changePanelContent" type="text/x-handlebars-template">
         <div class="list-group">
             {{#each changes}}
@@ -82,6 +83,13 @@
                     <div>
                         <span class="change-value {{previous.size}}">{{previous.desc}}</span>
                         <span class="change-aside sm"> (change ignored)</span>
+                    </div>
+                </section>
+                <section class="toggle-override" class>
+                    <i class="fa fa-chain-broken"></i>
+                    <div>
+                        <span class="change-value"></span>
+                        <span class="change-aside"> (modified by user)</span>
                     </div>
                 </section>
             </a>

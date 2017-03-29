@@ -204,11 +204,30 @@ $.widget( "wtw.changeInput", {
         // TODO : don't hard code attribute.
         $('[data-change-id]').removeClass('active');
         var $input = this.element;
-        $('html, body').animate({
-            scrollTop: $input.offset().top}, 350, function() {
+
+        if (this._isInViewport()) {
+            console.log('scrolling viewport');
+            $('html, body').animate({
+                scrollTop: $input.offset().top}, 350, function() {
+                $input.addClass('active');
+            });
+        }
+        else {
+            console.log('already in viewport');
             $input.addClass('active');
-        });
+        }
+
     },
+
+    _isInViewport : function() {
+        var win = $(window);
+        var scrollPosition = win.scrollTop();
+        var visibleArea = win.scrollTop() + win.height();
+        var objEndPos = (this.element.offset().top + win.height());
+        return (visibleArea >= objEndPos && scrollPosition <= objEndPos ? true : false);
+    },
+
+
 
     activateAndShowPopup: function() {
         this.activate();

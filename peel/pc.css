@@ -120,7 +120,7 @@
  i have positioned fixed to the top right of the screen. */
 .change-dock {
     position:fixed;
-    outline: 1px solid blue;
+    /* outline: 1px solid blue; */
     top: 0;
     right: 240px;
 }
@@ -165,7 +165,8 @@ li.change-input-icon {
 
 @keyframes highlight {
     from { border-size:inherit; }
-    to { border-width:3px; border-color: #ffd13f;}
+    to { border-width:3px; border-color: #5171ba;}
+    /*to { border-width:3px; border-color: #ffd13f;}*/
 }
 
 [data-change-id].active {
@@ -205,10 +206,11 @@ li.change-input-icon {
     font-weight: normal;
 }
 
-.change-aside { 
+.change-aside {
     font-style:italic;
     font-size:smaller;
     display:inline-block;
+    color: #888;
 }
 
 .change-aside.lg,

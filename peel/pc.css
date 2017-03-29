@@ -18,21 +18,26 @@
 }
 .fa.fa-stack-1x span {
     color: white;
-    font-size: .5em;
-    margin-left: 9px;
-    margin-top: -9px;
-    padding:3px 4px;
-    background:red;
+    font-size: .7em;
+    margin-left: 26px;
+    margin-top: 13px;
+    padding: 3px 6px;
+    background: #cd2b2b;
     font-family: sans-serif;
 }
 
-.fa.fa-asterisk {
-    color: blue;
+.change-panel-popover .popover-title .fa {
+    color: #5171ba;
+}
+
+.change-panel-popover .popover-title .fa-stack {
+    margin-right:10px;
 }
 
 
+
 .change-panel-popover .change-value {
-     margin-left:25px;
+     /* margin-left:25px; */
 }
 
 .change-item.list-group-item.active {
@@ -50,7 +55,7 @@
 }
 .change-panel-popover.popover {
     position:fixed;
-    min-width:350px;
+    min-width: 400px;
 }
 .change-panel-popover .popover-content {
     max-height: 375px;
@@ -116,7 +121,7 @@
 .change-dock {
     position:fixed;
     top: 0;
-    right: 200px;
+    right: 240px;
 }
 
 /*--------------------*/
@@ -176,8 +181,8 @@ li.change-input-icon {
 }
 
 .change-value.lg {
-    margin-left:25px;
-    display:inline-block;
+    /* margin-left:25px; */
+    /* display: block; */
 }
 .change-value.sm {
     /* margin-left:25px; */
@@ -194,24 +199,43 @@ li.change-input-icon {
 
 .change-panel-title {
     font-size: 22px;
-    color: #666;
+    color: #5171ba;
     vertical-align: middle;
     font-weight: normal;
 }
 
+.change-aside { 
+    font-style:italic;
+    font-size:smaller;
+    display:inline-block;
+}
+
+.change-aside.lg,
+.change-value.lg+.change-aside {
+    /* display:block; */
+    padding-left:0;
+}
+
 .change-aside.sm,
 .change-aside.md {
-    font-style:italic;
-    font-size  :smaller;   
     padding-left:5px;
 }
 
 
 .change-item section.accepted {
     display: block;
+    margin-left: 25px;
 }
 
 .change-item section:not(.accepted) {
     display:none;
 }
 
+
+/*  BLARGH!  hacks to overcome forms & easy & other .css */
+.popover .btn.btn-default {
+    border-color:#ccc;
+    padding: 1px 5px;
+    font-size: 18px;
+    color: #66a;
+}

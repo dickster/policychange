@@ -95,10 +95,10 @@ $.widget( "wtw.changePanel", {
     _initPrevNextButtons: function ($popover) {
         var self = this;
         $popover.find('.next-change').click(function() {
-            self.select($popover, 1);
+            self._select($popover, 1);
         });
         $popover.find('.prev-change').click(function() {
-            self.select($popover, -1);
+            self._select($popover, -1);
         });
     },
 

@@ -9,29 +9,29 @@ wtw.changeEditor = (function() {
         // this is temporary mock data.
         /* changes:[] to be passed in by user. */
 
-    // all view customization data goes here.
-        config: {
-            rejectIcon: '<i class="fa fa-circle-o"/>',
-            acceptIcon: '<i class="fa fa-check-circle"/>',
-            inputIcon: '<li class="fa fa-asterisk change-input-icon"></li>',
-            onChangeAdded:null,
-            idAttr:'data-change-id',
-            refAttr:'data-change-ref',
-
-            // @Deprecated.  use idAttr & refAttr instead!
-            idSelectorTemplate: '[data-change-id="${uid}"]',
-            // @Deprecated.  use idAttr & refAttr instead!
-            itemChangeRefAttr: 'data-change-ref',
-
-            open: true,
-            expanded:false,
-            trigger: 'click',
-            title:'#changePanelTitle',
-            content:'#changePanelContent',
-            inputTitle:'#changeInputTitle',
-            inputContent:'#changeInputContent',
-            header: 'Changes'
-        }
+    // // all view customization data goes here.
+    //     config: {
+    //         rejectIcon: '<i class="fa fa-circle-o"/>',
+    //         acceptIcon: '<i class="fa fa-check-circle"/>',
+    //         inputIcon: '<li class="fa fa-asterisk change-input-icon"></li>',
+    //         onChangeAdded:null,
+    //         idAttr:'data-change-id',
+    //         refAttr:'data-change-ref',
+    //
+    //         // @Deprecated.  use idAttr & refAttr instead!
+    //         idSelectorTemplate: '[data-change-id="${uid}"]',
+    //         // @Deprecated.  use idAttr & refAttr instead!
+    //         itemChangeRefAttr: 'data-change-ref',
+    //
+    //         open: true,
+    //         expanded:false,
+    //         trigger: 'click',
+    //         title:'#changePanelTitle',
+    //         content:'#changePanelContent',
+    //         inputTitle:'#changeInputTitle',
+    //         inputContent:'#changeInputContent',
+    //         header: 'Changes'
+    //     }
     };
 
     var init = function(opts) {

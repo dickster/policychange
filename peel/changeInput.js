@@ -8,7 +8,7 @@ $.widget( "wtw.changeInput", {
         var self = this;
 
         this.icon = $(this.options.config.inputIcon);
-        this.icon.insertAfter(this.element);
+        this.icon.attr('data-change-ref',this.options.change.id).insertAfter(this.element);
 
         this.icon.click(function() {
             self._toggle();

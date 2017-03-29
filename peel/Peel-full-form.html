@@ -37,15 +37,16 @@
             var options = {
                 changes:[
                     {type:'modify',         id: 28,               values: ['Chrysler','Fiat-Chrysler']      },
-                    {type:'modify',         id: 29,               values: ['joewiggins@hotmail.com','joe.q.wiggins@gmail.com'] },
+//                    {type:'modify',         id: 29,               values: ['joewiggins@hotmail.com','joe.q.wiggins@gmail.com'] },
                     {type:'modify',         id: 30,               values: ['birthdayX','birthdayY']  },
-                    {type:'modify',         id: 31,               values: ['100 Main Street','2560 PollywoggerLongName Ave East'] }
+//                    {type:'modify',         id: 31,               values: ['100 Main Street','2560 PollywoggerLongName Ave East'] }
                 ],
 
                 // all view customization data goes here.
                 config: {
                     valueLabels:['Broker','Carrier'],
                     idLabels:{28:'Company Name?',31:'Address', 29:'Email', 30:'Birthdate'},
+                    inputIcon: '<li class="fa fa-exclamation change-input-icon"></li>',
                 },
             };
             wtw.changeEditor.init(options);
@@ -531,7 +532,6 @@
                                                        name="mainPanels:0:formPanel:persPolicyPanel:persPolicy:persPolicyContent:persPolicyForm:persPolicyEffectiveDt:controlContainer:calendarField"
                                                        class="form-control persPolicyEffectiveDt-easy-calendar-input easy-calendar-input easy-input persPolicyEffectiveDt-easy-input hasDatepicker"
                                                        value="" id="id18" hint="YYYY-MM-DD"
-                                                       onchange="easyHintOnFocus(&#39;id18&#39;);"
                                                        onblur="easyHintOnBlur(&#39;id18&#39;);"
                                                        onfocus="easyHintOnFocus(&#39;id18&#39;);" accesskey="Y"
                                                        style="color: rgb(170, 170, 170);">
@@ -550,7 +550,6 @@
                                                        name="mainPanels:0:formPanel:persPolicyPanel:persPolicy:persPolicyContent:persPolicyForm:persPolicyExpirationDt:controlContainer:calendarField"
                                                        class="form-control persPolicyExpirationDt-easy-calendar-input easy-calendar-input easy-input persPolicyExpirationDt-easy-input hasDatepicker"
                                                        value="" id="id19" hint="YYYY-MM-DD"
-                                                       onchange="easyHintOnFocus(&#39;id19&#39;);"
                                                        onblur="easyHintOnBlur(&#39;id19&#39;);"
                                                        onfocus="easyHintOnFocus(&#39;id19&#39;);"
                                                        style="color: rgb(170, 170, 170);">
@@ -684,7 +683,6 @@
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:insuredPersonInfoBirthDt:controlContainer:calendarField"
                                                                    class="form-control insuredPersonInfoBirthDt-easy-calendar-input easy-calendar-input easy-input insuredPersonInfoBirthDt-easy-input hasDatepicker"
                                                                    value="" id="id12" hint="YYYY-MM-DD"
-                                                                   onchange="easyHintOnFocus(&#39;id12&#39;);"
                                                                    onblur="easyHintOnBlur(&#39;id12&#39;);"
                                                                    onfocus="easyHintOnFocus(&#39;id12&#39;);"
                                                                    style="color: rgb(170, 170, 170);">

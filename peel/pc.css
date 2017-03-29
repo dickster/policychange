@@ -156,7 +156,7 @@
     display:inline-block;
 }
 
-
+/*blargh...this won't work for all easy-components... what to do?*/
 li.change-input-icon {
     position:absolute;
     top:0;

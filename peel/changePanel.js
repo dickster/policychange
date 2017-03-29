@@ -15,7 +15,7 @@ $.widget( "wtw.changePanel", {
 
         this.element.popover({
                 placement: 'bottom',
-                trigger: 'click',
+                trigger: 'manual',
                 container:'body',
                 html : true,
                 title: function() {

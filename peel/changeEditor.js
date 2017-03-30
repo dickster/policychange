@@ -13,6 +13,7 @@ wtw.changeEditor = (function() {
 
 
     var init = function(opts) {
+        var self = this;
         this.options = $.extend(true,{},opts,defaultOptions);
         var config = this.options.config;
 
@@ -33,12 +34,8 @@ wtw.changeEditor = (function() {
                 .on('changeinputupdate', function(e, id, index, value) {
                     $('.change-panel').changePanel('updateChange', id, index, value);
                 })
-                .on('changeinputnext', function(e) {
-                    next($input);
-                })
-                .on('changeinputprev', function(e) {
-                    prev($input);
-                });
+                .on('changeinputnext',function(e) { self.go($input,1); } )
+                .on('changeinputprev',function(e) { self.go($input,-1); } )
         });
 
         // if you click somewhere outside of input popup, then hide them.
@@ -84,6 +81,7 @@ wtw.changeEditor = (function() {
 
     var go = function($input, delta) {
         var $inputs = $('['+this.options.config.idAttr+']:visible');
+        // TODO : i need to check that this is in the change list, not just in the DOM.
         var from  = $inputs.index($input);
         var to = from + delta;
         // TODO :assert from is defined >=0.
@@ -93,16 +91,9 @@ wtw.changeEditor = (function() {
         $inputs.eq(to).changeInput('activateAndShowPopup');
     };
 
-    var next = function($input) {
-        go($input, 1);
-    };
-
-    var prev = function($input) {
-        go($input,1);
-    };
-
     return {
-        init: init
+        init: init,
+        go:go
         // add other public methods you want to expose here...
     }
 

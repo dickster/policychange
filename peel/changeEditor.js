@@ -28,7 +28,7 @@ wtw.changeEditor = (function() {
 
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
         $.each(this.options.changes, function(i,change) {
-            var $input = $('[data-change-id="'+change.id+'"]');
+            var $input = $('['+config.idAttr+'="'+change.id+'"]');
             $input.changeInput({config:config, change:change})
                 .on('changeinputupdate', function(e, id, index, value) {
                     $('.change-panel').changePanel('updateChange', id, index, value);
@@ -83,7 +83,7 @@ wtw.changeEditor = (function() {
     };
 
     var go = function($input, delta) {
-        var $inputs = $('[data-change-id]:visible');
+        var $inputs = $('['+this.options.config.idAttr+']:visible');
         var from  = $inputs.index($input);
         var to = from + delta;
         // TODO :assert from is defined >=0.

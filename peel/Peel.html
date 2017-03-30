@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8">
 
 
+
     <script
             src="https://code.jquery.com/jquery-3.1.1.js"
             integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
@@ -18,6 +19,31 @@
             integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
             crossorigin="anonymous"></script>
 
+
+    <script type="application/javascript">
+        $(function() {
+            var options = {
+                changes:[
+                    {type:'modify',         id: 1,               values: ['Chrysler','Fiat-Chrysler']},
+                    {type:'modify',         id: 2,               values: ['Ford','Toyota']},
+                    {type:'modify',         id: 3,               values: ['BirthdayA','BirthdayB']}
+                ],
+
+                // all view customization data goes here.
+                config: {
+                    idAttr:'data-change-id',
+                    refAttr:'data-change-ref',
+                    title:'#changePanelTitle',
+                    content:'#changePanelContent',
+                    inputTitle:'#changeInputTitle',
+                    inputContent:'#changeInputContent',
+                    valueLabels:['Broker','Carrier'],
+                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Address 2'},
+                },
+            };
+            wtw.changeEditor.init(options);
+        });
+    </script>
 
     <script id="changePanelTitle" type="text/x-handlebars-template">
         <span class="fa-stack fa-lg">
@@ -185,30 +211,7 @@
     </style>
 
 
-    <script type="application/javascript">
-        $(function() {
-            var options = {
-                changes:[
-                    {type:'modify',         id: 1,               values: ['Chrysler','Fiat-Chrysler']},
-                    {type:'modify',         id: 2,               values: ['Ford','Toyota']},
-                    {type:'modify',         id: 3,               values: ['BirthdayA','BirthdayB']}
-                ],
 
-                // all view customization data goes here.
-                config: {
-                    idAttr:'data-change-id',
-                    refAttr:'data-change-ref',
-                    title:'#changePanelTitle',
-                    content:'#changePanelContent',
-                    inputTitle:'#changeInputTitle',
-                    inputContent:'#changeInputContent',
-                    valueLabels:['Broker','Carrier'],
-                    idLabels:{1:'Company Name',2:'Address',3:'Birthday'},
-                },
-            };
-            wtw.changeEditor.init(options);
-        });
-    </script>
 </head>
 
 <body cz-shortcut-listen="true">
@@ -724,6 +727,7 @@
                                                                for="idf7">Address 2:</label>
                                                         <div class="partyInfoAddr2-easy-text-field-container easy-text-field-container easy-container input-append">
                                                             <input type="text"
+                                                                   data-change-id="4"
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:partyInfoAddr2:controlContainer:textField"
                                                                    class="form-control partyInfoAddr2-easy-text-field-input easy-text-field-input easy-input partyInfoAddr2-easy-input"
                                                                    value="" id="idf7" maxlength="64">

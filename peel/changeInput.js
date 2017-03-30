@@ -204,8 +204,7 @@ $.widget( "wtw.changeInput", {
     },
 
     activate: function() {
-        // TODO : don't hard code attribute.
-        $('[data-change-id]').removeClass('active');
+        $('['+this.options.config.idAttr+']').removeClass('active');
         var $input = this.element;
 
         if (this._isInViewport()) {

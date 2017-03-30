@@ -216,15 +216,17 @@ $.widget( "wtw.changeInput", {
         $('['+this.options.config.idAttr+']').removeClass('active');
         var $input = this.element;
 
-        if (this._isInViewport()) {
-            console.log('scrolling viewport');
+    // NOTE: this currently doesn't take into account hidden elements.
+        if (!this._isInViewport()) {
             $('html, body').animate({
-                scrollTop: $input.offset().top}, 350, function() {
-                $input.addClass('active');
-            });
+                    scrollTop: $input.offset().top
+                },
+                350,
+                function() {
+                    $input.addClass('active');
+                });
         }
         else {
-            console.log('already in viewport');
             $input.addClass('active');
         }
 
@@ -232,10 +234,13 @@ $.widget( "wtw.changeInput", {
 
     _isInViewport : function() {
         var win = $(window);
-        var scrollPosition = win.scrollTop();
-        var visibleArea = win.scrollTop() + win.height();
-        var objEndPos = (this.element.offset().top + win.height());
-        return (visibleArea >= objEndPos && scrollPosition <= objEndPos ? true : false);
+        var viewTop = win.scrollTop();
+        var viewBottom = viewTop + win.height();
+        var top = this.element.offset().top;
+        var bottom = top + this.element.height();
+        console.log('['+viewTop+'-->'+viewBottom+']');
+        console.log(' :['+top+'-->'+bottom+']');
+        return (viewTop<=top && viewBottom >= bottom);
     },
 
 

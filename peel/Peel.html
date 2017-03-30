@@ -23,7 +23,8 @@
                 changes:[
                     {type:'modify',         id: 1,               values: ['Chrysler','Fiat-Chrysler']},
                     {type:'modify',         id: 2,               values: ['Ford','Toyota']},
-                    {type:'modify',         id: 3,               values: ['BirthdayA','BirthdayB']}
+                    {type:'modify',         id: 3,               values: ['BirthdayA','BirthdayB']},
+                    {type:'modify',         id: 4,               values: ['G1','C']}
                 ],
 
                 // all view customization data goes here.
@@ -35,7 +36,7 @@
                     inputTitle:'#changeInputTitle',
                     inputContent:'#changeInputContent',
                     valueLabels:['Broker','Carrier'],
-                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Address 2'},
+                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Drivers License Class',44:'Address 2'},
                 },
             };
             wtw.changeEditor.init(options);
@@ -724,7 +725,7 @@
                                                                for="idf7">Address 2:</label>
                                                         <div class="partyInfoAddr2-easy-text-field-container easy-text-field-container easy-container input-append">
                                                             <input type="text"
-                                                                   data-change-id="4"
+                                                                   data-change-id="44"
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:partyInfoAddr2:controlContainer:textField"
                                                                    class="form-control partyInfoAddr2-easy-text-field-input easy-text-field-input easy-input partyInfoAddr2-easy-input"
                                                                    value="" id="idf7" maxlength="64">
@@ -3002,6 +3003,7 @@
                                                                             <div name="ctr" id="id171"
                                                                                  class="persDriverLicenseClassCd-easy-combo-box-container easy-combo-box-container easy-container">
                                                                                 <input type="hidden" value="G1"
+                                                                                       data-change-id="4"
                                                                                        name="mainPanels:0:formPanel:persDriverListPanel:container:view:1:itemPanel:persDriverSection:persDriverSectionContent:driverForm:licenseListPanel:container:view:3:itemPanel:persDriverLicenseClassCd:controlContainer:comboValue"
                                                                                        id="idbd"
                                                                                        class="persDriverLicenseClassCd-easy-combo-box-value easy-combo-box-value">

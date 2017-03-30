@@ -1,13 +1,13 @@
 
 
-/* just to create empty space in demo form.*/
+/* 
 .kludge {
     display:block;
     height:900px;
     width:100px;
     background:#f0f0f8;
 }
-
+ */
 
 .fa.fa-minus-circle {
     color:#5b0000;
@@ -45,6 +45,12 @@
     background: #ddd;
     border-color: #ccc;
     color: #447;
+}
+
+.change-panel-popover .change-item.active:hover { 
+    color:#447;
+    background-color: #cde;
+    border-color: #bb0;
 }
 
 .change-panel-popover .popover-content .change-item:hover {
@@ -213,7 +219,7 @@ li.change-input-icon {
     font-style:italic;
     font-size:smaller;
     display:inline-block;
-    color: #888;
+    color: #777;
 }
 
 .change-aside.lg,

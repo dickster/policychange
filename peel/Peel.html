@@ -52,7 +52,7 @@
                 <section class="toggle-override" class>
                     <span class="change-value"></span>
                     <span class="change-aside sm"> (overriden by user)</span>
-                    <i class="fa fa-toggle-off"></i>
+                    <i class="fa fa-chain-broken"></i>
                 </section>
             </a>
             {{/each}}
@@ -190,7 +190,8 @@
             var options = {
                 changes:[
                     {type:'modify',         id: 1,               values: ['Chrysler','Fiat-Chrysler']},
-                    {type:'modify',         id: 2,               values: ['Ford','Toyota']}
+                    {type:'modify',         id: 2,               values: ['Ford','Toyota']},
+                    {type:'modify',         id: 3,               values: ['BirthdayA','BirthdayB']}
                 ],
 
                 // all view customization data goes here.
@@ -202,7 +203,7 @@
                     inputTitle:'#changeInputTitle',
                     inputContent:'#changeInputContent',
                     valueLabels:['Broker','Carrier'],
-                    idLabels:{1:'Company Name',2:'Address'},
+                    idLabels:{1:'Company Name',2:'Address',3:'Birthday'},
                 },
             };
             wtw.changeEditor.init(options);
@@ -685,6 +686,7 @@
                                                                for="id12">Birth Date: *</label>
                                                         <div class="insuredPersonInfoBirthDt-easy-calendar-container easy-calendar-container easy-container">
                                                             <input type="text"
+                                                                   data-change-id="3"
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:insuredPersonInfoBirthDt:controlContainer:calendarField"
                                                                    class="form-control insuredPersonInfoBirthDt-easy-calendar-input easy-calendar-input easy-input insuredPersonInfoBirthDt-easy-input hasDatepicker"
                                                                    value="" id="id12" hint="YYYY-MM-DD"

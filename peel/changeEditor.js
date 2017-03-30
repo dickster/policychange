@@ -59,7 +59,7 @@ wtw.changeEditor = (function() {
         $.each(options.changes, function(i,change) {
             change.summary = config.idLabels[change.id];
             if (!change.summary) {
-                change.summary = '['+change.id+']';
+                change.summary = '[change  '+change.id+']';
                 console.log('no label was given for the change with id ' + change.id + '  (using id as default label)');
             }
             var sizes = ['sm','md','lg'];

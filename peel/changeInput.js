@@ -32,7 +32,8 @@ $.widget( "wtw.changeInput", {
         this.element.on('change', function(e) {
             var val = $(this).val();  // get the current value in the input  (NOT necessarily one of the values in the change values array).
             var index = self._getValueIndex();  // maybe null if it isn't one of the proposed change values.
-            self.onChange(e,index,val);
+            var displayValue = self._getDisplayValue();
+            self.onChange(e,index,val,displayValue);
         });
 
         // TODO: fix this so change is triggered after creation (because the listener isn't attached yet so this
@@ -83,9 +84,24 @@ $.widget( "wtw.changeInput", {
                 hook = this.val;   // use jquery's val method as the default hook.
             }
             var result = hook.apply(this,arguments);
-            this.trigger("change");
+            if (arguments.length>0) {
+                this.trigger("change");  // only trigger this if it's a set, not get.
+            }
             return result;
         }
+    },
+
+    // in order to deal with hidden fields, each input will have a controller (which may be itself).
+    // scrolling, setting, getting is done using this controller input.
+    // onChange listener added to this.element. (not controller - it will indirectly set the value of this.element)
+    // icon is next to controller
+
+    // controller.changeVal() returns change:{id, index/*nullable*/, value, displayValue }
+    // controller = { $visibleInput (may be self) }
+
+
+    _getDisplayValue: function () {
+        return this.element.val() + '(display)';
     },
 
     _getValueIndex: function () {
@@ -100,9 +116,9 @@ $.widget( "wtw.changeInput", {
         return result;  // @Nullable!
     },
 
-    onChange: function (e,index,value) {
+    onChange: function (e,index,value,displayValue) {
         var id = this.options.change.id;
-        this._trigger('update', null, [id, index, value]);
+        this._trigger('update', null, [id, index, value, displayValue]);
         this._updateState(value,index);
     },
 

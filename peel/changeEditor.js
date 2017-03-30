@@ -31,8 +31,8 @@ wtw.changeEditor = (function() {
         $.each(this.options.changes, function(i,change) {
             var $input = $('['+config.idAttr+'="'+change.id+'"]');
             $input.changeInput({config:config, change:change})
-                .on('changeinputupdate', function(e, id, index, value) {
-                    $('.change-panel').changePanel('updateChange', id, index, value);
+                .on('changeinputupdate', function(e, id, index, value, displayValue) {
+                    $('.change-panel').changePanel('updateChange', id, index, value, displayValue);
                 })
                 .on('changeinputnext',function(e) { self.go($input,1); } )
                 .on('changeinputprev',function(e) { self.go($input,-1); } )

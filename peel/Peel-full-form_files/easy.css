@@ -466,8 +466,8 @@ a.calnav {
     margin: 0 0 10px;
 }
 .easy-combo-box-options-list .easy-drop-down-button-option, a {
-    color: black;
-    font-size: 14px;
+    /* color: black; */
+    font-size: 12px;
     text-decoration: none;
 }
 .easy-combo-box-options-list .easy-drop-down-button-option:hover {

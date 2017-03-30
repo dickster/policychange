@@ -13,7 +13,6 @@ $.widget( "wtw.changeInput", {
 
         this.icon.addClass('change-input-icon');
 
-
         //blargh : this is a dangerous hack.  if i can't be sure that the parent of this icon is relative, then i'll never be able
         // to style its position.  i'm going to have to do an "absolute/top:0/right:0" kinda thing to maybe get it to work
         // which means i need to have a relative parent to attach to.
@@ -216,7 +215,12 @@ $.widget( "wtw.changeInput", {
         $('['+this.options.config.idAttr+']').removeClass('active');
         var $input = this.element;
 
-    // NOTE: this currently doesn't take into account hidden elements.
+        // HACK for now. will need a way to figure out which visible element represents the hidden value.
+        if ($input.attr('type')=='hidden') {
+            $input = $input.siblings('input');
+        }
+
+        // NOTE: this currently doesn't take into account hidden elements.
         if (!this._isInViewport()) {
             $('html, body').animate({
                     scrollTop: $input.offset().top
@@ -229,7 +233,6 @@ $.widget( "wtw.changeInput", {
         else {
             $input.addClass('active');
         }
-
     },
 
     _isInViewport : function() {
@@ -238,12 +241,8 @@ $.widget( "wtw.changeInput", {
         var viewBottom = viewTop + win.height();
         var top = this.element.offset().top;
         var bottom = top + this.element.height();
-        console.log('['+viewTop+'-->'+viewBottom+']');
-        console.log(' :['+top+'-->'+bottom+']');
         return (viewTop<=top && viewBottom >= bottom);
     },
-
-
 
     activateAndShowPopup: function() {
         this.activate();

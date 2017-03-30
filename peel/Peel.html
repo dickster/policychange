@@ -24,6 +24,7 @@
                     {type:'modify',         id: 1,               values: ['Chrysler','Fiat-Chrysler']},
                     {type:'modify',         id: 2,               values: ['Ford','Toyota']},
                     {type:'modify',         id: 3,               values: ['BirthdayA','BirthdayB']},
+                    {type:'modify',         id: 5,               values: ['a','b' ]},
                     {type:'modify',         id: 4,               values: ['G1','C']}
                 ],
 
@@ -36,7 +37,7 @@
                     inputTitle:'#changeInputTitle',
                     inputContent:'#changeInputContent',
                     valueLabels:['Broker','Carrier'],
-                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Drivers License Class',44:'Address 2'},
+                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Drivers License Class',44:'Address 2',5:'TPDC'},
                 },
             };
             wtw.changeEditor.init(options);
@@ -1511,6 +1512,7 @@
                                                                                     <div id="id138"
                                                                                          class="coverageDeductible-easy-select-container easy-select-container easy-container">
                                                                                         <select type="text"
+                                                                                                data-change-id="5"
                                                                                                 name="mainPanels:0:formPanel:persVehListPanel:container:view:1:itemPanel:persVehSection:persVehSectionContent:vehicleForm:coveragesPanel:coverages:coverageForm:covListPanel:container:view:5:itemPanel:coverageDeductible:controlContainer:select"
                                                                                                 class="selectpicker coverageDeductible-easy-select-input easy-select-input easy-input coverageDeductible-easy-input"
                                                                                                 data-live-search="true"
@@ -1520,18 +1522,18 @@
                                                                                             <option selected="selected"
                                                                                                     value="">Choose One
                                                                                             </option>
-                                                                                            <option value="$0">$0
+                                                                                            <option value="a">$0
                                                                                             </option>
-                                                                                            <option value="$300">$300
+                                                                                            <option value="b">$300
                                                                                             </option>
-                                                                                            <option value="$500">$500
+                                                                                            <option value="c">$500
                                                                                             </option>
-                                                                                            <option value="$750">$750
+                                                                                            <option value="d">$750
                                                                                             </option>
-                                                                                            <option value="$1,000">
+                                                                                            <option value="e">
                                                                                                 $1,000
                                                                                             </option>
-                                                                                            <option value="$2,500">
+                                                                                            <option value="f">
                                                                                                 $2,500
                                                                                             </option>
                                                                                         </select>

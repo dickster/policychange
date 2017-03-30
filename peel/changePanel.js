@@ -51,11 +51,11 @@ $.widget( "wtw.changePanel", {
     },
 
     _activate : function($changeItem) {
-        // select the item in the main panel
-        var id = $changeItem.attr(this.options.config.refAttr);
-
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
+        // notify the world that we want to focus on this change. parent mediator will dispatch as needed.
+        var changeId = $changeItem.attr(this.options.config.refAttr);
+        this._trigger('select', null, [changeId]);
     },
 
     onChangeAdded : function($changeItem, change) {
@@ -75,8 +75,6 @@ $.widget( "wtw.changePanel", {
         // if you click on item row, it will scroll the window and highlight the change in the form.
         $changeItem.click(function(e) {
             self._activate($changeItem);
-            // notify the world that we want to focus on this change. parent mediator will dispatch as needed.
-            self._trigger('select', null, [change.id]);
         });
     },
 
@@ -88,8 +86,8 @@ $.widget( "wtw.changePanel", {
         index = (index<0) ? count - 1 :
             (index>=count) ? 0 :
                 index;
-        $active.removeClass('active');
-        this.viewChange($items.eq(index));
+        this._activate($items.eq(index));
+
     },
 
     _initPrevNextButtons: function ($popover) {

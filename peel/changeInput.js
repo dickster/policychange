@@ -13,6 +13,15 @@ $.widget( "wtw.changeInput", {
 
         this.icon.addClass('change-input-icon');
 
+
+        //blargh : this is a dangerous hack.  if i can't be sure that the parent of this icon is relative, then i'll never be able
+        // to style its position.  i'm going to have to do an "absolute/top:0/right:0" kinda thing to maybe get it to work
+        // which means i need to have a relative parent to attach to.
+        // maybe i should make this an option for each change....forceParentRelative?
+        // or i could just hijack the .css and fix it there but i might not have access.
+        this.icon.parent().css('position','relative');
+        // end of hack.
+
         this.icon.click(function() {
             self._toggle();
         });

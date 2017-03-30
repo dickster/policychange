@@ -180,7 +180,7 @@ li.change-input-icon {
 
 [data-change-id].active {
     animation-name: highlight;
-    animation-duration: 540ms;
+    animation-duration: 340ms;
     animation-iteration-count:2;
 }
 

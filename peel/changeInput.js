@@ -2,13 +2,16 @@ $.widget( "wtw.changeInput", {
     // CHANGE INPUT.
 
     // -----------------------------------------
+    // i should have default options specific to input here so editor doesn't have to know about them.
 
     _create: function() {
         //this.options = $.extend(defaultOptions, this.options);
         var self = this;
 
-        this.icon = $(this.options.config.inputIcon);
-        this.icon.attr('data-change-ref',this.options.change.id).insertAfter(this.element);
+        this.icon = $(this.options.config.inputIcon)
+            .attr('data-change-ref',this.options.change.id).insertAfter(this.element);
+
+        this.icon.addClass('change-input-icon');
 
         this.icon.click(function() {
             self._toggle();

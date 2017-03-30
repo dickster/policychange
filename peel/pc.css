@@ -160,7 +160,10 @@
 li.change-input-icon {
     position:absolute;
     top:0;
-    right: 0;
+    right: 12px;
+    color: red;
+    /* background: lightblue; */
+    /* width: 6px; */
 }
 
 @keyframes highlight {

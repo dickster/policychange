@@ -340,7 +340,7 @@
 
 /** This gets used in EasyListPanel.  Search for tag.put("class", CLASS_PREFIX + CLASS_ACTION_REMOVE + itemType); */
 #acord-ui-content .easy-list-panel-remove-coverage {
-    background: url("../delete_blue.png") no-repeat scroll 0 0 / 80% auto transparent;
+    /*background: url("../delete_blue.png") no-repeat scroll 0 0 / 80% auto transparent;*/
     float: right;
     height: 100%;
     width: 17px;

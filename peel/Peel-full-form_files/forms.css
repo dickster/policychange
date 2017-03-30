@@ -1,7 +1,7 @@
 /* acord overrides */
 
 #acord-ui-content .easy-list-panel-remove-coverage {
-    background: transparent url("delete_blue.png") no-repeat scroll left center / 80% auto;
+    /*background: transparent url("delete_blue.png") no-repeat scroll left center / 80% auto;*/
 }
 
 
@@ -425,7 +425,7 @@ label {
 .error a {
     color: #FF0000;
     /*background-image: url(resources/com.brovada.nexexchange.insurance.formsserver.InsuranceFormServerApplication/html/exclamation.png);*/
-    background-image: url(../html/exclamation.png);
+    /*background-image: url(../html/exclamation.png);*/
 }
 
 .required-message {
@@ -476,7 +476,7 @@ label {
 /* Payment dialog entries */
 #payment-container .simplemodal-wrap { overflow: visible; }
 #payment-container a.modalCloseImg {
-    background: url(../x.png) no-repeat; 
+    /*background: url(../x.png) no-repeat; */
     width: 25px; 
     height: 29px; 
     display: inline; 

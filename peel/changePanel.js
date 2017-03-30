@@ -52,7 +52,7 @@ $.widget( "wtw.changePanel", {
 
     _activate : function($changeItem) {
         // select the item in the main panel
-        var id = $changeItem.attr(this.options.config.itemChangeRefAttr);
+        var id = $changeItem.attr(this.options.config.refAttr);
 
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');

@@ -29,14 +29,14 @@
     width: 150px;
 }
 .search-panel-button {
-    background-image: url("/peel-popup/search.png");
+    /*background-image: url("/peel-popup/search.png");*/
     background-size: 100% auto;
     display: inline-block;
     height: 24px;
     width: 24px;
 }
 .search-panel-button-globe {
-    background-image: url("/peel-popup/searchglobe.png");
+    /*background-image: url("/peel-popup/searchglobe.png");*/
     background-size: 100% auto;
     display: inline-block;
     height: 24px;

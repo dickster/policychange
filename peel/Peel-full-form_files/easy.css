@@ -71,7 +71,7 @@
     position: relative;
 }
 .easy-section-heading-topleft {
-    background-image: url("easy_section_corner_topleft.png");
+    /*background-image: url("easy_section_corner_topleft.png");*/
     float: left;
     height: 8px;
     left: -1px;
@@ -93,7 +93,7 @@
     width: 85%;
 }
 .easy-section-heading-topright {
-    background-image: url("easy_section_corner_topright.png");
+    /*background-image: url("easy_section_corner_topright.png");*/
     float: right;
     height: 8px;
     position: relative;
@@ -115,10 +115,10 @@
     width: 25px;
 }
 .easy-section-minmax.maximized {
-    background-image: url("Open_State_Grey.png");
+    /*background-image: url("Open_State_Grey.png");*/
 }
 .easy-section-minmax.minimized {
-    background-image: url("Closed_State_Grey.png");
+    /*background-image: url("Closed_State_Grey.png");*/
 }
 .easy-section-summary, .easy-section-content {
     float: left;
@@ -129,7 +129,7 @@
 .easy-section-summary p {
 }
 .easy-section-bottomleft {
-    background-image: url("easy_section_corner_bottomleft.png");
+    /*background-image: url("easy_section_corner_bottomleft.png");*/
     bottom: -1px;
     float: left;
     height: 8px;
@@ -138,7 +138,7 @@
     width: 8px;
 }
 .easy-section-bottomright {
-    background-image: url("easy_section_corner_bottomright.png");
+    /*background-image: url("easy_section_corner_bottomright.png");*/
     bottom: -1px;
     float: right;
     height: 8px;
@@ -147,7 +147,7 @@
     width: 8px;
 }
 .easy-section-edit {
-    background: transparent url("edit_white.png") no-repeat scroll 0 0 / 100% auto;
+    /*background: transparent url("edit_white.png") no-repeat scroll 0 0 / 100% auto;*/
     float: right;
     height: 22px;
     margin-right: 5px;
@@ -184,10 +184,10 @@
     width: 45px;
 }
 .easy-message-section-level-priority2 {
-    background: transparent url("easy_message_section_icon_alert.png") no-repeat scroll right top;
+    /*background: transparent url("easy_message_section_icon_alert.png") no-repeat scroll right top;*/
 }
 .easy-message-section-level-priority3, .easy-message-section-level-priority4, .easy-message-section-level-priority5, .easy-message-section-level-priority6 {
-    background: transparent url("easy_message_section_icon_error.png") no-repeat scroll right top;
+    /*background: transparent url("easy_message_section_icon_error.png") no-repeat scroll right top;*/
 }
 .easy-progress {
     color: #fff;
@@ -360,7 +360,7 @@ a.calnav {
     width: 110px;
 }
 .easy-list-panel-remove-section {
-    background: transparent url("delete_grey.png") no-repeat scroll 0 0 / 100% auto;
+    /*background: transparent url("delete_grey.png") no-repeat scroll 0 0 / 100% auto;*/
     float: right;
     height: 22px;
     position: relative;
@@ -393,7 +393,7 @@ a.calnav {
     vertical-align: middle;
 }
 .easy-list-panel-add-button .easy-list-panel-add-button-left-cell {
-    background-image: url("plus_grey.png");
+    /*background-image: url("plus_grey.png");*/
     background-position: center center;
     background-repeat: no-repeat;
     width: 20% !important;
@@ -424,7 +424,7 @@ a.calnav {
     width: 300px;
 }
 .easy-list-panel-remove-row {
-    background: transparent url("delete_blue.png") no-repeat scroll 0 0 / 100% auto;
+    /*background: transparent url("delete_blue.png") no-repeat scroll 0 0 / 100% auto;*/
     float: right;
     height: 17px;
     position: relative;

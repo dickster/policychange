@@ -98,7 +98,9 @@ $.widget( "wtw.changeInput", {
 
     // controller.changeVal() returns change:{id, index/*nullable*/, value, displayValue }
     // controller = { $visibleInput (may be self) }
-
+    // need to add latent inputs (no popups, but change listener) to all <input>'s with data-change-id.
+    // .: need to refactor method that gets all inputs.  it must filter out ones that aren't associated with
+    // a options.change value.
 
     _getDisplayValue: function () {
         return this.element.val() + '(display)';

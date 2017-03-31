@@ -1,12 +1,17 @@
 $.widget( "wtw.changeInput", {
     // CHANGE INPUT.
 
+    // pass an object/map that has a function factory to return method --> element ? {displayValue&value}
+
+
     // -----------------------------------------
     // i should have default options specific to input here so editor doesn't have to know about them.
 
     _create: function() {
         //this.options = $.extend(defaultOptions, this.options);
         var self = this;
+
+        this.val = wtw.changeInputValHooks.init(this.element);
 
         this.input = this.getInput(this.element);
         this.icon = $(this.options.config.inputIcon)
@@ -27,9 +32,11 @@ $.widget( "wtw.changeInput", {
         });
 
         this.element.on('change', function(e) {
-            var val = $(this).val();  // get the current value in the input (broker=0, carrier=1)
+            var $this = $(this);
+            var val = self.val().value;
+            // do i really need index??? take this out. let change panel deal with it as needed.
             var index = self._getValueIndex();  // index may be null if it isn't one of the proposed change values.
-            var displayValue = self.input.val();
+            var displayValue = val;        //getDisplayValue($(this));
             self.onChange(e,index,val,displayValue);
         });
 
@@ -37,12 +44,12 @@ $.widget( "wtw.changeInput", {
         // event will not be handled.
         // the editor could do a $allInputs.triggerInitialBlahBlahBlah().
 
+        // only do this if a popup is attached (ie. it is associated with a change).
         setTimeout(function() {
             // trigger a change that will in effect broadcast the current value to the mediator.
             // ** maybe i should trigger using a custom event like 'initState'?? to avoid possible side effects?
             self.element.trigger('change');
         },300);
-
 
         // add data list if it's a text input.  handy so user can see both options directly in form widget.
         if (this.input.is('input:text')) {
@@ -78,7 +85,7 @@ $.widget( "wtw.changeInput", {
     _getValueIndex: function () {
         var result = null;
         var values = this.options.change.values;
-        var value = this.element.val();
+        var value = this.val().value;
         $.each(values, function(i,v) {
             if (value == v) {   // TODO : need a proper comparator..not just equality check.
                 result = i;
@@ -89,6 +96,9 @@ $.widget( "wtw.changeInput", {
 
     onChange: function (e,index,value,displayValue) {
         var id = this.options.change.id;
+        // TODO : just send entire change object in event.
+        // change "{id:'', values:[a,b], type:'modify', displayValues:{a:'apple',b:'orange'}]
+        // this._trigger('update', null, [change, value, displayValue, index]
         this._trigger('update', null, [id, index, value, displayValue]);
         this._updateState(value,index);
     },
@@ -100,7 +110,7 @@ $.widget( "wtw.changeInput", {
 
     _initState: function () {
         var self = this;
-        var currentValue = this.element.val();
+        var currentValue = this.val().value;
 
         // create handy alias for popover content after it's created.
         var content = this._getPopoverContent();
@@ -117,7 +127,7 @@ $.widget( "wtw.changeInput", {
             }
             $(value).find('.change-input-accept').click(function () {
                 var value = self.options.change.values[i];
-                self.element.val(value,i);
+                self.val(value);
             });
         });
 
@@ -195,7 +205,8 @@ $.widget( "wtw.changeInput", {
     },
 
     set: function(id, index, value)  {
-        this.input.val(value,index);
+        this.val(value);
+        // this.input.val(value,index);
         this.input.trigger('change');
     },
 

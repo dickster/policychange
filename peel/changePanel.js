@@ -123,12 +123,15 @@ $.widget( "wtw.changePanel", {
     updateChange:function(id, index, value, displayValue) {
         var $sections = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section');
         $sections.removeClass('accepted');
+        if (!displayValue) {
+            displayValue = '<empty>';
+        }
 
         // CAVEAt : index can null/undefined.
         // if one of the change values isn't set. .: it's overridden by user to be something else.
         // in this case, the toggle button doesn't make sense so we'll show the "override state"
         var $changeItem;
-        if (Number.isInteger(index)) {
+        if (Number.isInteger(index) && index>=0) {
             $changeItem = $sections.eq(index)
         }
         else {

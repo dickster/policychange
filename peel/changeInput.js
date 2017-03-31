@@ -8,8 +8,9 @@ $.widget( "wtw.changeInput", {
         //this.options = $.extend(defaultOptions, this.options);
         var self = this;
 
+        this.input = this.getInput(this.element);
         this.icon = $(this.options.config.inputIcon)
-            .attr('data-change-ref',this.options.change.id).insertAfter(this.element);
+            .attr('data-change-ref',this.options.change.id).insertAfter(this.input);
 
         this.icon.addClass('change-input-icon');
 
@@ -25,14 +26,10 @@ $.widget( "wtw.changeInput", {
             self._toggle();
         });
 
-        // set val hooks.
-        // put this at higher level...both widgets depend on this??...hmmm...maybe not.
-        this._setValHooks();
-
         this.element.on('change', function(e) {
-            var val = $(this).val();  // get the current value in the input  (NOT necessarily one of the values in the change values array).
-            var index = self._getValueIndex();  // maybe null if it isn't one of the proposed change values.
-            var displayValue = self._getDisplayValue();
+            var val = $(this).val();  // get the current value in the input (broker=0, carrier=1)
+            var index = self._getValueIndex();  // index may be null if it isn't one of the proposed change values.
+            var displayValue = self.input.val();
             self.onChange(e,index,val,displayValue);
         });
 
@@ -48,47 +45,23 @@ $.widget( "wtw.changeInput", {
 
 
         // add data list if it's a text input.  handy so user can see both options directly in form widget.
-        if (this.element.is('input:text')) {
+        if (this.input.is('input:text')) {
             var id = 'chg'+this.options.change.id;
-            this.element.attr('list',id);
+            this.input.attr('list',id);
             var $datalist = $('<datalist id="'+id+'"></datalist>');
             $.each(this.options.change.values, function(i,value) {
                 $datalist.append($('<option>'+value+'</option>'));
             });
-            $datalist.insertAfter(this.element);
+            $datalist.insertAfter(this.input);
         }
-
     },
 
-
-    // google jquery valHook to see an example of the pattern.   i am piggybacking on their approach to handling 'val()' method.
-    _valHook : function($input) {
-        // override if you want to set a specific get/set method for change input values.
-        // they will just default to jquery's val().
-        // for example, a EasyJSCombo box might require a special method to find an underlying hidden elements value.
-    },
-
-    _setValHooks: function () {
-        // only do this once!
-        if ($.fn.changeVal) return;
-        var self = this;
-        $.fn.changeVal = function(value,index) {
-            var hook = self._valHook(this);
-            self.changeIndex = index;
-            console.log('change index = ' + self.changeIndex);
-            if (!hook) {
-                var type = this.prop('tagName').toLowerCase();
-                // for inputs, we use the type as the key (e.g. 'text', 'radio' etc...)
-                // if not, we just use the tag (textarea, select, etc...)
-                type = (type == 'input' && this.prop('type')) ? this.prop('type') : type;
-                hook = this.val;   // use jquery's val method as the default hook.
-            }
-            var result = hook.apply(this,arguments);
-            if (arguments.length>0) {
-                this.trigger("change");  // only trigger this if it's a set, not get.
-            }
-            return result;
+    getInput: function (element) {
+        if (element.is('.easy-combo-box-value')) {
+            return element.siblings('.easy-combo-box-input');
         }
+        // TODO : add logic for complex widgets...i.e. jsComboBox will look for adjacent, non hidden input.
+        return element;
     },
 
     // in order to deal with hidden fields, each input will have a controller (which may be itself).
@@ -101,10 +74,6 @@ $.widget( "wtw.changeInput", {
     // need to add latent inputs (no popups, but change listener) to all <input>'s with data-change-id.
     // .: need to refactor method that gets all inputs.  it must filter out ones that aren't associated with
     // a options.change value.
-
-    _getDisplayValue: function () {
-        return this.element.val() + '(display)';
-    },
 
     _getValueIndex: function () {
         var result = null;
@@ -131,7 +100,7 @@ $.widget( "wtw.changeInput", {
 
     _initState: function () {
         var self = this;
-        var currentValue = this.element.changeVal();
+        var currentValue = this.element.val();
 
         // create handy alias for popover content after it's created.
         var content = this._getPopoverContent();
@@ -148,7 +117,7 @@ $.widget( "wtw.changeInput", {
             }
             $(value).find('.change-input-accept').click(function () {
                 var value = self.options.change.values[i];
-                self.element.changeVal(value,i);
+                self.element.val(value,i);
             });
         });
 
@@ -226,39 +195,36 @@ $.widget( "wtw.changeInput", {
     },
 
     set: function(id, index, value)  {
-        this.element.changeVal(value,index);
+        this.input.val(value,index);
+        this.input.trigger('change');
     },
 
     activate: function() {
-        $('['+this.options.config.idAttr+']').removeClass('active');
-        var $input = this.element;
-
-        // HACK for now. will need a way to figure out which visible element represents the hidden value.
-        if ($input.attr('type')=='hidden') {
-            $input = $input.siblings('input');
-        }
+        $('['+this.options.config.idAttr+']').removeClass('active-change');
+        var $input = this.input;
 
         // NOTE: this currently doesn't take into account hidden elements.
-        if (!this._isInViewport()) {
+        if (!this._isInViewport($input)) {
             $('html, body').animate({
                     scrollTop: $input.offset().top
                 },
                 350,
                 function() {
-                    $input.addClass('active');
+                    $input.addClass('active-change');
                 });
         }
         else {
-            $input.addClass('active');
+            $input.addClass('active-change');
         }
     },
 
-    _isInViewport : function() {
+    // TODO : move this to utility object.
+    _isInViewport : function($el) {
         var win = $(window);
         var viewTop = win.scrollTop();
         var viewBottom = viewTop + win.height();
-        var top = this.element.offset().top;
-        var bottom = top + this.element.height();
+        var top = $el.offset().top;
+        var bottom = top + $el.height();
         return (viewTop<=top && viewBottom >= bottom);
     },
 

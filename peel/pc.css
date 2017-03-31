@@ -186,7 +186,7 @@ li.change-input-icon {
     /*to { border-width:3px; border-color: #ffd13f;}*/
 }
 
-[data-change-id].active {
+.active-change {
     animation-name: highlight;
     animation-duration: 340ms;
     animation-iteration-count:2;

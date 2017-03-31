@@ -147,9 +147,17 @@
 .change-item-delete .summary:before {
     content:'\f056';
 }
+.change-item .summary { 
+    color:#223599;
+}
 
 .list-group-item.change-item {
     padding: 3px 3px;
+}
+
+.toggle-override i.fa { 
+    font-size:16px;
+    padding-right:10px;
 }
 
 .change-item .fa {
@@ -188,7 +196,7 @@ li.change-input-icon {
 .change-item i {
     float: right;
     font-size: large;
-    color: lightslategray;
+    color: #707b85;
 }
 
 .change-value.lg {
@@ -217,7 +225,7 @@ li.change-input-icon {
 
 .change-aside {
     font-style:italic;
-    font-size:smaller;
+    font-size: 11px;
     display:inline-block;
     color: #777;
 }
@@ -250,4 +258,11 @@ li.change-input-icon {
     padding: 1px 5px;
     font-size: 18px;
     color: #66a;
+}
+
+.popover a.list-group-item  {
+/*     outline:1px solid blue; */
+    color: #666;
+    font-size: 12px;
+    text-decoration: none;
 }

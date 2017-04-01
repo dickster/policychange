@@ -4,21 +4,41 @@ var wtw = wtw ? wtw : {};
 wtw.changeInputValHooks = (function() {
 
     var init = function (element) {
-        return plain;
+        if (element.is('select')) {
+            return selectVal;
+        }
+        return defaultVal;
     };
 
-    var plain = function(value) {
+    var _val = function(changeInput,displayValue) {
+        var value = changeInput.input.val();
+        var index = changeInput.options.change.values.indexOf(value);
+        return {
+            value:value,
+            index:index==-1?null:index,
+            displayValue:displayValue ? displayValue : value
+        }
+    };
+
+    var defaultVal = function(value) {
         var changeInput = this;
         if(value) {
             changeInput.input.val(value);
         }
         else {
-            var v = this.input.val();
-            return {
-                index:this.options.change.values.indexOf(v),
-                value:v,
-                displayValue:v
-            }
+            return _val(changeInput);
+        }
+    };
+
+
+    var selectVal = function(value) {
+        var changeInput = this;
+        if(value) {
+            changeInput.input.val(value);
+        }
+        else {
+            var displayValue = changeInput.input.find('option:selected').text();
+            return _val(changeInput,displayValue);
         }
     };
 

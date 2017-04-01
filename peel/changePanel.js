@@ -100,6 +100,9 @@ $.widget( "wtw.changePanel", {
         });
     },
 
+    // if you need to surrounding popover DOM to exist, you have to wait till 'shown.bs.popover' event is fired.
+    //  this method will be called
+    // note that everytime the popover is hidden/shown the DOM is recreated.
     _editorShown : function($popoverTrigger) {
         // the trigger is the element that the popover is attached to.  we need the actual popover itself.
         var self = this;
@@ -120,9 +123,10 @@ $.widget( "wtw.changePanel", {
         return pop ? pop.tip() : null;
     },
 
-    updateChange:function(id, index, value, displayValue) {
+    updateChange:function(id, changeValue) {
         var $sections = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section');
         $sections.removeClass('accepted');
+        var displayValue = changeValue.displayValue;
         if (!displayValue) {
             displayValue = '<empty>';
         }
@@ -131,8 +135,8 @@ $.widget( "wtw.changePanel", {
         // if one of the change values isn't set. .: it's overridden by user to be something else.
         // in this case, the toggle button doesn't make sense so we'll show the "override state"
         var $changeItem;
-        if (Number.isInteger(index) && index>=0) {
-            $changeItem = $sections.eq(index)
+        if (Number.isInteger(changeValue.index) && changeValue.index>=0) {
+            $changeItem = $sections.eq(changeValue.index);
         }
         else {
             $changeItem = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section.toggle-override');

@@ -31,11 +31,11 @@ wtw.changeEditor = (function() {
         $.each(this.options.changes, function(i,change) {
             var $input = $('['+config.idAttr+'="'+change.id+'"]');
             $input.changeInput({config:config, change:change})
-                .on('changeinputupdate', function(e, id, index, value, displayValue) {
-                    $('.change-panel').changePanel('updateChange', id, index, value, displayValue);
+                .on('changeinputupdate', function(e, id, changeValue) {
+                    $('.change-panel').changePanel('updateChange', id, changeValue);
                 })
                 .on('changeinputnext',function(e) { self.go($input,1); } )
-                .on('changeinputprev',function(e) { self.go($input,-1); } )
+                .on('changeinputprev',function(e) { self.go($input,-1); } );
         });
 
         // if you click somewhere outside of input popup, then hide them.

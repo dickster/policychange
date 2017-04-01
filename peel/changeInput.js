@@ -32,26 +32,27 @@ $.widget( "wtw.changeInput", {
         });
 
         this.element.on('change', function(e) {
-            var $this = $(this);
-            var val = self.val().value;
-            // do i really need index??? take this out. let change panel deal with it as needed.
-            var index = self._getValueIndex();  // index may be null if it isn't one of the proposed change values.
-            var displayValue = val;        //getDisplayValue($(this));
-            self.onChange(e,index,val,displayValue);
+            var changeVal = self.val();
+            self._trigger('update', null, [self.options.change.id, changeVal]);
+            self._updateState(changeVal);
         });
 
         // TODO: fix this so change is triggered after creation (because the listener isn't attached yet so this
         // event will not be handled.
         // the editor could do a $allInputs.triggerInitialBlahBlahBlah().
 
+        // this is crap.  i should do this in parent editor.  i need the timeout because it has to be done after
+        // everything is created and all listeners attached.
         // only do this if a popup is attached (ie. it is associated with a change).
         setTimeout(function() {
             // trigger a change that will in effect broadcast the current value to the mediator.
-            // ** maybe i should trigger using a custom event like 'initState'?? to avoid possible side effects?
+            // ** maybe i should trigger using a custom event like 'initState'?? instead of 'change'
+            // to avoid possible side effects?
             self.element.trigger('change');
         },300);
 
         // add data list if it's a text input.  handy so user can see both options directly in form widget.
+        // see #https://www.w3schools.com/tags/tag_datalist.asp
         if (this.input.is('input:text')) {
             var id = 'chg'+this.options.change.id;
             this.input.attr('list',id);
@@ -94,15 +95,6 @@ $.widget( "wtw.changeInput", {
         return result;  // @Nullable!
     },
 
-    onChange: function (e,index,value,displayValue) {
-        var id = this.options.change.id;
-        // TODO : just send entire change object in event.
-        // change "{id:'', values:[a,b], type:'modify', displayValues:{a:'apple',b:'orange'}]
-        // this._trigger('update', null, [change, value, displayValue, index]
-        this._trigger('update', null, [id, index, value, displayValue]);
-        this._updateState(value,index);
-    },
-
     _compareChangeValue : function(current, $value) {
         // need to deal with trim & data conversions later.
         return current == $value.find('.change-input-value').text();
@@ -139,17 +131,13 @@ $.widget( "wtw.changeInput", {
         });
     },
 
-    _updateState: function(value,index) {
+    _updateState: function(changeVal) {
         var content = this._getPopoverContent();
         if (!content) return;
-        this._getPopoverContent().find('.change-value').each(function(i, value) {
-            if (i==index) {
-                $(this).addClass('accepted');
-            }
-            else {
-                $(this).removeClass('accepted');
-            }
-        });
+        this._getPopoverContent().find('.change-value').removeClass('accepted');
+        if (changeVal.index>=0) {
+            this._getPopoverContent().find('.change-value').eq(changeVal.index).addClass('accepted');
+        }
     },
 
     hide: function() {
@@ -206,7 +194,6 @@ $.widget( "wtw.changeInput", {
 
     set: function(id, index, value)  {
         this.val(value);
-        // this.input.val(value,index);
         this.input.trigger('change');
     },
 

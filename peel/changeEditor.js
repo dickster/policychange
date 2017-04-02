@@ -23,8 +23,8 @@ wtw.changeEditor = (function() {
             .on('changepanelselect', function(e,id) {
                 getInput(id).changeInput('activate', id);
             })
-            .on('changepanelset', function(e,id,index,value) {
-                getInput(id).changeInput('set',id,index,value);
+            .on('changepanelset', function(e, id, value) {
+                getInput(id).changeInput('set',value);
             });
 
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
@@ -35,10 +35,19 @@ wtw.changeEditor = (function() {
                     $('.change-panel').changePanel('updateChange', id, changeValue);
                 })
                 .on('changeinputnext',function(e) { self.go($input,1); } )
-                .on('changeinputprev',function(e) { self.go($input,-1); } );
+                .on('changeinputprev',function(e) { self.go($input,-1); } )
+            // this will start the ball rolling.  the inputs will get set and trigger an event.
+            //  during the event, the displayValue will also be figured out.   (e.g. for select, there is the value attribute
+            //  and the actual text displayed for the <option>.   this displayedValue is not passed in the server data
+            // so we need to figure it out.
+
+            // TODO : may need to get the value somehow else.  for now assuming it's the 0th element.
+            // maybe the options data should have a {defaultIndex:0} property.
+            var startingValue = change.values[0].value;
+            $input.changeInput('set', startingValue );
         });
 
-        // if you click somewhere outside of input popup, then hide them.
+        // if you click somewhere outside of input popup, then hide any visible input popups.
         // (you must check to make sure the click didn't happen inside a visible popup - in that case just leave it).
         $('body').on('click', function (e) {
             $('.change-input-icon').each(function () {

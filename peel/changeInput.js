@@ -72,29 +72,6 @@ $.widget( "wtw.changeInput", {
         return element;
     },
 
-    // in order to deal with hidden fields, each input will have a controller (which may be itself).
-    // scrolling, setting, getting is done using this controller input.
-    // onChange listener added to this.element. (not controller - it will indirectly set the value of this.element)
-    // icon is next to controller
-
-    // controller.changeVal() returns change:{id, index/*nullable*/, value, displayValue }
-    // controller = { $visibleInput (may be self) }
-    // need to add latent inputs (no popups, but change listener) to all <input>'s with data-change-id.
-    // .: need to refactor method that gets all inputs.  it must filter out ones that aren't associated with
-    // a options.change value.
-
-    _getValueIndex: function () {
-        var result = null;
-        var values = this.options.change.values;
-        var value = this.val().value;
-        $.each(values, function(i,v) {
-            if (value == v) {   // TODO : need a proper comparator..not just equality check.
-                result = i;
-            }
-        });
-        return result;  // @Nullable!
-    },
-
     _compareChangeValue : function(current, $value) {
         // need to deal with trim & data conversions later.
         return current == $value.find('.change-input-value').text();
@@ -192,7 +169,7 @@ $.widget( "wtw.changeInput", {
         });
     },
 
-    set: function(id, index, value)  {
+    set: function(value)  {
         this.val(value);
         this.input.trigger('change');
     },

@@ -37,11 +37,6 @@ $.widget( "wtw.changePanel", {
         this.element.popover('show');
     },
 
-    _initState : function() {
-        // i'll just wait for the inputs to call me when they are initialized.
-        // they can tell me their current state.
-    },
-
     // TODO : refactor this be called by mediator....activeChangeValue(id,index,value);
     _activateChangeValue: function ($changeItem, change, index) {
         // remove all other (if any) active items, and highlight this one.
@@ -66,10 +61,10 @@ $.widget( "wtw.changePanel", {
         var $changeValues = $changeItem.find('.change-value');
         // assumes there are two toggle buttons that "on" means use first value = value[0]
         $changeItem.find('.fa-toggle-off').click(function(e) {
-            self._trigger('set', null, [change.id, 0, change.values[0]]);
+            self._trigger('set', null, [change.id, change.values[0]]);
         });
         $changeItem.find('.fa-toggle-on').click(function(e) {
-            self._trigger('set', null, [change.id, 1, change.values[1]]);
+            self._trigger('set', null, [change.id, change.values[1]]);
         });
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
@@ -115,7 +110,6 @@ $.widget( "wtw.changePanel", {
             callback($(this), self.options.changes[i]);
         });
 
-        this._initState();
     },
 
     getPopoverContent: function () {

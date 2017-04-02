@@ -66,16 +66,16 @@
             <a class="list-group-item change-item change-item-{{type}}">
                 <span class="summary">{{summary}}</span>
                 <section class="toggle-on" class>
-                    <span class="change-value {{dflt.size}}">{{dflt.desc}}</span>
-                    <span class="change-aside {{previous.size}}"> (was {{previous.desc}})</span>
+                    <span class="change-value {{dflt.size}}">{value.[0].desc}}</span>
+                    <span class="change-aside {{previous.size}}"> (was {{value.[1].desc}})</span>
                     <i class="fa fa-toggle-on"></i>
                 </section>
-                <section class="toggle-off" class>
-                    <span class="change-value {{previous.size}}">{{previous.desc}}</span>
+                <section class="toggle-off">
+                    <span class="change-value {{previous.size}}">{{value.[1].desc}}</span>
                     <span class="change-aside sm"> (change ignored)</span>
                     <i class="fa fa-toggle-off"></i>
                 </section>
-                <section class="toggle-override" class>
+                <section class="toggle-override">
                     <span class="change-value"></span>
                     <span class="change-aside sm"> (overriden by user)</span>
                     <i class="fa fa-pencil"></i>
@@ -93,11 +93,11 @@
         <div class="list-group change-values change-input-{{type}}">
             <a class="change-value list-group-item">
                 <span class="change-input-accept" data-change-value='{{value}}'><i class="fa fa-check-circle"/></span>
-                <label>{{dflt.label}}</label> : <span class="change-input-value">{{dflt.desc}}</span>
+                <label>{{dflt.label}}</label> : <span class="change-input-value">{{value.[0].display}}</span>
             </a>
             <a class="change-value list-group-item">
                 <span class="change-input-accept" data-change-value='{{value}}'><i class="fa fa-check-circle"/></span>
-                <label>{{previous.label}}</label> : <span class="change-input-value">{{previous.desc}}</span>
+                <label>{{previous.label}}</label> : <span class="change-input-value">{{value.[1].display}}</span>
             </a>
         </div>
         </div>

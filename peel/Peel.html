@@ -35,7 +35,10 @@
                         values: [{code:'a'},{code:'b'}] },
                     {   type:'modify',
                         id: 4,
-                        values: [{code:'G1'},{code:'C'}] }
+                        values: [{code:'G1'},{code:'C'}] },
+                    {   type:'modify',
+                        id: 7,
+                        values: [{code:'F'},{code:'M'}] }
                 ],
 
                 // all view customization data goes here.
@@ -48,7 +51,7 @@
                     inputTitle:'#changeInputTitle',
                     inputContent:'#changeInputContent',
                     valueLabels:['Broker','Carrier'],
-                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Drivers License Class',44:'Address 2',5:'TPDC'},
+                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Drivers License Class',44:'Address 2',5:'TPDC', 7:'Gender'},
                 },
             };
             wtw.changeEditor.init(options);
@@ -2681,6 +2684,7 @@
                                                                         <div name="ctr" id="id159"
                                                                              class="persDriverGenderCd-easy-combo-box-container easy-combo-box-container easy-container">
                                                                             <input type="hidden" value=""
+                                                                                   data-change-id="7"
                                                                                    name="mainPanels:0:formPanel:persDriverListPanel:container:view:1:itemPanel:persDriverSection:persDriverSectionContent:driverForm:persDriverPartyInfoPanel:partyInfo:partyInfoContent:partyInfoForm:persDriverGenderCd:controlContainer:comboValue"
                                                                                    id="ida3"
                                                                                    class="persDriverGenderCd-easy-combo-box-value easy-combo-box-value">

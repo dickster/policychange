@@ -15,7 +15,11 @@ $.widget( "wtw.changeInput", {
         this.val = hooks.val;
         this.getTextForCode = hooks.text;
 
-        this.input = this.getInput(this.element);
+        // the actual visible input element.  (recall, there could be a hidden input that has the actual value but we need reference to the actual
+        // element the user interacts with.
+        this.input = hooks.input;
+
+
         this.icon = $(this.options.config.inputIcon)
             .attr('data-change-ref',this.options.change.id).insertAfter(this.input);
 
@@ -64,14 +68,6 @@ $.widget( "wtw.changeInput", {
             });
             $datalist.insertAfter(this.input);
         }
-    },
-
-    getInput: function (element) {
-        if (element.is('.easy-combo-box-value')) {
-            return element.siblings('.easy-combo-box-input');
-        }
-        // TODO : add logic for complex widgets...i.e. jsComboBox will look for adjacent, non hidden input.
-        return element;
     },
 
     _compareChangeValue : function(current, $value) {
@@ -180,7 +176,7 @@ $.widget( "wtw.changeInput", {
             throw ' you must pass a full change value object to changeInput:set.   e.g. value : { code:"ON", text:"Ontario"}';
         }
         this.val(value);
-        this.input.trigger('change');
+        this.element.trigger('change');
     },
 
     activate: function() {

@@ -30,6 +30,8 @@ wtw.changeEditor = (function() {
                 getInput(id).changeInput('set',value);
             });
 
+        // TODO : sort these by ascending order in the DOM.
+
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
         $.each(this.options.changes, function(i,change) {
             var $input = $('['+config.idAttr+'="'+change.id+'"]');

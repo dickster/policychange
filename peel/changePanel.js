@@ -5,7 +5,7 @@
 $.widget( "wtw.changePanel", {
 
     _create: function() {
-        var $this = this;
+        var self = this;
         var shown = this._editorShown.bind(this);
         var config = this.options.config;
         var title = config.title;
@@ -20,11 +20,13 @@ $.widget( "wtw.changePanel", {
                 html : true,
                 title: function() {
                     var template = Handlebars.compile($(title).html());
-                    return template($this.options);
+                    return template(self.options);
                 },
                 content: function() {
+                    console.log(JSON.stringify(self.options.changes));
+                    console.log(JSON.stringify(self.options.changes[0].values[0].text));
                     var template = Handlebars.compile($(content).html());
-                    return template($this.options);
+                    return template(self.options);
                 }
             })
             .data('bs.popover')
@@ -34,7 +36,12 @@ $.widget( "wtw.changePanel", {
         this.element.on('shown.bs.popover', function() {
             shown($(this));
         });
-        this.element.popover('show');
+
+        // create lookup so i can find changes by id.
+        this.changesById = {};
+        for (var i = 0, len = this.options.changes.length; i < len; i++) {
+            this.changesById[this.options.changes[i].id] = this.options.changes[i];
+        }
     },
 
     // TODO : refactor this be called by mediator....activeChangeValue(id,index,value);
@@ -118,10 +125,6 @@ $.widget( "wtw.changePanel", {
     updateChange:function(id, change) {
         var $sections = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section');
         $sections.removeClass('accepted');
-        var text = change.text;
-        if (!text) {
-            text = '<empty>';
-        }
 
         // CAVEAt : index can null/undefined.
         // if one of the change values isn't set. .: it's overridden by user to be something else.
@@ -134,7 +137,15 @@ $.widget( "wtw.changePanel", {
             $changeItem = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section.toggle-override');
         }
         $changeItem.addClass('accepted');
-        $changeItem.find('.change-value').text(text);
+        $changeItem.find('.change-value').text(change.text).removeClass('sm md lg').addClass(change.size);
+    },
+
+    show: function() {
+        this.element.popover('show');
+    },
+
+    initInput : function(id, initialValues) {
+        $.extend(this.changesById[id].values,initialValues);
     }
 
 });

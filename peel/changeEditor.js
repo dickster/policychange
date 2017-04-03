@@ -8,6 +8,7 @@ wtw.changeEditor = (function() {
             open: true,
             expanded:false,
             trigger: 'click',
+            cssSizes: ['sm','md','lg']
         }
     };
 
@@ -19,6 +20,8 @@ wtw.changeEditor = (function() {
 
         formatChanges(this.options);
 
+
+
         $('.change-panel').changePanel(this.options)
             .on('changepanelselect', function(e,id) {
                 getInput(id).changeInput('activate', id);
@@ -29,6 +32,7 @@ wtw.changeEditor = (function() {
 
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
         $.each(this.options.changes, function(i,change) {
+            change.hello = 'world';
             var $input = $('['+config.idAttr+'="'+change.id+'"]');
             $input.changeInput({config:config, change:change})
                 .on('changeinputupdate', function(e, id, value) {
@@ -36,16 +40,13 @@ wtw.changeEditor = (function() {
                 })
                 .on('changeinputnext',function(e) { self.go($input,1); } )
                 .on('changeinputprev',function(e) { self.go($input,-1); } )
-            // this will start the ball rolling.  the inputs will get set and trigger an event.
-            //  during the event, the displayValue will also be figured out.   (e.g. for select, there is the value attribute
-            //  and the actual text displayed for the <option>.   this displayedValue is not passed in the server data
-            // so we need to figure it out.
 
-            // TODO : may need to get the value somehow else.  for now assuming it's the 0th element.
-            // maybe the options data should have a {defaultIndex:0} property.
-            var startingValue = change.values[0];
-            $input.changeInput('set', startingValue );
+            var initialValues = $input.changeInput('normalizeValues');
+            $('.change-panel').changePanel('initInput', change.id, initialValues);
         });
+
+
+        $('.change-panel').changePanel('show');
 
         // if you click somewhere outside of input popup, then hide any visible input popups.
         // (you must check to make sure the click didn't happen inside a visible popup - in that case just leave it).
@@ -59,11 +60,6 @@ wtw.changeEditor = (function() {
             });
         });
 
-        // create lookup so i can find changes by id.
-        this.changesById = {};
-        for (var i = 0, len = this.options.changes.length; i < len; i++) {
-            this.changesById[this.options.changes[i].id] = this.options.changes[i];
-        }
 
     };
 
@@ -75,13 +71,6 @@ wtw.changeEditor = (function() {
                 change.summary = '[change  '+change.id+']';
                 console.log('no label was given for the change with id ' + change.id + '  (using id as default label)');
             }
-
-            $.each(change.values, function(idx,value) {
-                value.text = 'to be set via onChange listener in changeInput';
-                value.index = idx;   // same as above.
-                value.label = options.config.valueLabels[idx];
-            });
-
         });
     };
 

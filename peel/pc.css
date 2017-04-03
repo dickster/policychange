@@ -34,7 +34,12 @@
     margin-right:10px;
 }
 
-
+.change-panel-popover .change-value:empty:after {
+    content:'-';
+    font-size:12px;
+    font-style:italic;
+    color:#999;
+}
 
 .change-panel-popover .change-value {
      /* margin-left:25px; */
@@ -155,9 +160,11 @@
     padding: 3px 3px;
 }
 
-.toggle-override i.fa { 
+.toggle-override i.fa {
     font-size:16px;
     padding-right:10px;
+    margin-top: -7px;
+    color: #a87b4c;
 }
 
 .change-item .fa {

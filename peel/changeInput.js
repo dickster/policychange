@@ -17,9 +17,10 @@ $.widget( "wtw.changeInput", {
         this.icon = $(this.options.config.inputIcon)
             .attr('data-change-ref',this.options.change.id).insertAfter(this.input);
 
+        // for debugging only to check reference...
+        this.options.change.foo = 'bar';
+
         this.icon.addClass('change-input-icon');
-        // TODO : make this a configurable option
-        this.cssSizes = ['sm','md','lg'];
 
         //blargh : this is a dangerous hack.  if i can't be sure that the parent of this icon is relative, then i'll never be able
         // to style its position.  i'm going to have to do an "absolute/top:0/right:0" kinda thing to maybe get it to work
@@ -35,13 +36,6 @@ $.widget( "wtw.changeInput", {
 
         this.element.on('change', function(e) {
             var value = self.val();
-
-            // because we don't get the display values from the server, just the codes we add this property at runtime.
-            if (Number.isInteger(value.index)) {
-                value.size = self.cssSizes[Math.trunc(Math.min(value.text.length / 13, 2))];
-                value.text = value.text;
-            }
-
             self._updateState(value);
             self._trigger('update', null, [self.options.change.id, value]);
         });
@@ -223,5 +217,15 @@ $.widget( "wtw.changeInput", {
         this.activate();
         this.show();
     },
+
+    normalizeValues : function() {
+        var sizes = this.options.config.cssSizes;
+            $.each(this.options.change.values, function(i,value) {
+                value.text = value.code;
+                value.size = sizes[Math.min(2, value.text.length)];
+                value.index = i;
+        });
+        return this.options.change.values;
+    }
 
 });

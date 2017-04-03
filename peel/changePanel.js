@@ -23,8 +23,6 @@ $.widget( "wtw.changePanel", {
                     return template(self.options);
                 },
                 content: function() {
-                    console.log(JSON.stringify(self.options.changes));
-                    console.log(JSON.stringify(self.options.changes[0].values[0].text));
                     var template = Handlebars.compile($(content).html());
                     return template(self.options);
                 }

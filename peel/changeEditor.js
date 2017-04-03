@@ -32,7 +32,6 @@ wtw.changeEditor = (function() {
 
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
         $.each(this.options.changes, function(i,change) {
-            change.hello = 'world';
             var $input = $('['+config.idAttr+'="'+change.id+'"]');
             $input.changeInput({config:config, change:change})
                 .on('changeinputupdate', function(e, id, value) {

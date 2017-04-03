@@ -11,14 +11,13 @@ $.widget( "wtw.changeInput", {
         //this.options = $.extend(defaultOptions, this.options);
         var self = this;
 
-        this.val = wtw.changeInputValHooks.init(this.element);
+        var hooks = wtw.changeInputValHooks(this.element);
+        this.val = hooks.val;
+        this.getTextForCode = hooks.text;
 
         this.input = this.getInput(this.element);
         this.icon = $(this.options.config.inputIcon)
             .attr('data-change-ref',this.options.change.id).insertAfter(this.input);
-
-        // for debugging only to check reference...
-        this.options.change.foo = 'bar';
 
         this.icon.addClass('change-input-icon');
 
@@ -219,9 +218,10 @@ $.widget( "wtw.changeInput", {
     },
 
     normalizeValues : function() {
+        var self = this;
         var sizes = this.options.config.cssSizes;
             $.each(this.options.change.values, function(i,value) {
-                value.text = value.code;
+                value.text = self.getTextForCode(value.code);
                 value.size = sizes[Math.min(2, value.text.length)];
                 value.index = i;
         });

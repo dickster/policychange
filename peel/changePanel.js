@@ -46,9 +46,10 @@ $.widget( "wtw.changePanel", {
     },
 
     _activate : function($changeItem) {
+        // highlight the proper row....
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
-        // notify the world that we want to focus on this change. parent mediator will dispatch as needed.
+        // ...then notify the world that we want to focus on this change. parent mediator will dispatch as needed.
         var changeId = $changeItem.attr(this.options.config.refAttr);
         this._trigger('select', null, [changeId]);
     },
@@ -79,10 +80,8 @@ $.widget( "wtw.changePanel", {
         var index = ($active.length!=0) ? $items.index($active)+delta : 0;
         var count = $items.length;
         index = (index<0) ? count - 1 :
-            (index>=count) ? 0 :
-                index;
+            (index>=count) ? 0 : index;
         this._activate($items.eq(index));
-
     },
 
     _initPrevNextButtons: function ($popover) {
@@ -109,7 +108,6 @@ $.widget( "wtw.changePanel", {
         $popover.find('.change-item').each(function(i) {
             callback($(this), self.options.changes[i]);
         });
-
     },
 
     getPopoverContent: function () {
@@ -117,26 +115,26 @@ $.widget( "wtw.changePanel", {
         return pop ? pop.tip() : null;
     },
 
-    updateChange:function(id, changeValue) {
+    updateChange:function(id, change) {
         var $sections = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section');
         $sections.removeClass('accepted');
-        var displayValue = changeValue.displayValue;
-        if (!displayValue) {
-            displayValue = '<empty>';
+        var text = change.text;
+        if (!text) {
+            text = '<empty>';
         }
 
         // CAVEAt : index can null/undefined.
         // if one of the change values isn't set. .: it's overridden by user to be something else.
         // in this case, the toggle button doesn't make sense so we'll show the "override state"
         var $changeItem;
-        if (Number.isInteger(changeValue.index) && changeValue.index>=0) {
-            $changeItem = $sections.eq(changeValue.index);
+        if (Number.isInteger(change.index)) {
+            $changeItem = $sections.eq(change.index);
         }
         else {
             $changeItem = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section.toggle-override');
         }
         $changeItem.addClass('accepted');
-        $changeItem.find('.change-value').text(displayValue);
+        $changeItem.find('.change-value').text(text);
     }
 
 });

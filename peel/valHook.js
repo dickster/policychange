@@ -3,6 +3,7 @@ var wtw = wtw ? wtw : {};
 // google jquery valHook to see an example of the pattern.   i am piggybacking on their approach to handling 'val()' method.
 wtw.changeInputValHooks = (function() {
 
+
     var init = function (element) {
         if (element.is('select')) {
             return selectVal;
@@ -10,31 +11,38 @@ wtw.changeInputValHooks = (function() {
         return defaultVal;
     };
 
-    var _val = function(changeInput,displayValue) {
+    var _val = function(changeInput) {
         var value = changeInput.input.val();
-        var index = changeInput.options.change.values.indexOf(value);
+        var values = changeInput.options.change.values;
+        var index = null;
+        for (var i = 0; i<values.length; i++) {
+            if (values[i].code == value) {
+                values[i].text = value;
+                return values[i];
+            }
+        }
+        // otherwise return an object representing "overriden" (i.e. not one of the given, expected change values)
         return {
             value:value,
-            index:index==-1?null:index,
-            displayValue:displayValue ? displayValue : value
+            index:null,
+            text:value
         }
     };
 
     var defaultVal = function(value) {
         var changeInput = this;
         if(value) {
-            changeInput.input.val(value);
+            changeInput.input.val(value.code);
         }
         else {
             return _val(changeInput);
         }
     };
 
-
     var selectVal = function(value) {
         var changeInput = this;
         if(value) {
-            changeInput.input.val(value);
+            changeInput.input.val(value.code);
         }
         else {
             var displayValue = changeInput.input.find('option:selected').text();
@@ -45,7 +53,7 @@ wtw.changeInputValHooks = (function() {
     var easyJsCombo = function(value) {
         var changeInput = this;
         if(value) {
-            changeInput.input.val(value);
+            changeInput.input.val(value.code);
         }
         else {
             var v = this.input.val();

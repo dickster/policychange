@@ -31,8 +31,8 @@ wtw.changeEditor = (function() {
         $.each(this.options.changes, function(i,change) {
             var $input = $('['+config.idAttr+'="'+change.id+'"]');
             $input.changeInput({config:config, change:change})
-                .on('changeinputupdate', function(e, id, changeValue) {
-                    $('.change-panel').changePanel('updateChange', id, changeValue);
+                .on('changeinputupdate', function(e, id, value) {
+                    $('.change-panel').changePanel('updateChange', id, value);
                 })
                 .on('changeinputnext',function(e) { self.go($input,1); } )
                 .on('changeinputprev',function(e) { self.go($input,-1); } )
@@ -43,7 +43,7 @@ wtw.changeEditor = (function() {
 
             // TODO : may need to get the value somehow else.  for now assuming it's the 0th element.
             // maybe the options data should have a {defaultIndex:0} property.
-            var startingValue = change.values[0].value;
+            var startingValue = change.values[0];
             $input.changeInput('set', startingValue );
         });
 
@@ -58,6 +58,13 @@ wtw.changeEditor = (function() {
                 }
             });
         });
+
+        // create lookup so i can find changes by id.
+        this.changesById = {};
+        for (var i = 0, len = this.options.changes.length; i < len; i++) {
+            this.changesById[this.options.changes[i].id] = this.options.changes[i];
+        }
+
     };
 
     var formatChanges = function(options) {
@@ -68,18 +75,13 @@ wtw.changeEditor = (function() {
                 change.summary = '[change  '+change.id+']';
                 console.log('no label was given for the change with id ' + change.id + '  (using id as default label)');
             }
-            var sizes = ['sm','md','lg'];
-            change.dflt = {};
-            change.dflt.desc = change.values[0];  // TODO : later may need to store a key instead of text!
-            change.dflt.size = sizes[Math.trunc(Math.min(change.dflt.desc.length/13,2))];
-            change.dflt.label = options.config.valueLabels[0];
-            change.dflt.value = '';
 
-            change.previous = {};
-            change.previous.label = options.config.valueLabels[1];
-            change.previous.desc = change.values[1];
-            change.previous.value = change.previous.desc;   // TODO : later may need to store a key instead of text!
-            change.previous.size = sizes[Math.trunc(Math.min(change.previous.desc.length/13,2))];
+            $.each(change.values, function(idx,value) {
+                value.text = 'to be set via onChange listener in changeInput';
+                value.index = idx;   // same as above.
+                value.label = options.config.valueLabels[idx];
+            });
+
         });
     };
 

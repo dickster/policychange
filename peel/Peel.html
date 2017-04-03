@@ -21,11 +21,21 @@
         $(function() {
             var options = {
                 changes:[
-                    {type:'modify',         id: 1,               values: ['Chrysler','Fiat-Chrysler']},
-                    {type:'modify',         id: 2,               values: ['joe.smith@hotmail.com','joe.quentin.smith@gmail.com']},
-                    {type:'modify',         id: 3,               values: ['BirthdayA','BirthdayB']},
-                    {type:'modify',         id: 5,               values: ['a','b' ]},
-                    {type:'modify',         id: 4,               values: ['G1','C']}
+                    {   type:'modify',
+                        id: 1,
+                        values: [{code:'Chrysler'},{code:'Fiat-Chrysler'}] },
+                    {   type:'modify',
+                        id: 2,
+                        values: [{code:'joe.smith@hotmail.com'},{code:'joe.quentin.smith@gmail.com'}] },
+                    {   type:'modify',
+                        id: 3,
+                        values: [{code:'BirthdayA'},{code:'BirthdayB'}] },
+                    {   type:'modify',
+                        id: 5,
+                        values: [{code:'a'},{code:'b'}] },
+                    {   type:'modify',
+                        id: 4,
+                        values: [{code:'G1'},{code:'C'}] }
                 ],
 
                 // all view customization data goes here.
@@ -66,12 +76,12 @@
             <a class="list-group-item change-item change-item-{{type}}">
                 <span class="summary">{{summary}}</span>
                 <section class="toggle-on" class>
-                    <span class="change-value {{dflt.size}}">{value.[0].desc}}</span>
-                    <span class="change-aside {{previous.size}}"> (was {{value.[1].desc}})</span>
+                    <span class="change-value {{values.[0].size}}">{values.[0].text}}</span>
+                    <span class="change-aside {{values.[1].size}}"> (was {{values.[1].text}})</span>
                     <i class="fa fa-toggle-on"></i>
                 </section>
                 <section class="toggle-off">
-                    <span class="change-value {{previous.size}}">{{value.[1].desc}}</span>
+                    <span class="change-value {{values.[1].size}}">{{values.[1].text}}</span>
                     <span class="change-aside sm"> (change ignored)</span>
                     <i class="fa fa-toggle-off"></i>
                 </section>
@@ -93,11 +103,11 @@
         <div class="list-group change-values change-input-{{type}}">
             <a class="change-value list-group-item">
                 <span class="change-input-accept" data-change-value='{{value}}'><i class="fa fa-check-circle"/></span>
-                <label>{{dflt.label}}</label> : <span class="change-input-value">{{value.[0].display}}</span>
+                <label>{{values.[0].label}}</label> : <span class="change-input-value">{{values.[0].text}}</span>
             </a>
             <a class="change-value list-group-item">
                 <span class="change-input-accept" data-change-value='{{value}}'><i class="fa fa-check-circle"/></span>
-                <label>{{previous.label}}</label> : <span class="change-input-value">{{value.[1].display}}</span>
+                <label>{{values.[1].label}}</label> : <span class="change-input-value">{{values.[1].text}}</span>
             </a>
         </div>
         </div>

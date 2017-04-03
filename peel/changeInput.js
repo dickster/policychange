@@ -18,6 +18,8 @@ $.widget( "wtw.changeInput", {
             .attr('data-change-ref',this.options.change.id).insertAfter(this.input);
 
         this.icon.addClass('change-input-icon');
+        // TODO : make this a configurable option
+        this.cssSizes = ['sm','md','lg'];
 
         //blargh : this is a dangerous hack.  if i can't be sure that the parent of this icon is relative, then i'll never be able
         // to style its position.  i'm going to have to do an "absolute/top:0/right:0" kinda thing to maybe get it to work
@@ -32,9 +34,16 @@ $.widget( "wtw.changeInput", {
         });
 
         this.element.on('change', function(e) {
-            var changeVal = self.val();
-            self._trigger('update', null, [self.options.change.id, changeVal]);
-            self._updateState(changeVal);
+            var value = self.val();
+
+            // because we don't get the display values from the server, just the codes we add this property at runtime.
+            if (Number.isInteger(value.index)) {
+                value.size = self.cssSizes[Math.trunc(Math.min(value.text.length / 13, 2))];
+                value.text = value.text;
+            }
+
+            self._updateState(value);
+            self._trigger('update', null, [self.options.change.id, value]);
         });
 
         // TODO: fix this so change is triggered after creation (because the listener isn't attached yet so this
@@ -58,7 +67,7 @@ $.widget( "wtw.changeInput", {
             this.input.attr('list',id);
             var $datalist = $('<datalist id="'+id+'"></datalist>');
             $.each(this.options.change.values, function(i,value) {
-                $datalist.append($('<option>'+value+'</option>'));
+                $datalist.append($('<option>'+value.text+'</option>').attr('value',value.code));
             });
             $datalist.insertAfter(this.input);
         }
@@ -108,12 +117,16 @@ $.widget( "wtw.changeInput", {
         });
     },
 
-    _updateState: function(changeVal) {
+    _updateState: function(value) {
         var content = this._getPopoverContent();
-        if (!content) return;
-        this._getPopoverContent().find('.change-value').removeClass('accepted');
-        if (changeVal.index>=0) {
-            this._getPopoverContent().find('.change-value').eq(changeVal.index).addClass('accepted');
+        if (!content) {
+            return;   // if no popup showing then nothing to do.
+        }
+
+        content.find('.change-value').removeClass('accepted');
+
+        if (Number.isInteger(value.index)) {
+            content.find('.change-value').eq(value.index).addClass('accepted');
         }
     },
 
@@ -170,6 +183,9 @@ $.widget( "wtw.changeInput", {
     },
 
     set: function(value)  {
+        if (!value.code) {
+            throw ' you must pass a full change value object to changeInput:set.   e.g. value : { code:"ON", text:"Ontario"}';
+        }
         this.val(value);
         this.input.trigger('change');
     },

@@ -20,8 +20,6 @@ wtw.changeEditor = (function() {
 
         formatChanges(this.options);
 
-
-
         $('.change-panel').changePanel(this.options)
             .on('changepanelselect', function(e,id) {
                 getInput(id).changeInput('activate', id);
@@ -30,7 +28,16 @@ wtw.changeEditor = (function() {
                 getInput(id).changeInput('set',value);
             });
 
-        // TODO : sort these by ascending order in the DOM.
+        // sort these by ascending order in the DOM. if you don't then the navigation will be jerky and won't make sense when you Next/Prev in the panel.
+        //  note that the data has no idea where they are on the form so no order can be assumed.
+        var $inputs = $('['+config.idAttr+']');
+        this.options.changes.sort(function(a,b) {
+            var $a = $('['+config.idAttr+'="'+a.id+'"]');
+            var $b = $('['+config.idAttr+'="'+b.id+'"]');
+            console.log('comparing ' + a.id + ' to ' + b.id);
+            var result = $inputs.index($a) - $inputs.index($b);
+            return result;
+        });
 
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
         $.each(this.options.changes, function(i,change) {
@@ -46,7 +53,6 @@ wtw.changeEditor = (function() {
             $('.change-panel').changePanel('initInput', change.id, initialValues);
         });
 
-
         $('.change-panel').changePanel('show');
 
         // if you click somewhere outside of input popup, then hide any visible input popups.
@@ -60,7 +66,6 @@ wtw.changeEditor = (function() {
                 }
             });
         });
-
 
     };
 

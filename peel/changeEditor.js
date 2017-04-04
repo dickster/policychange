@@ -77,6 +77,11 @@ wtw.changeEditor = (function() {
                 change.summary = '[change  '+change.id+']';
                 console.log('no label was given for the change with id ' + change.id + '  (using id as default label)');
             }
+            $.each(change.values, function(idx,value) {
+                value.index = idx;
+                value.label = options.config.valueLabels[idx];
+            });
+
         });
     };
 

@@ -213,13 +213,14 @@ $.widget( "wtw.changeInput", {
         this.show();
     },
 
+    // gets the display values and calculates size of text required for styling purposes.
+    // e.g. for a select, the value might be "M" but the display value (text) will be "Male".
     normalizeValues : function() {
         var self = this;
         var sizes = this.options.config.cssSizes;
             $.each(this.options.change.values, function(i,value) {
                 value.text = self.getTextForCode(value.code);
                 value.size = sizes[Math.min(2, value.text.length)];
-                value.index = i;
         });
         return this.options.change.values;
     }

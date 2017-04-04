@@ -26,8 +26,14 @@
     font-family: sans-serif;
 }
 
+.change-input-popover .popover-title .fa,
 .change-panel-popover .popover-title .fa {
     color: #5171ba;
+}
+
+.change-input-popover .popover-title .fa {
+    font-weight:bold;
+    padding-right:5px;
 }
 
 .change-panel-popover .popover-title .fa-stack {
@@ -152,8 +158,8 @@
 .change-item-delete .summary:before {
     content:'\f056';
 }
-.change-item .summary { 
-    color:#223599;
+.change-item .summary {
+    color: #2b3c91;
 }
 
 .list-group-item.change-item {
@@ -181,11 +187,10 @@
 li.change-input-icon {
     position:absolute;
     top:0;
-    right: 12px;
-    color: red;
-    /* background: lightblue; */
-    /* width: 6px; */
+    right: 5px;
+    color: #4b0303;
 }
+
 
 @keyframes highlight {
     from { border-size:inherit; }
@@ -259,16 +264,23 @@ li.change-input-icon {
 }
 
 
+
 /*  BLARGH!  hacks to overcome forms & easy & other .css */
-.popover .btn.btn-default {
+.change-input-popover.popover .btn.btn-default,
+.change-panel-popover.popover .btn.btn-default {
     border-color:#ccc;
     padding: 1px 5px;
-    font-size: 18px;
     color: #66a;
 }
+.change-input-popover.popover .btn.btn-default {
+    font-size: 11px;
+}
+.change-panel-popover.popover .btn.btn-default {
+    font-size: 18px;
+}
 
-.popover a.list-group-item  {
-/*     outline:1px solid blue; */
+.change-panel.popover.popover a.list-group-item,
+.change-input.popover.popover a.list-group-item  {
     color: #666;
     font-size: 12px;
     text-decoration: none;

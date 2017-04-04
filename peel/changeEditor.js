@@ -4,7 +4,7 @@ wtw.changeEditor = (function() {
 
     var defaultOptions = {
         config: {
-            inputIcon: '<li class="fa fa-exclamation"></li>',
+            inputIcon: '<li class="fa fa-copy"></li>',
             open: true,
             expanded:false,
             trigger: 'click',

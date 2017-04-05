@@ -35,32 +35,22 @@ wtw.changeEditor = (function() {
             change.isModify = function() { return change.type=='modify'; }
             change.isDelete = function() { return change.type=='delete'; }
             change.isAdd = function() { return change.type=='add'; }
-            if (change.type=='modify') {
-                var $input = $('[' + config.idAttr + '="' + change.id + '"]');
-                $input.changeInput({config: config, change: change})
-                    .on('changeinputupdate', function (e, id, value) {
-                        $('.change-panel').changePanel('updateChange', id, value);
-                    })
-                    .on('changeinputnext', function (e) {
-                        self.go($input, 1);
-                    })
-                    .on('changeinputprev', function (e) {
-                        self.go($input, -1);
-                    })
-                // update the options object here...
-                // we'll ask each input to get the display values for the change.
-                // i.e. a select <input> will figure out that the text for code "M" is "Male".
-                // we need this *before* we show the change panel because it needs to describe all the changes.
-                $input.changeInput('normalizeValues');
-            }
-            else if (change.type=='delete') {
-                var $container = $('[' + config.idAttr + '="' + change.id + '"]');
-                $container.changeDelete({config:config, change:change});
-            }
-            else if (change.type=='add') {
-                var $container = $('[' + config.idAttr + '="' + change.id + '"]');
-                $container.changeAdd({config:config, change:change});
-            }
+            var $input = $('[' + config.idAttr + '="' + change.id + '"]');
+            $input.changeInput({config: config, change: change})
+                .on('changeinputupdate', function (e, id, value) {
+                    $('.change-panel').changePanel('updateChange', id, value);
+                })
+                .on('changeinputnext', function (e) {
+                    self.go($input, 1);
+                })
+                .on('changeinputprev', function (e) {
+                    self.go($input, -1);
+                })
+            // update the options object here...
+            // we'll ask each input to get the display values for the change.
+            // i.e. a select <input> will figure out that the text for code "M" is "Male".
+            // we need this *before* we show the change panel because it needs to describe all the changes.
+            $input.changeInput('normalizeValues');
         });
 
         $('.change-panel').changePanel(this.options)
@@ -88,16 +78,19 @@ wtw.changeEditor = (function() {
     };
 
     var activate = function(change) {
-        if (change.type=='modify') {
-            self.$currentActive = getInput(change.id).changeInput('activate', self.$currentActive );
+        var self = this;
+        var $input = this.input;
+
+        if (self.activeChange) {   // de-activate old if any...
+            self.activeChange.changeInput('activate', false);
         }
-        if (change.type=='add') {
-            self.$currentActive = getInput(change.id).changeAdd('activate', self.$currentActive );
-        }
-        if (change.type=='delete') {
-            self.$currentActive = getInput(change.id).changeDelete('activate', self.$currentActive );
-        }
+
+        // update the new active change input.
+        self.activeChange = getInput(change.id);
+        // ...and activate it.
+        self.activeChange.changeInput('activate', true );
     };
+
 
     var formatChanges = function(options) {
         var config = options.config;
@@ -141,38 +134,6 @@ wtw.changeEditor = (function() {
         $inputs.eq(to).changeInput('activateAndShowPopup');
     };
 
-    // var activate = function() {
-    //     var $input = this.input;
-    //
-    //     if ($currentActive) {
-    //         $currentActive.removeClass('active-change');
-    //     }
-    //
-    //     // NOTE: this currently doesn't take into account hidden elements.
-    //     if (!this._isInViewport($input)) {
-    //         $('html, body').animate({
-    //                 scrollTop: $input.offset().top - 75
-    //             },
-    //             350,
-    //             function() {
-    //                 $input.addClass('active-change');
-    //             });
-    //     }
-    //     else {
-    //         $input.addClass('active-change');
-    //     }
-    //     return $input;
-    // };
-
-    // // TODO : move this to utility object.
-    // var _isInViewport = function($el) {
-    //     var win = $(window);
-    //     var viewTop = win.scrollTop();
-    //     var viewBottom = viewTop + win.height();
-    //     var top = $el.offset().top;
-    //     var bottom = top + $el.height();
-    //     return (viewTop<=top && viewBottom >= bottom);
-    // };
 
     return {
         init: init,

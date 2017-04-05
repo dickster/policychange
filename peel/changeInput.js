@@ -10,6 +10,40 @@ $.widget( "wtw.changeInput", {
 
         // INPUT
 
+        var change = this.options.change;
+        var config = this.options.config;
+
+        switch (change.type) {
+            case 'modify':
+                this._createModify();
+                break;
+            case 'add':
+                this._createAdd();
+                break;
+            case 'delete':
+                this._createDelete();
+                break;
+            default:
+                throw 'unknown change type ' + change.type;
+        }
+    },
+
+    _createAdd : function() {
+        var template = Handlebars.compile($(this.options.config.template.add).html());
+        var $add = $(template(this.options.change));
+        $add.insertBefore(this.element);
+        this.input = $add;
+    },
+
+    _createDelete : function() {
+        var template = Handlebars.compile($(this.options.config.template.delete).html());
+        var $delete = $(template(this.options.change));
+        $delete.insertBefore(this.element);
+        this.input = $delete;
+    },
+
+    _createModify : function() {
+        var self = this;
         var hooks = wtw.changeInputValHooks(this.element);
         this.val = hooks.val;
         this.getTextForCode = hooks.text;
@@ -150,28 +184,26 @@ $.widget( "wtw.changeInput", {
         this.element.trigger('change');
     },
 
-    activate: function($currentActive) {
+    activate: function(on) {
         var $input = this.input;
-
-        if ($currentActive) {
-            $currentActive.removeClass('active-change');
-        }
-
-        // NOTE: this currently doesn't take into account hidden elements.
-        if (!this._isInViewport($input)) {
-            $('html, body').animate({
-                    scrollTop: $input.offset().top - 75
-                },
-                350,
-                function() {
-                    $input.addClass('active-change');
-                });
+        if (arguments.length==0 || on) {
+            if (!this._isInViewport($input)) {
+                // NOTE: this currently doesn't take into account hidden elements.
+                if (!this._isInViewport($input)) {
+                    $('html, body').animate({ scrollTop: $input.offset().top - 75}, 350, function () {
+                        $input.addClass('active-change');
+                    });
+                }
+            }
+            else {
+                $input.addClass('active-change');
+            }
         }
         else {
-            $input.addClass('active-change');
+            $input.removeClass('active-change');
         }
-        return $input;
     },
+
 
     // TODO : move this to utility object.
     _isInViewport : function($el) {
@@ -183,6 +215,7 @@ $.widget( "wtw.changeInput", {
         return (viewTop<=top && viewBottom >= bottom);
     },
 
+
     activateAndShowPopup: function() {
         this.activate();
         this.show();
@@ -191,6 +224,8 @@ $.widget( "wtw.changeInput", {
     // gets the display values and calculates size of text required for styling purposes.
     // e.g. for a select, the value might be "M" but the display value (text) will be "Male".
     normalizeValues : function() {
+        // this only applies to modify changes.  add & deletes have nothing to normalize!
+        if (this.options.change.type!='modify') return;
         var self = this;
         var sizes = this.options.config.cssSizes;
             $.each(this.options.change.values, function(i,value) {

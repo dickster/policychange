@@ -137,7 +137,6 @@
  i have positioned fixed to the top right of the screen. */
 .change-dock {
     position:fixed;
-    /* outline: 1px solid blue; */
     top: 0;
     right: 240px;
 }
@@ -202,7 +201,6 @@ li.change-input-icon {
     animation-name: highlight;
     animation-duration: 340ms;
     animation-iteration-count:2;
-    outline:1px solid blue;
 }
 
 
@@ -227,7 +225,6 @@ li.change-input-icon {
 .change-summary .change-value {
     display:block;
 }
-
 
 .change-panel-title {
     font-size: 22px;
@@ -265,7 +262,6 @@ li.change-input-icon {
     display:block;
 }
 
-
 .change-item-modify section div.accepted {
     display: block;
 }
@@ -274,8 +270,13 @@ li.change-input-icon {
     display:none;
 }
 
-
-.change-add {
+.change-add.alert {
+    margin-bottom:-10px;    
+}
+.change-add .fa.fa-level-down {
+    vertical-align: text-top;
+    font-size: 20px;
+    color: #999;
 }
 .change-delete {
 }

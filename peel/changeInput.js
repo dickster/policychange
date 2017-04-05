@@ -6,8 +6,9 @@ $.widget( "wtw.changeInput", {
     // i should have default options specific to input here so editor doesn't have to know about them.
 
     _create: function() {
-        //this.options = $.extend(defaultOptions, this.options);
         var self = this;
+
+        // INPUT
 
         var hooks = wtw.changeInputValHooks(this.element);
         this.val = hooks.val;
@@ -16,7 +17,6 @@ $.widget( "wtw.changeInput", {
         // the actual visible input element.  (recall, there could be a hidden input that has the actual value but we need reference to the actual
         // element the user interacts with.
         this.input = hooks.input;
-
 
         this.icon = $(this.options.config.inputIcon)
             .attr('data-change-ref',this.options.change.id).insertAfter(this.input);
@@ -28,7 +28,7 @@ $.widget( "wtw.changeInput", {
         // which means i need to have a relative parent to attach to.
         // maybe i should make this an option for each change....forceParentRelative?
         // or i could just hijack the .css and fix it there but i might not have access.
-        this.icon.parent().css('position','relative');
+        this.icon.parent().css('position','relative');  // ScREW THIS---IT WON'T WORK.
         // end of hack.
 
         this.icon.click(function() {
@@ -40,20 +40,6 @@ $.widget( "wtw.changeInput", {
             self._updateState(value);
             self._trigger('update', null, [self.options.change.id, value]);
         });
-
-        // TODO: fix this so change is triggered after creation (because the listener isn't attached yet so this
-        // event will not be handled.
-        // the editor could do a $allInputs.triggerInitialBlahBlahBlah().
-
-        // this is crap.  i should do this in parent editor.  i need the timeout because it has to be done after
-        // everything is created and all listeners attached.
-        // only do this if a popup is attached (ie. it is associated with a change).
-        setTimeout(function() {
-            // trigger a change that will in effect broadcast the current value to the mediator.
-            // ** maybe i should trigger using a custom event like 'initState'?? instead of 'change'
-            // to avoid possible side effects?
-            self.element.trigger('change');
-        },300);
 
         // add data list if it's a text input.  handy so user can see both options directly in form widget.
         // see #https://www.w3schools.com/tags/tag_datalist.asp

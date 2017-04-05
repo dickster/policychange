@@ -140,11 +140,11 @@ $.widget( "wtw.changePanel", {
     },
 
     show: function() {
+        var self = this;
         this.element.popover('show');
+        $.each(this.options.changes, function(i,change) {
+            self.updateChange(change.id, change);
+        })
     },
-
-    initInput : function(id, initialValues) {
-        $.extend(this.changesById[id].values,initialValues);
-    }
 
 });

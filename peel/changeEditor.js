@@ -13,21 +13,12 @@ wtw.changeEditor = (function() {
     };
 
 
-
     var init = function(opts) {
         var self = this;
         this.options = $.extend(true,{},opts,defaultOptions);
         var config = this.options.config;
 
         formatChanges(this.options);
-
-        $('.change-panel').changePanel(this.options)
-            .on('changepanelselect', function(e,change) {
-                self.$currentActive = activate(change);
-            })
-            .on('changepanelset', function(e, id, value) {
-                getInput(id).changeInput('set',value);
-            });
 
         // sort these by ascending order in the DOM. if you don't then the navigation will be jerky and won't make sense when you Next/Prev in the panel.
         //  note that the data has no idea where they are on the form so no order can be assumed.
@@ -56,9 +47,11 @@ wtw.changeEditor = (function() {
                     .on('changeinputprev', function (e) {
                         self.go($input, -1);
                     })
-
-                var initialValues = $input.changeInput('normalizeValues');
-                $('.change-panel').changePanel('initInput', change.id, initialValues);
+                // update the options object here...
+                // we'll ask each input to get the display values for the change.
+                // i.e. a select <input> will figure out that the text for code "M" is "Male".
+                // we need this *before* we show the change panel because it needs to describe all the changes.
+                $input.changeInput('normalizeValues');
             }
             else if (change.type=='delete') {
                 var $container = $('[' + config.idAttr + '="' + change.id + '"]');
@@ -69,6 +62,14 @@ wtw.changeEditor = (function() {
                 $container.changeAdd({config:config, change:change});
             }
         });
+
+        $('.change-panel').changePanel(this.options)
+            .on('changepanelselect', function(e,change) {
+                self.$currentActive = activate(change);
+            })
+            .on('changepanelset', function(e, id, value) {
+                getInput(id).changeInput('set',value);
+            });
 
         $('.change-panel').changePanel('show');
 
@@ -139,6 +140,39 @@ wtw.changeEditor = (function() {
         $input.changeInput('hide');
         $inputs.eq(to).changeInput('activateAndShowPopup');
     };
+
+    // var activate = function() {
+    //     var $input = this.input;
+    //
+    //     if ($currentActive) {
+    //         $currentActive.removeClass('active-change');
+    //     }
+    //
+    //     // NOTE: this currently doesn't take into account hidden elements.
+    //     if (!this._isInViewport($input)) {
+    //         $('html, body').animate({
+    //                 scrollTop: $input.offset().top - 75
+    //             },
+    //             350,
+    //             function() {
+    //                 $input.addClass('active-change');
+    //             });
+    //     }
+    //     else {
+    //         $input.addClass('active-change');
+    //     }
+    //     return $input;
+    // };
+
+    // // TODO : move this to utility object.
+    // var _isInViewport = function($el) {
+    //     var win = $(window);
+    //     var viewTop = win.scrollTop();
+    //     var viewBottom = viewTop + win.height();
+    //     var top = $el.offset().top;
+    //     var bottom = top + $el.height();
+    //     return (viewTop<=top && viewBottom >= bottom);
+    // };
 
     return {
         init: init,

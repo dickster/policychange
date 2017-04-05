@@ -40,12 +40,12 @@
                         id: 7,
                         values: [{code:'F'},{code:'M'}] },
                     {   type:'add',
-                        id:51,
+                        id:10,
                         values:[{text:'2013 Dodge Ram'}] },
                     {   type:'delete',
                         values:[{}, {text:'2009 Toyota Prius'}],
                         desc:'Vehicle',
-                        id:51
+                        id:500
                     }
                 ],
 
@@ -64,7 +64,7 @@
                     },
                     valueLabels:['Broker','Carrier'],
                     idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Drivers License Class',
-                        44:'Address 2',5:'TPDC', 7:'Gender', 51: 'Vehicle', 100:'City', 101:'Province' },
+                        44:'Address 2',5:'TPDC', 7:'Gender', 10:'Vehicle', 500: 'Vehicle', 100:'City', 101:'Province' },
                 },
             };
             wtw.changeEditor.init(options);
@@ -158,19 +158,20 @@
 
 
     <script id="changeDelete" type="text/x-handlebars-template">
-        <div class="change-delete">
-            <i class="fa fa-minus-circle"/><span>{{desc}}</span><span>{{values.[1].text}}</span><span> was deleted</span>
+        <div class="change-delete alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <i class="fa fa-minus-circle"/><span> {{desc}} </span><span>{{values.[1].text}}</span><span> was deleted</span>
+            </div>
         </div>
     </script>
-
 
     <script id="changeAdd" type="text/x-handlebars-template">
-        <div class="change-add">
-            <i class="fa fa-plus-circle"/><span>This {{desc}} </span><span> was added</span>
-        </div>
+            <div class="change-add alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <i class="fa fa-plus-circle"/><span> {{desc}} </span><span>{{values.[0].text}}</span><span> was added</span>
+                <i class="fa fa-level-down"/>
+            </div>
     </script>
-
-
 
 
     <!-- Optional theme -->
@@ -968,13 +969,13 @@
 
 
                         <!-- This is the container we will update via Ajax when the user clicks add or remove. -->
-                        <div id="id99" data-change-id="51">
+                        <div id="id99" data-change-id="500">
                             <!-- This is the element that will repeat for each list item. -->
                             <div>
 
                                 <div>
 
-                                    <div accesskey="V" id="id98"
+                                    <div accesskey="V" id="id98" data-change-id="10"
                                          class="persVehSection-easy-section easy-section maximized" style="">
                                         <div id="id98_heading"
                                              class="persVehSection-easy-section-heading easy-section-heading maximized">

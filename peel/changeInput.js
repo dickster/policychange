@@ -75,28 +75,11 @@ $.widget( "wtw.changeInput", {
 
     _initState: function () {
         var self = this;
-        var currentValue = this.val().value;
 
         // create handy alias for popover content after it's created.
         var content = this._getPopoverContent();
 
         content.addClass('change-input-popover');
-
-
-        // TODO : do i need this anymore???  delete.  should be handled by normalizing process at startup.
-        content.find('.change-value').each(function(i, value) {
-            // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
-            if (self._compareChangeValue(currentValue,$(value))) {
-                $(this).addClass('accepted');
-            }
-            else {
-                $(this).removeClass('accepted');
-            }
-            $(value).find('.change-input-accept').click(function () {
-                var value = self.options.change.values[i];
-                self.val(value);
-            });
-        });
 
         content.find('.next-change').click(function () {
             self._trigger('next');
@@ -104,6 +87,8 @@ $.widget( "wtw.changeInput", {
         content.find('.prev-change').click(function () {
             self._trigger('prev');
         });
+
+        this._updateState(this.val());
     },
 
     _updateState: function(value) {

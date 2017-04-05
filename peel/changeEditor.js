@@ -13,6 +13,7 @@ wtw.changeEditor = (function() {
     };
 
 
+
     var init = function(opts) {
         var self = this;
         this.options = $.extend(true,{},opts,defaultOptions);
@@ -21,8 +22,8 @@ wtw.changeEditor = (function() {
         formatChanges(this.options);
 
         $('.change-panel').changePanel(this.options)
-            .on('changepanelselect', function(e,id) {
-                self.$currentActive = getInput(id).changeInput('activate', self.$currentActive );
+            .on('changepanelselect', function(e,change) {
+                self.$currentActive = activate(change);
             })
             .on('changepanelset', function(e, id, value) {
                 getInput(id).changeInput('set',value);
@@ -60,11 +61,11 @@ wtw.changeEditor = (function() {
                 $('.change-panel').changePanel('initInput', change.id, initialValues);
             }
             else if (change.type=='delete') {
-                var $container = $('[' + config.idAttr + '="' + change.container + '"]');
+                var $container = $('[' + config.idAttr + '="' + change.id + '"]');
                 $container.changeDelete({config:config, change:change});
             }
             else if (change.type=='add') {
-                var $container = $('[' + config.idAttr + '="' + change.container + '"]');
+                var $container = $('[' + config.idAttr + '="' + change.id + '"]');
                 $container.changeAdd({config:config, change:change});
             }
         });
@@ -83,6 +84,18 @@ wtw.changeEditor = (function() {
             });
         });
 
+    };
+
+    var activate = function(change) {
+        if (change.type=='modify') {
+            self.$currentActive = getInput(change.id).changeInput('activate', self.$currentActive );
+        }
+        if (change.type=='add') {
+            self.$currentActive = getInput(change.id).changeAdd('activate', self.$currentActive );
+        }
+        if (change.type=='delete') {
+            self.$currentActive = getInput(change.id).changeDelete('activate', self.$currentActive );
+        }
     };
 
     var formatChanges = function(options) {

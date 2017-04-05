@@ -56,7 +56,7 @@ $.widget( "wtw.changePanel", {
         $changeItem.addClass('active');
         // ...then notify the world that we want to focus on this change. parent mediator will dispatch as needed.
         var changeId = $changeItem.attr(this.options.config.refAttr);
-        this._trigger('select', null, [changeId]);
+        this._trigger('select', null, [this.changesById[changeId]]);
     },
 
     onChangeAdded : function($changeItem, change) {

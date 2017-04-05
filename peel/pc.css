@@ -10,7 +10,7 @@
  */
 
 .fa.fa-minus-circle {
-    color:#5b0000;
+    color: #b48585;
 }
 .fa
 .fa-plus-circle {
@@ -202,6 +202,7 @@ li.change-input-icon {
     animation-name: highlight;
     animation-duration: 340ms;
     animation-iteration-count:2;
+    outline:1px solid blue;
 }
 
 
@@ -275,8 +276,6 @@ li.change-input-icon {
 
 
 .change-add {
-    position:absolute;
-    right:0;
 }
 .change-delete {
 }

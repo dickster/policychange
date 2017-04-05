@@ -1,8 +1,6 @@
 $.widget( "wtw.changeInput", {
     // CHANGE INPUT.
 
-    // pass an object/map that has a function factory to return method --> element ? {displayValue&value}
-
 
     // -----------------------------------------
     // i should have default options specific to input here so editor doesn't have to know about them.
@@ -84,6 +82,8 @@ $.widget( "wtw.changeInput", {
 
         content.addClass('change-input-popover');
 
+
+        // TODO : do i need this anymore???  delete.  should be handled by normalizing process at startup.
         content.find('.change-value').each(function(i, value) {
             // TODO : make a compareChangeValue method. this may get tricky for non-string values (boolean, dates, etc...)
             if (self._compareChangeValue(currentValue,$(value))) {
@@ -153,11 +153,11 @@ $.widget( "wtw.changeInput", {
             trigger: 'manual',
             html : true,
             title: function() {
-                var template = Handlebars.compile($(self.options.config.inputTitle).html());
+                var template = Handlebars.compile($(self.options.config.template.inputTitle).html());
                 return template(self.options.change);
             },
             content: function() {
-                var template = Handlebars.compile($(self.options.config.inputContent).html());
+                var template = Handlebars.compile($(self.options.config.template.inputContent).html());
                 return template(self.options.change);
             }
         })
@@ -180,13 +180,14 @@ $.widget( "wtw.changeInput", {
     },
 
     activate: function() {
+        // TODO : this doesn't work with easy JS combo.
         $('['+this.options.config.idAttr+']').removeClass('active-change');
         var $input = this.input;
 
         // NOTE: this currently doesn't take into account hidden elements.
         if (!this._isInViewport($input)) {
             $('html, body').animate({
-                    scrollTop: $input.offset().top
+                    scrollTop: $input.offset().top - 75
                 },
                 350,
                 function() {

@@ -34,6 +34,7 @@ wtw.changeInputValHooks = function(element) {
         return code;
     };
 
+    // TODO : doesn't work when "Choose One" is displayed in select.
     var selectText = function(code) {
         return this.input.find('option[value="'+code+'"]').text();
     };

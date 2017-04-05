@@ -3,7 +3,7 @@
 /* 
 .kludge {
     display:block;
-    height:900px;
+    height:900px;  
     width:100px;
     background:#f0f0f8;
 }
@@ -253,15 +253,35 @@ li.change-input-icon {
     padding-left:5px;
 }
 
-
-.change-item section.accepted {
-    display: block;
+.change-item section {
     margin-left: 25px;
-}
-
-.change-item section:not(.accepted) {
     display:none;
 }
+
+.change-item.change-item-delete section,
+.change-item.change-item-add section,
+.change-item.change-item-modify section {
+    display:block;
+}
+
+
+.change-item-modify section div.accepted {
+    display: block;
+}
+
+.change-item-modify section div:not(.accepted) {
+    display:none;
+}
+
+
+.change-add {
+    position:absolute;
+    right:0;
+}
+.change-delete {
+}
+
+
 
 
 

@@ -34,23 +34,39 @@ wtw.changeEditor = (function() {
         this.options.changes.sort(function(a,b) {
             var $a = $('['+config.idAttr+'="'+a.id+'"]');
             var $b = $('['+config.idAttr+'="'+b.id+'"]');
-            console.log('comparing ' + a.id + ' to ' + b.id);
             var result = $inputs.index($a) - $inputs.index($b);
             return result;
         });
 
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
         $.each(this.options.changes, function(i,change) {
-            var $input = $('['+config.idAttr+'="'+change.id+'"]');
-            $input.changeInput({config:config, change:change})
-                .on('changeinputupdate', function(e, id, value) {
-                    $('.change-panel').changePanel('updateChange', id, value);
-                })
-                .on('changeinputnext',function(e) { self.go($input,1); } )
-                .on('changeinputprev',function(e) { self.go($input,-1); } )
+            change.isModify = function() { return change.type=='modify'; }
+            change.isDelete = function() { return change.type=='delete'; }
+            change.isAdd = function() { return change.type=='add'; }
+            if (change.type=='modify') {
+                var $input = $('[' + config.idAttr + '="' + change.id + '"]');
+                $input.changeInput({config: config, change: change})
+                    .on('changeinputupdate', function (e, id, value) {
+                        $('.change-panel').changePanel('updateChange', id, value);
+                    })
+                    .on('changeinputnext', function (e) {
+                        self.go($input, 1);
+                    })
+                    .on('changeinputprev', function (e) {
+                        self.go($input, -1);
+                    })
 
-            var initialValues = $input.changeInput('normalizeValues');
-            $('.change-panel').changePanel('initInput', change.id, initialValues);
+                var initialValues = $input.changeInput('normalizeValues');
+                $('.change-panel').changePanel('initInput', change.id, initialValues);
+            }
+            else if (change.type=='delete') {
+                var $container = $('[' + config.idAttr + '="' + change.container + '"]');
+                $container.changeDelete({config:config, change:change});
+            }
+            else if (change.type=='add') {
+                var $container = $('[' + config.idAttr + '="' + change.container + '"]');
+                $container.changeAdd({config:config, change:change});
+            }
         });
 
         $('.change-panel').changePanel('show');
@@ -75,7 +91,16 @@ wtw.changeEditor = (function() {
             change.summary = config.idLabels[change.id];
             if (!change.summary) {
                 change.summary = '[change  '+change.id+']';
-                console.log('no label was given for the change with id ' + change.id + '  (using id as default label)');
+                console.log('no label was given for the change "' + JSON.stringify(change) + '"');
+            }
+            // recall : the deleted (previous) value is the [1]st element.  the current value is the [0]th.
+            //  .: delete should use [1] for its display value, add should use [0].
+            var sizes = config.cssSizes;
+            if (change.type=='delete') {
+                change.values[1].size = sizes[Math.min(2, change.values[1].text.length)];
+            }
+            if (change.type=='add') {
+                change.values[0].size = sizes[Math.min(2, change.values[0].text.length)];
             }
             $.each(change.values, function(idx,value) {
                 value.index = idx;

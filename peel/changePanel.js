@@ -8,8 +8,8 @@ $.widget( "wtw.changePanel", {
         var self = this;
         var shown = this._editorShown.bind(this);
         var config = this.options.config;
-        var title = config.title;
-        var content = config.content;
+        var title = config.template.changePanelTitle;
+        var content = config.template.changePanelContent;
 
         this.element.addClass('change-editor');
 
@@ -121,19 +121,20 @@ $.widget( "wtw.changePanel", {
     },
 
     updateChange:function(id, change) {
-        var $sections = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section');
-        $sections.removeClass('accepted');
+        // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
+        var $toggles = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"]  .toggle');
 
         // CAVEAt : index can null/undefined.
         // if one of the change values isn't set. .: it's overridden by user to be something else.
         // in this case, the toggle button doesn't make sense so we'll show the "override state"
         var $changeItem;
         if (Number.isInteger(change.index)) {
-            $changeItem = $sections.eq(change.index);
+            $changeItem = $toggles.eq(change.index);
         }
         else {
-            $changeItem = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] section.toggle-override');
+            $changeItem = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .toggle-override');
         }
+        $toggles.removeClass('accepted');
         $changeItem.addClass('accepted');
         $changeItem.find('.change-value').text(change.text).removeClass('sm md lg').addClass(change.size);
     },

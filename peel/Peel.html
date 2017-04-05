@@ -38,7 +38,15 @@
                         values: [{code:'G1'},{code:'C'}] },
                     {   type:'modify',
                         id: 7,
-                        values: [{code:'F'},{code:'M'}] }
+                        values: [{code:'F'},{code:'M'}] },
+                    {   type:'add',
+                        id:51,
+                        values:[{text:'2013 Dodge Ram'}] },
+                    {   type:'delete',
+                        values:[{}, {text:'2009 Toyota Prius'}],
+                        desc:'Vehicle',
+                        id:51
+                    }
                 ],
 
                 // all view customization data goes here.
@@ -46,12 +54,17 @@
                     header:'Changes',
                     idAttr:'data-change-id',
                     refAttr:'data-change-ref',
-                    title:'#changePanelTitle',
-                    content:'#changePanelContent',
-                    inputTitle:'#changeInputTitle',
-                    inputContent:'#changeInputContent',
+                    template:{
+                        changePanelTitle:'#changePanelTitle',
+                        changePanelContent:'#changePanelContent',
+                        inputTitle:'#changeInputTitle',
+                        inputContent:'#changeInputContent',
+                        add:'#changeAdd',
+                        delete:'#changeDelete'
+                    },
                     valueLabels:['Broker','Carrier'],
-                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Drivers License Class',44:'Address 2',5:'TPDC', 7:'Gender'},
+                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Drivers License Class',
+                        44:'Address 2',5:'TPDC', 7:'Gender', 51: 'Vehicle', 100:'City', 101:'Province' },
                 },
             };
             wtw.changeEditor.init(options);
@@ -78,21 +91,44 @@
             {{#each changes}}
             <a class="list-group-item change-item change-item-{{type}}">
                 <span class="summary">{{summary}}</span>
-                <section class="toggle-on" class>
-                    <span class="change-value {{values.[0].size}}">{values.[0].text}} </span>
-                    <span class="change-aside {{values.[1].size}}"> (was {{values.[1].text}})</span>
-                    <i class="fa fa-toggle-on"></i>
+
+               {{#if isModify}}
+                <section>
+                    <div class="toggle toggle-on" class>
+                        <span class="change-value {{values.[0].size}}">{{values.[0].text}} </span>
+                        <span class="change-aside {{values.[1].size}}"> (was {{values.[1].text}})</span>
+                        <i class="fa fa-toggle-on"></i>
+                    </div>
+                    <div class="toggle toggle-off">
+                        <span class="change-value {{values.[1].size}}">{{values.[1].text}}</span>
+                        <span class="change-aside sm"> (change ignored)</span>
+                        <i class="fa fa-toggle-off"></i>
+                    </div>
+                    <div class="toggle toggle-override">
+                        <span class="change-value"></span>
+                        <span class="change-aside sm"> (overriden by user)</span>
+                        <i class="fa fa-pencil"></i>
+                    </div>
                 </section>
-                <section class="toggle-off">
-                    <span class="change-value {{values.[1].size}}">{{values.[1].text}}</span>
-                    <span class="change-aside sm"> (change ignored)</span>
-                    <i class="fa fa-toggle-off"></i>
-                </section>
-                <section class="toggle-override">
-                    <span class="change-value"></span>
-                    <span class="change-aside sm"> (overriden by user)</span>
-                    <i class="fa fa-pencil"></i>
-                </section>
+                {{/if}}
+
+                {{#if isDelete}}
+                    <section>
+                        <div>
+                            <span class="change-value {{values.[1].size}}"> {{desc}} : <span>{{values.[1].text}}</span> </span>
+                            <span class="change-aside sm">  (deleted)</span>
+                        </div>
+                    </section>
+                {{/if}}
+
+                {{#if isAdd}}
+                    <section>
+                        <div>
+                            <span class="change-value {{values.[0].size}}"> {{values.[0].text}} </span>
+                            <span class="change-aside sm">  (added)</span>
+                        </div>
+                    </section>
+                {{/if}}
             </a>
             {{/each}}
         </div>
@@ -121,6 +157,22 @@
     </script>
 
 
+    <script id="changeDelete" type="text/x-handlebars-template">
+        <div class="change-delete">
+            <i class="fa fa-minus-circle"/><span>{{desc}}</span><span>{{values.[1].text}}</span><span> was deleted</span>
+        </div>
+    </script>
+
+
+    <script id="changeAdd" type="text/x-handlebars-template">
+        <div class="change-add">
+            <i class="fa fa-plus-circle"/><span>This {{desc}} </span><span> was added</span>
+        </div>
+    </script>
+
+
+
+
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
@@ -131,8 +183,14 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="./handlebars-v4.0.5.js"></script>
+    <!--TODO : these javascript files should be concatenated into one (via Gulp or whatever)
+        it's great for coding maintenance to have them in separate files but bad for performance.
+
+    -->
     <script src="./changePanel.js"></script>
     <script src="./changeInput.js"></script>
+    <script src="./changeDelete.js"></script>
+    <script src="./changeAdd.js"></script>
     <script src="./valHook.js"></script>
     <script src="./changeEditor.js"></script>
 
@@ -757,6 +815,7 @@
                                                                for="idf9">City: *</label>
                                                         <div class="partyInfoCity-easy-text-field-container easy-text-field-container easy-container input-append">
                                                             <input type="text"
+                                                                   data-change-id="100"
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:partyInfoCity:controlContainer:textField"
                                                                    class="form-control partyInfoCity-easy-text-field-input easy-text-field-input easy-input partyInfoCity-easy-input"
                                                                    value="" id="idf9" maxlength="32">
@@ -773,10 +832,12 @@
                                                         <div name="ctr" id="idfb"
                                                              class="partyInfoProvince-easy-combo-box-container easy-combo-box-container easy-container">
                                                             <input type="hidden" value="ON"
+                                                                   data-change-id="101"
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:partyInfoProvince:controlContainer:comboValue"
                                                                    id="idb"
                                                                    class="partyInfoProvince-easy-combo-box-value easy-combo-box-value">
                                                             <input type="text"
+                                                                   data-change-id="102"
                                                                    class="form-control partyInfoProvince-easy-combo-box-input easy-combo-box-input easy-input partyInfoProvince-easy-input"
                                                                    value=""
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:partyInfoProvince:controlContainer:comboText"
@@ -907,7 +968,7 @@
 
 
                         <!-- This is the container we will update via Ajax when the user clicks add or remove. -->
-                        <div id="id99">
+                        <div id="id99" data-change-id="51">
                             <!-- This is the element that will repeat for each list item. -->
                             <div>
 

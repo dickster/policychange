@@ -179,10 +179,12 @@ $.widget( "wtw.changeInput", {
         this.element.trigger('change');
     },
 
-    activate: function() {
-        // TODO : this doesn't work with easy JS combo.
-        $('['+this.options.config.idAttr+']').removeClass('active-change');
+    activate: function($currentActive) {
         var $input = this.input;
+
+        if ($currentActive) {
+            $currentActive.removeClass('active-change');
+        }
 
         // NOTE: this currently doesn't take into account hidden elements.
         if (!this._isInViewport($input)) {
@@ -197,6 +199,7 @@ $.widget( "wtw.changeInput", {
         else {
             $input.addClass('active-change');
         }
+        return $input;
     },
 
     // TODO : move this to utility object.

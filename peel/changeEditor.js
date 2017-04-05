@@ -22,7 +22,7 @@ wtw.changeEditor = (function() {
 
         $('.change-panel').changePanel(this.options)
             .on('changepanelselect', function(e,id) {
-                getInput(id).changeInput('activate', id);
+                self.$currentActive = getInput(id).changeInput('activate', self.$currentActive );
             })
             .on('changepanelset', function(e, id, value) {
                 getInput(id).changeInput('set',value);

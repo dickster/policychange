@@ -2,6 +2,8 @@
 var wtw = wtw ? wtw : {};
 wtw.changeEditor = (function() {
 
+    var options;
+
     var defaultOptions = {
         config: {
             inputIcon: '<li class="fa fa-copy"></li>',
@@ -16,6 +18,7 @@ wtw.changeEditor = (function() {
 
 
 
+
     // look for all elements with [data-change-id] and then see if they are in the current changes list.
     //  if not, and they are input/select/textarea add a change listener?  onChange = {
     //  change = {id, values:[{before},{after}]
@@ -24,15 +27,15 @@ wtw.changeEditor = (function() {
 
     var init = function(opts) {
         var self = this;
-        this.options = $.extend(true,{},opts,defaultOptions);
-        var config = this.options.config;
+        options = $.extend(true,{},opts,defaultOptions);
+        var config = options.config;
 
-        formatChanges(this.options);
+        formatChanges(options);
 
         // sort these by ascending order in the DOM. if you don't then the navigation will be jerky and won't make sense when you Next/Prev in the panel.
         //  note that the data has no idea where they are on the form so no order can be assumed.
         var $inputs = $('['+config.idAttr+']');
-        this.options.changes.sort(function(a,b) {
+        options.changes.sort(function(a,b) {
             var $a = $('['+config.idAttr+'="'+a.id+'"]');
             var $b = $('['+config.idAttr+'="'+b.id+'"]');
             var result = $inputs.index($a) - $inputs.index($b);
@@ -40,7 +43,7 @@ wtw.changeEditor = (function() {
         });
 
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
-        $.each(this.options.changes, function(i,change) {
+        $.each(options.changes, function(i,change) {
 
             change.isModify = function() { return change.type=='modify'; }
             change.isDelete = function() { return change.type=='delete'; }
@@ -53,24 +56,19 @@ wtw.changeEditor = (function() {
                     $('.change-editor').changePanel('updateChange', id, value);
                 })
                 .on('changeinputnext', function (e) {
-                    self.advanceInput(i, 1);
+                    advanceInput(i, 1);
                 })
                 .on('changeinputprev', function (e) {
-                    self.advanceInput(i, -1);
+                    advanceInput(i, -1);
                 })
-            // update the options object here...
-            // we'll ask each input to get the display values for the change.
-            // i.e. a select <input> will figure out that the text for code "M" is "Male".
-            // we need this *before* we show the change panel because it needs to describe all the changes.
-            $input.changeInput('normalizeValues');
         });
 
-        $('.change-editor').changePanel(this.options)
+        $('.change-editor').changePanel(options)
             .on('changepanelselect', function(e,change,showPopup) {
                 activate(change,showPopup);
             })
             .on('changepanelset', function(e, id, value) {
-                getInput(id).changeInput('set',value);
+                getInput(id).changeInput('set',value.index);
             });
 
         $('.change-editor').changePanel('show');
@@ -89,13 +87,12 @@ wtw.changeEditor = (function() {
 
     };
 
-    var advanceInput = function(current, delta) {
-        // define macro to get the element with specified change id.
-        var getInput = function(id) {
-            return $('[' + this.options.config.idAttr + '="' + id + '"]');
-        }.bind(this);
+    function getInput(id) {
+        return $('[' + options.config.idAttr + '="' + id + '"]');
+    }
 
-        var changes = this.options.changes;
+    function advanceInput(current, delta) {
+        var changes = options.changes;
         // hide current popup...
         getInput(changes[current].id).changeInput('hide');
         // ...calculate next one and show it.
@@ -103,11 +100,10 @@ wtw.changeEditor = (function() {
         if (to>=changes.length) to = 0;
         if (to<0) to = changes.length-1;
         getInput(changes[to].id).changeInput('activateAndShowPopup');
-    };
+    }
 
-    var activate = function(change, showPopup) {
+    function activate(change, showPopup) {
         var self = this;
-        var $input = this.input;
 
         var oldActive = self.activeChange;
         if (oldActive) {   // de-activate old if any...
@@ -115,7 +111,7 @@ wtw.changeEditor = (function() {
         }
 
         // update the new active change input.
-        self.activeChange = self.getInput(change.id);
+        self.activeChange = getInput(change.id);
         // ...and activate it.
         if (showPopup) {
             self.activeChange.changeInput('activateAndShowPopup');
@@ -123,10 +119,10 @@ wtw.changeEditor = (function() {
         else {
             self.activeChange.changeInput('activate');
         }
-    };
+    }
 
 
-    var formatChanges = function(options) {
+    function formatChanges(options) {
         var config = options.config;
         $.each(options.changes, function(i,change) {
             change.summary = config.idLabels[change.id];
@@ -149,12 +145,11 @@ wtw.changeEditor = (function() {
             });
 
         });
-    };
+    }
 
 
     return {
         init: init,
-        advanceInput : advanceInput
         // add other public methods you want to expose here...
     }
 

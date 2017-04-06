@@ -48,8 +48,6 @@ $.widget( "wtw.changeInput", {
         this.val = hooks.val;
         this.getTextForCode = hooks.text;
 
-        // TODO : should move normalizeValues to here since it's only a modify thang.
-
         // the actual visible input element.  (recall, there could be a hidden input that has the actual value but we need reference to the actual
         // element the user interacts with.
         this.input = hooks.input;
@@ -77,6 +75,9 @@ $.widget( "wtw.changeInput", {
             self._trigger('update', null, [self.options.change.id, value]);
         });
 
+        this._normalizeValues();
+
+
         // add data list if it's a text input.  handy so user can see both options directly in form widget.
         // see #https://www.w3schools.com/tags/tag_datalist.asp
         if (this.input.is('input:text')) {
@@ -88,6 +89,7 @@ $.widget( "wtw.changeInput", {
             });
             $datalist.insertAfter(this.input);
         }
+
     },
 
     _initState: function () {
@@ -163,20 +165,30 @@ $.widget( "wtw.changeInput", {
             }
         })
 
-        this._getPopoverContent().addClass(this.options.config.changeInputClass);
+        this._getPopoverContent().addClass(self.options.config.changeInputClass);
 
         this.icon.popover('show');
 
         this.icon.on('shown.bs.popover', function() {
+            var $content = self._getPopoverContent();
+
+            $content.on('click', '.change-input-accept', function(e) {
+                var index = $(this).attr('data-change-index');
+                self.set(index);
+            });
+
+            $content.find('.change-value').each(function(i, value) {
+                $(value).find('.change-input-accept').click(function () {
+                    var index = $(this).attr('data-change-index');
+                    self.set(index);
+                });
+            });
             self._initState();
         });
     },
 
-    set: function(value)  {
-        if (!value.code) {
-            throw ' you must pass a full change value object to changeInput:set.   e.g. value : { code:"ON", text:"Ontario"}';
-        }
-        this.val(value);
+    set: function(index)  {
+        this.val(this.options.change.values[index]);
         this.element.trigger('change');
     },
 
@@ -223,7 +235,7 @@ $.widget( "wtw.changeInput", {
 
     // gets the display values and calculates size of text required for styling purposes.
     // e.g. for a select, the value might be "M" but the display value (text) will be "Male".
-    normalizeValues : function() {
+    _normalizeValues : function() {
         // this only applies to modify changes.  add & deletes have nothing to normalize!
         if (this.options.change.type!='modify') return;
         var self = this;

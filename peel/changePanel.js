@@ -1,45 +1,50 @@
 
-// note : in order to override methods for basic widget, see
-// https://learn.jquery.com/jquery-ui/widget-factory/extending-widgets/
-
 $.widget( "wtw.changePanel", {
 
     _create: function() {
         var self = this;
-        var shown = this._editorShown.bind(this);
         var config = this.options.config;
-        var title = config.template.changePanelTitle;
-        var content = config.template.changePanelContent;
 
         this.element.addClass('change-editor');
 
         this.element.popover({
-                placement: 'bottom',
-                trigger: 'manual',
-                container:'body',
-                html : true,
-                title: function() {
-                    var template = Handlebars.compile($(title).html());
-                    return template(self.options);
-                },
-                content: function() {
-                    var template = Handlebars.compile($(content).html());
-                    return template(self.options);
-                }
-            })
+            placement: 'bottom',
+            trigger: 'manual',
+            container:'body',
+            html : true,
+            title: function() {
+                var template = Handlebars.compile($(config.template.changePanelTitle).html());
+                return template(self.options);
+            },
+            content: function() {
+                var config = self.options.config.template;
+                var template = Handlebars.compile($(config.changePanelContent).html());
+                var $content = $(config.changeContainer);
+                $.each(self.options.changes, function(i,change) {
+                    var $change = $(template(change));
+                    $change.attr(self.options.config.refAttr,change.id);
+                    $content.append($change);
+                })
+                return $content.html();
+            },
+        })
             .data('bs.popover')
             .tip()
-            .addClass('change-panel-popover');
-
-        this.element.on('shown.bs.popover', function() {
-            shown($(this));
-        });
+            .addClass(config.changePanelClass);
 
         // create lookup so i can find changes by id.
         this.changesById = {};
         for (var i = 0, len = this.options.changes.length; i < len; i++) {
             this.changesById[this.options.changes[i].id] = this.options.changes[i];
         }
+
+        this.element.on('shown.bs.popover', function() {
+            self._addChangeListeners();
+            $.each(self.options.changes, function(i,change) {
+                self.updateChange(change.id, change);
+            })
+        });
+
     },
 
     // TODO : refactor this be called by mediator....activeChangeValue(id,index,value);
@@ -50,33 +55,44 @@ $.widget( "wtw.changePanel", {
         $changeItem.find('.change-value').eq(index).addClass('active');
     },
 
-    _activate : function($changeItem) {
+    _activate : function($changeItem, showPopup) {
         // highlight the proper row....
         $changeItem.siblings().removeClass('active');
         $changeItem.addClass('active');
         // ...then notify the world that we want to focus on this change. parent mediator will dispatch as needed.
         var changeId = $changeItem.attr(this.options.config.refAttr);
-        this._trigger('select', null, [this.changesById[changeId]]);
+        this._trigger('select', null, [this.changesById[changeId], showPopup]);
     },
 
-    onChangeAdded : function($changeItem, change) {
-        var self = this;
-        // manually set this attribute so we can use it later.
-        $changeItem.attr('data-change-ref',change.id);
 
-        var $changeValues = $changeItem.find('.change-value');
-        // assumes there are two toggle buttons that "on" means use first value = value[0]
-        $changeItem.find('.fa-toggle-off').click(function(e) {
-            self._trigger('set', null, [change.id, change.values[0]]);
-        });
-        $changeItem.find('.fa-toggle-on').click(function(e) {
-            self._trigger('set', null, [change.id, change.values[1]]);
-        });
+    _addChangeListeners : function() {
+        var self = this;
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
-        $changeItem.click(function(e) {
-            self._activate($changeItem);
+        $('.change-panel-popover').on('click', '.change-item', function(e) {
+            self._activate($(this));
         });
+
+        // same as click except it will also open the popup.
+        $( '.change-panel-popover').on( 'dblclick', '.change-item', function() {
+            self._activate($(this), true);
+        });
+
+        // assumes there are two toggle buttons that "on" means use first value = value[0]
+        $('.change-panel-popover').on('click', '.fa-toggle-off', function(e) {
+            self._set($(this), 0);
+        });
+        $('.change-panel-popover').on('click', '.fa-toggle-on', function(e) {
+            self._set($(this), 1);
+        });
+
+    },
+
+    _set : function($toggle,index) {
+        var $item = $toggle.parents('.change-item');
+        var id = $item.attr(this.options.config.refAttr);
+        var change = this.changesById[id];
+        this._trigger('set', null, [id, change.values[index]]);
     },
 
     _select: function ($content, delta) {
@@ -99,30 +115,15 @@ $.widget( "wtw.changePanel", {
         });
     },
 
-    // if you need to surrounding popover DOM to exist, you have to wait till 'shown.bs.popover' event is fired.
-    //  this method will be called
-    // note that everytime the popover is hidden/shown the DOM is recreated.
-    _editorShown : function($popoverTrigger) {
-        // the trigger is the element that the popover is attached to.  we need the actual popover itself.
-        var self = this;
-        var $popover = $popoverTrigger.data('bs.popover').tip();
-        var callback = this.options.config.onChangeAdded ? this.options.config.onChangeAdded.bind(this) : this.onChangeAdded.bind(this);
-
-        this._initPrevNextButtons($popover);
-
-        $popover.find('.change-item').each(function(i) {
-            callback($(this), self.options.changes[i]);
-        });
-    },
-
-    getPopoverContent: function () {
+    _getPopoverContent: function () {
         var pop = this.element.data('bs.popover');
         return pop ? pop.tip() : null;
     },
 
     updateChange:function(id, change) {
         // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
-        var $toggles = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"]  .toggle');
+        // TODO : refactor out hard coded attribute!
+        var $toggles = this._getPopoverContent().find('.change-item[data-change-ref="'+id+'"]  .toggle');
 
         // CAVEAt : index can null/undefined.
         // if one of the change values isn't set. .: it's overridden by user to be something else.
@@ -132,19 +133,19 @@ $.widget( "wtw.changePanel", {
             $changeItem = $toggles.eq(change.index);
         }
         else {
-            $changeItem = this.getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .toggle-override');
+            // TODO : take out hard coded attribute usage.
+            $changeItem = this._getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .toggle-override');
         }
+        // TODO : don't use hard code string for all sizes. 'sm md lg'.
+        // instead, take the array and create this
+        // removeClass(cssSizes.join(' '))
         $toggles.removeClass('accepted');
         $changeItem.addClass('accepted');
         $changeItem.find('.change-value').text(change.text).removeClass('sm md lg').addClass(change.size);
     },
 
     show: function() {
-        var self = this;
         this.element.popover('show');
-        $.each(this.options.changes, function(i,change) {
-            self.updateChange(change.id, change);
-        })
     },
 
 });

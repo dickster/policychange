@@ -8,10 +8,17 @@ wtw.changeEditor = (function() {
             open: true,
             expanded:false,
             trigger: 'click',
+            // TODO - change this to just .change-panel!!
+            changePanelClass:'change-panel-popover',
             cssSizes: ['sm','md','lg']
         }
     };
 
+    // look for all elements with [data-change-id] and then see if they are in the current changes list.
+    //  if not, and they are input/select/textarea add a change listener?  onChange = {
+    //  change = {id, values:[{before},{after}]
+    //  }
+    // how to refresh the changePanel popup?   refresh/destroy?  direct HTML manipulation? blargh....
 
     var init = function(opts) {
         var self = this;
@@ -41,10 +48,10 @@ wtw.changeEditor = (function() {
                     $('.change-panel').changePanel('updateChange', id, value);
                 })
                 .on('changeinputnext', function (e) {
-                    self.go($input, 1);
+                    self.go(i, 1);
                 })
                 .on('changeinputprev', function (e) {
-                    self.go($input, -1);
+                    self.go(i, -1);
                 })
             // update the options object here...
             // we'll ask each input to get the display values for the change.
@@ -54,8 +61,8 @@ wtw.changeEditor = (function() {
         });
 
         $('.change-panel').changePanel(this.options)
-            .on('changepanelselect', function(e,change) {
-                self.$currentActive = activate(change);
+            .on('changepanelselect', function(e,change,showPopup) {
+                self.$currentActive = activate(change,showPopup);
             })
             .on('changepanelset', function(e, id, value) {
                 getInput(id).changeInput('set',value);
@@ -77,18 +84,24 @@ wtw.changeEditor = (function() {
 
     };
 
-    var activate = function(change) {
+    var activate = function(change, showPopup) {
         var self = this;
         var $input = this.input;
 
-        if (self.activeChange) {   // de-activate old if any...
-            self.activeChange.changeInput('activate', false);
+        var oldActive = self.activeChange;
+        if (oldActive) {   // de-activate old if any...
+            oldActive.changeInput('deactivate');
         }
 
         // update the new active change input.
         self.activeChange = getInput(change.id);
         // ...and activate it.
-        self.activeChange.changeInput('activate', true );
+        if (showPopup) {
+            self.activeChange.changeInput('activateAndShowPopup');
+        }
+        else {
+            self.activeChange.changeInput('activate');
+        }
     };
 
 
@@ -122,18 +135,16 @@ wtw.changeEditor = (function() {
         return $('[data-change-id="'+id+'"]');
     };
 
-    var go = function($input, delta) {
-        var $inputs = $('['+this.options.config.idAttr+']:visible');
-        // TODO : i need to check that this is in the change list, not just in the DOM.
-        var from  = $inputs.index($input);
-        var to = from + delta;
-        // TODO :assert from is defined >=0.
-        if (to>=$inputs.length) to = 0;
-        if (to<0) to = $inputs.length-1;
-        $input.changeInput('hide');
-        $inputs.eq(to).changeInput('activateAndShowPopup');
+    var go = function(current, delta) {
+        var changes = this.options.changes;
+        // hide current popup...
+        getInput(changes[current].id).changeInput('hide');
+        // ...calculate next one and show it.
+        var to = current + delta;
+        if (to>=changes.length) to = 0;
+        if (to<0) to = changes.length-1;
+        getInput(changes[to].id).changeInput('activateAndShowPopup');
     };
-
 
     return {
         init: init,

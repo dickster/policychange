@@ -48,6 +48,8 @@ $.widget( "wtw.changeInput", {
         this.val = hooks.val;
         this.getTextForCode = hooks.text;
 
+        // TODO : should move normalizeValues to here since it's only a modify thang.
+
         // the actual visible input element.  (recall, there could be a hidden input that has the actual value but we need reference to the actual
         // element the user interacts with.
         this.input = hooks.input;
@@ -88,17 +90,13 @@ $.widget( "wtw.changeInput", {
         }
     },
 
-    _compareChangeValue : function(current, $value) {
-        // need to deal with trim & data conversions later.
-        return current == $value.find('.change-input-value').text();
-    },
-
     _initState: function () {
         var self = this;
 
         // create handy alias for popover content after it's created.
         var content = this._getPopoverContent();
 
+        // TODO : read this class from options.config
         content.addClass('change-input-popover');
 
         content.find('.next-change').click(function () {
@@ -131,6 +129,7 @@ $.widget( "wtw.changeInput", {
     },
 
     show: function() {
+        if (this.options.change.type!='modify') return;
         if (this.icon.data('bs.popover')) {
             this.icon.popover('show');
         }
@@ -184,6 +183,15 @@ $.widget( "wtw.changeInput", {
         this.element.trigger('change');
     },
 
+    deactivate: function() {
+        this.activate(false);
+    },
+
+    activateAndShowPopup: function() {
+        this.activate();
+        this.show();
+    },
+
     activate: function(on) {
         var $input = this.input;
         if (arguments.length==0 || on) {
@@ -215,11 +223,6 @@ $.widget( "wtw.changeInput", {
         return (viewTop<=top && viewBottom >= bottom);
     },
 
-
-    activateAndShowPopup: function() {
-        this.activate();
-        this.show();
-    },
 
     // gets the display values and calculates size of text required for styling purposes.
     // e.g. for a select, the value might be "M" but the display value (text) will be "Male".

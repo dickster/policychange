@@ -55,6 +55,7 @@
                     idAttr:'data-change-id',
                     refAttr:'data-change-ref',
                     template:{
+                        changeContainer:'<div class="list-group"></div>',
                         changePanelTitle:'#changePanelTitle',
                         changePanelContent:'#changePanelContent',
                         inputTitle:'#changeInputTitle',
@@ -87,51 +88,47 @@
 
 
     <script id="changePanelContent" type="text/x-handlebars-template">
-        <div class="list-group">
-            {{#each changes}}
-            <a class="list-group-item change-item change-item-{{type}}">
-                <span class="summary">{{summary}}</span>
+        <a class="list-group-item change-item change-item-{{type}}">
+            <span class="summary">{{summary}}</span>
 
-               {{#if isModify}}
+           {{#if isModify}}
+            <section>
+                <div class="toggle toggle-on" class>
+                    <span class="change-value {{values.[0].size}}">{{values.[0].text}} </span>
+                    <span class="change-aside {{values.[1].size}}"> (was {{values.[1].text}})</span>
+                    <i class="fa fa-toggle-on"></i>
+                </div>
+                <div class="toggle toggle-off">
+                    <span class="change-value {{values.[1].size}}">{{values.[1].text}}</span>
+                    <span class="change-aside sm"> (change ignored)</span>
+                    <i class="fa fa-toggle-off"></i>
+                </div>
+                <div class="toggle toggle-override">
+                    <span class="change-value"></span>
+                    <span class="change-aside sm"> (overriden by user)</span>
+                    <i class="fa fa-pencil"></i>
+                </div>
+            </section>
+            {{/if}}
+
+            {{#if isDelete}}
                 <section>
-                    <div class="toggle toggle-on" class>
-                        <span class="change-value {{values.[0].size}}">{{values.[0].text}} </span>
-                        <span class="change-aside {{values.[1].size}}"> (was {{values.[1].text}})</span>
-                        <i class="fa fa-toggle-on"></i>
-                    </div>
-                    <div class="toggle toggle-off">
-                        <span class="change-value {{values.[1].size}}">{{values.[1].text}}</span>
-                        <span class="change-aside sm"> (change ignored)</span>
-                        <i class="fa fa-toggle-off"></i>
-                    </div>
-                    <div class="toggle toggle-override">
-                        <span class="change-value"></span>
-                        <span class="change-aside sm"> (overriden by user)</span>
-                        <i class="fa fa-pencil"></i>
+                    <div>
+                        <span class="change-value {{values.[1].size}}"> {{desc}} : <span>{{values.[1].text}}</span> </span>
+                        <span class="change-aside sm">  (deleted)</span>
                     </div>
                 </section>
-                {{/if}}
+            {{/if}}
 
-                {{#if isDelete}}
-                    <section>
-                        <div>
-                            <span class="change-value {{values.[1].size}}"> {{desc}} : <span>{{values.[1].text}}</span> </span>
-                            <span class="change-aside sm">  (deleted)</span>
-                        </div>
-                    </section>
-                {{/if}}
-
-                {{#if isAdd}}
-                    <section>
-                        <div>
-                            <span class="change-value {{values.[0].size}}"> {{values.[0].text}} </span>
-                            <span class="change-aside sm">  (added)</span>
-                        </div>
-                    </section>
-                {{/if}}
-            </a>
-            {{/each}}
-        </div>
+            {{#if isAdd}}
+                <section>
+                    <div>
+                        <span class="change-value {{values.[0].size}}"> {{values.[0].text}} </span>
+                        <span class="change-aside sm">  (added)</span>
+                    </div>
+                </section>
+            {{/if}}
+        </a>
     </script>
 
     <script id="changeInputTitle" type="text/x-handlebars-template">

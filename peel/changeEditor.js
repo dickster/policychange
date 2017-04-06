@@ -9,7 +9,7 @@ wtw.changeEditor = (function() {
             expanded:false,
             trigger: 'click',
             // TODO - change this to just .change-panel!!
-            changePanelClass:'change-panel-popover',
+            changePanelClass:'change-panel',
             cssSizes: ['sm','md','lg']
         }
     };

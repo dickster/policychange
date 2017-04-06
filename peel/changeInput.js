@@ -96,9 +96,6 @@ $.widget( "wtw.changeInput", {
         // create handy alias for popover content after it's created.
         var content = this._getPopoverContent();
 
-        // TODO : read this class from options.config
-        content.addClass('change-input-popover');
-
         content.find('.next-change').click(function () {
             self._trigger('next');
         });
@@ -166,7 +163,7 @@ $.widget( "wtw.changeInput", {
             }
         })
 
-        this._getPopoverContent().addClass('change-input-popover');
+        this._getPopoverContent().addClass('change-input');
 
         this.icon.popover('show');
 

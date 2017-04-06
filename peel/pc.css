@@ -26,28 +26,28 @@
     font-family: sans-serif;
 }
 
-.change-input-popover .popover-title .fa,
-.change-panel-popover .popover-title .fa {
+.change-input .popover-title .fa,
+.change-panel .popover-title .fa {
     color: #5171ba;
 }
 
-.change-input-popover .popover-title .fa {
+.change-input .popover-title .fa {
     font-weight:bold;
     padding-right:5px;
 }
 
-.change-panel-popover .popover-title .fa-stack {
+.change-panel .popover-title .fa-stack {
     margin-right:10px;
 }
 
-.change-panel-popover .change-value:empty:after {
+.change-panel .change-value:empty:after {
     content:'-';
     font-size:12px;
     font-style:italic;
     color:#999;
 }
 
-.change-panel-popover .change-value {
+.change-panel .change-value {
      /* margin-left:25px; */
 }
 
@@ -58,50 +58,50 @@
     color: #447;
 }
 
-.change-panel-popover .change-item.active:hover { 
+.change-panel .change-item.active:hover {
     color:#447;
     background-color: #cde;
     border-color: #bb0;
 }
 
-.change-panel-popover .popover-content .change-item:hover {
+.change-panel .popover-content .change-item:hover {
     cursor:pointer;
 }
-.change-panel-popover .popover-content .toggle i:hover {
+.change-panel .popover-content .toggle i:hover {
     cursor:default;
 }
-.change-panel-popover.popover {
+.change-panel.popover {
     position:fixed;
     min-width: 400px;
 }
-.change-panel-popover .popover-content {
+.change-panel .popover-content {
     max-height: 375px;
     overflow-y: scroll;
     padding:0;
 }
-.change-panel-popover .popover-content {
+.change-panel .popover-content {
     max-height: 375px;
     overflow-y: scroll;
 }
 
 
-.change-input-popover .change-value .change-input-accept {
+.change-input .change-value .change-input-accept {
     visibility:hidden;
     padding-left:5px;
     display:inline-block;
     width:24px;
 }
 
-.change-input-popover .change-value.accepted .change-input-accept {
+.change-input .change-value.accepted .change-input-accept {
     visibility:visible;
     color: #88c;
 }
 
-.change-input-popover .change-value.accepted .change-input-accept i.fa:before {
+.change-input .change-value.accepted .change-input-accept i.fa:before {
     content: '\f00c';
 }
 
-.change-input-popover .change-value:hover .change-input-accept {
+.change-input .change-value:hover .change-input-accept {
     color:forestgreen;
     visibility: visible;
 }
@@ -117,11 +117,11 @@
     padding:0;
 }
 
-.change-input-popover .change-value {
+.change-input .change-value {
     padding:4px 0;
 }
 
-.change-input-popover .list-group-item {
+.change-input .list-group-item {
     border:none;
 }
 
@@ -129,7 +129,7 @@
     padding:2px 0;
 }
 
-.change-input-popover.popover {
+.change-input.popover {
     min-width:350px;
 }
 .popover .list-group { margin-bottom:0; }
@@ -286,16 +286,16 @@ li.change-input-icon {
 
 
 /*  BLARGH!  hacks to overcome forms & easy & other .css */
-.change-input-popover.popover .btn.btn-default,
-.change-panel-popover.popover .btn.btn-default {
+.change-input.popover .btn.btn-default,
+.change-panel.popover .btn.btn-default {
     border-color:#ccc;
     padding: 1px 5px;
     color: #66a;
 }
-.change-input-popover.popover .btn.btn-default {
+.change-input.popover .btn.btn-default {
     font-size: 11px;
 }
-.change-panel-popover.popover .btn.btn-default {
+.change-panel.popover .btn.btn-default {
     font-size: 18px;
 }
 

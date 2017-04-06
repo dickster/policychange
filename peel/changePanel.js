@@ -69,20 +69,20 @@ $.widget( "wtw.changePanel", {
         var self = this;
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
-        $('.change-panel-popover').on('click', '.change-item', function(e) {
+        $('.change-panel').on('click', '.change-item', function(e) {
             self._activate($(this));
         });
 
         // same as click except it will also open the popup.
-        $( '.change-panel-popover').on( 'dblclick', '.change-item', function() {
+        $( '.change-panel').on( 'dblclick', '.change-item', function() {
             self._activate($(this), true);
         });
 
         // assumes there are two toggle buttons that "on" means use first value = value[0]
-        $('.change-panel-popover').on('click', '.fa-toggle-off', function(e) {
+        $('.change-panel').on('click', '.fa-toggle-off', function(e) {
             self._set($(this), 0);
         });
-        $('.change-panel-popover').on('click', '.fa-toggle-on', function(e) {
+        $('.change-panel').on('click', '.fa-toggle-on', function(e) {
             self._set($(this), 1);
         });
 

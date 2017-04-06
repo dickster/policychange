@@ -42,7 +42,6 @@ wtw.changeEditor = (function() {
             return result;
         });
 
-        // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
         $.each(options.changes, function(i,change) {
 
             change.isModify = function() { return change.type=='modify'; }
@@ -123,27 +122,30 @@ wtw.changeEditor = (function() {
 
 
     function formatChanges(options) {
-        var config = options.config;
         $.each(options.changes, function(i,change) {
-            change.summary = config.idLabels[change.id];
-            if (!change.summary) {
-                change.summary = '[change  '+change.id+']';
-                console.log('no label was given for the change "' + JSON.stringify(change) + '"');
-            }
-            // recall : the deleted (previous) value is the [1]st element.  the current value is the [0]th.
-            //  .: delete should use [1] for its display value, add should use [0].
-            var sizes = config.cssSizes;
-            if (change.type=='delete') {
-                change.values[1].size = sizes[Math.min(2, change.values[1].text.length)];
-            }
-            if (change.type=='add') {
-                change.values[0].size = sizes[Math.min(2, change.values[0].text.length)];
-            }
-            $.each(change.values, function(idx,value) {
-                value.index = idx;
-                value.label = options.config.valueLabels[idx];
-            });
+            formatChange(change);
+        });
+    }
 
+    function formatChange(change) {
+        var config = options.config;
+        change.summary = config.idLabels[change.id];
+        if (!change.summary) {
+            change.summary = '[change  '+change.id+']';
+            console.log('no label was given for the change "' + JSON.stringify(change) + '"');
+        }
+        // recall : the deleted (previous) value is the [1]st element.  the current value is the [0]th.
+        //  .: delete should use [1] for its display value, add should use [0].
+        var sizes = config.cssSizes;
+        if (change.type=='delete') {
+            change.values[1].size = sizes[Math.min(2, change.values[1].text.length)];
+        }
+        if (change.type=='add') {
+            change.values[0].size = sizes[Math.min(2, change.values[0].text.length)];
+        }
+        $.each(change.values, function(idx,value) {
+            value.index = idx;
+            value.label = options.config.valueLabels[idx];
         });
     }
 

@@ -122,7 +122,7 @@ $.widget( "wtw.changeInput", {
     },
 
     hide: function() {
-        if (this.icon.data('bs.popover')) {
+        if (this.icon && this.icon.data('bs.popover')) {
             this.icon.popover('hide');
         }
     },
@@ -194,6 +194,7 @@ $.widget( "wtw.changeInput", {
 
     deactivate: function() {
         this.activate(false);
+        this.hide();
     },
 
     activateAndShowPopup: function() {

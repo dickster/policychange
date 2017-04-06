@@ -67,22 +67,23 @@ $.widget( "wtw.changePanel", {
 
     _addChangeListeners : function() {
         var self = this;
+        var $changePanel = $('.'+self.options.config.changePanelClass);
 
         // if you click on item row, it will scroll the window and highlight the change in the form.
-        $('.change-panel').on('click', '.change-item', function(e) {
+        $changePanel.on('click', '.change-item', function(e) {
             self._activate($(this));
         });
 
         // same as click except it will also open the popup.
-        $( '.change-panel').on( 'dblclick', '.change-item', function() {
+        $changePanel.on( 'dblclick', '.change-item', function() {
             self._activate($(this), true);
         });
 
         // assumes there are two toggle buttons that "on" means use first value = value[0]
-        $('.change-panel').on('click', '.fa-toggle-off', function(e) {
+        $changePanel.on('click', '.fa-toggle-off', function(e) {
             self._set($(this), 0);
         });
-        $('.change-panel').on('click', '.fa-toggle-on', function(e) {
+        $changePanel.on('click', '.fa-toggle-on', function(e) {
             self._set($(this), 1);
         });
 

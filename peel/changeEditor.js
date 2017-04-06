@@ -8,8 +8,8 @@ wtw.changeEditor = (function() {
             open: true,
             expanded:false,
             trigger: 'click',
-            // TODO - change this to just .change-panel!!
             changePanelClass:'change-panel',
+            changeInputClass:'change-input',
             cssSizes: ['sm','md','lg']
         }
     };
@@ -39,13 +39,16 @@ wtw.changeEditor = (function() {
 
         // create ALL the possible change inputs (they are lazy. popup won't be created unless they click on it)
         $.each(this.options.changes, function(i,change) {
+
             change.isModify = function() { return change.type=='modify'; }
             change.isDelete = function() { return change.type=='delete'; }
             change.isAdd = function() { return change.type=='add'; }
+
             var $input = $('[' + config.idAttr + '="' + change.id + '"]');
+
             $input.changeInput({config: config, change: change})
                 .on('changeinputupdate', function (e, id, value) {
-                    $('.change-panel').changePanel('updateChange', id, value);
+                    $('.change-editor').changePanel('updateChange', id, value);
                 })
                 .on('changeinputnext', function (e) {
                     self.go(i, 1);
@@ -60,7 +63,7 @@ wtw.changeEditor = (function() {
             $input.changeInput('normalizeValues');
         });
 
-        $('.change-panel').changePanel(this.options)
+        $('.change-editor').changePanel(this.options)
             .on('changepanelselect', function(e,change,showPopup) {
                 self.$currentActive = activate(change,showPopup);
             })
@@ -68,7 +71,7 @@ wtw.changeEditor = (function() {
                 getInput(id).changeInput('set',value);
             });
 
-        $('.change-panel').changePanel('show');
+        $('.change-editor').changePanel('show');
 
         // if you click somewhere outside of input popup, then hide any visible input popups.
         // (you must check to make sure the click didn't happen inside a visible popup - in that case just leave it).

@@ -163,7 +163,7 @@ $.widget( "wtw.changeInput", {
             }
         })
 
-        this._getPopoverContent().addClass('change-input');
+        this._getPopoverContent().addClass(this.options.config.changeInputClass);
 
         this.icon.popover('show');
 

@@ -135,7 +135,7 @@
 .popover .list-group { margin-bottom:0; }
 /*TODO : this should be configurable.  this is the link that the popover is attached to.
  i have positioned fixed to the top right of the screen. */
-.change-dock {
+.change-editor {
     position:fixed;
     top: 0;
     right: 240px;

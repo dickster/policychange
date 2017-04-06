@@ -14,6 +14,8 @@ wtw.changeEditor = (function() {
         }
     };
 
+
+
     // look for all elements with [data-change-id] and then see if they are in the current changes list.
     //  if not, and they are input/select/textarea add a change listener?  onChange = {
     //  change = {id, values:[{before},{after}]
@@ -51,10 +53,10 @@ wtw.changeEditor = (function() {
                     $('.change-editor').changePanel('updateChange', id, value);
                 })
                 .on('changeinputnext', function (e) {
-                    self.go(i, 1);
+                    self.advanceInput(i, 1);
                 })
                 .on('changeinputprev', function (e) {
-                    self.go(i, -1);
+                    self.advanceInput(i, -1);
                 })
             // update the options object here...
             // we'll ask each input to get the display values for the change.
@@ -65,7 +67,7 @@ wtw.changeEditor = (function() {
 
         $('.change-editor').changePanel(this.options)
             .on('changepanelselect', function(e,change,showPopup) {
-                self.$currentActive = activate(change,showPopup);
+                activate(change,showPopup);
             })
             .on('changepanelset', function(e, id, value) {
                 getInput(id).changeInput('set',value);
@@ -87,6 +89,22 @@ wtw.changeEditor = (function() {
 
     };
 
+    var advanceInput = function(current, delta) {
+        // define macro to get the element with specified change id.
+        var getInput = function(id) {
+            return $('[' + this.options.config.idAttr + '="' + id + '"]');
+        }.bind(this);
+
+        var changes = this.options.changes;
+        // hide current popup...
+        getInput(changes[current].id).changeInput('hide');
+        // ...calculate next one and show it.
+        var to = current + delta;
+        if (to>=changes.length) to = 0;
+        if (to<0) to = changes.length-1;
+        getInput(changes[to].id).changeInput('activateAndShowPopup');
+    };
+
     var activate = function(change, showPopup) {
         var self = this;
         var $input = this.input;
@@ -97,7 +115,7 @@ wtw.changeEditor = (function() {
         }
 
         // update the new active change input.
-        self.activeChange = getInput(change.id);
+        self.activeChange = self.getInput(change.id);
         // ...and activate it.
         if (showPopup) {
             self.activeChange.changeInput('activateAndShowPopup');
@@ -133,25 +151,10 @@ wtw.changeEditor = (function() {
         });
     };
 
-    var getInput = function(id) {
-        // TODO : refactor out hard coded attribute.
-        return $('[data-change-id="'+id+'"]');
-    };
-
-    var go = function(current, delta) {
-        var changes = this.options.changes;
-        // hide current popup...
-        getInput(changes[current].id).changeInput('hide');
-        // ...calculate next one and show it.
-        var to = current + delta;
-        if (to>=changes.length) to = 0;
-        if (to<0) to = changes.length-1;
-        getInput(changes[to].id).changeInput('activateAndShowPopup');
-    };
 
     return {
         init: init,
-        go:go
+        advanceInput : advanceInput
         // add other public methods you want to expose here...
     }
 

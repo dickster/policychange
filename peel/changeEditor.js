@@ -35,7 +35,6 @@ wtw.changeEditor = (function() {
         change.values[1].label = 'Incoming Value';
         change.index = null;
         options.changes.push(change);
-        sortChanges();
         return change;
     }
 
@@ -47,20 +46,9 @@ wtw.changeEditor = (function() {
             $(this).off('.wtw');   // ok, we're done with this event listener.  lets dispose of it.
             var change = createChange($input);
            createChangeInput($(this), change);
-            $('.change-editor').changePanel('changeAdded', id, change);
-        });
-    }
-
-    function sortChanges() {
-        // sort these by ascending order in the DOM. if you don't then the navigation will be jerky and won't make sense when you Next/Prev in the panel.
-        //  note that the data has no idea where they are on the form so no order can be assumed.
-        var idAttr = options.config.idAttr;
-        var $inputs = $('['+idAttr+']');
-        options.changes.sort(function(a,b) {
-            var $a = $('['+idAttr+'="'+a.id+'"]');
-            var $b = $('['+idAttr+'="'+b.id+'"]');
-            var result = $inputs.index($a) - $inputs.index($b);
-            return result;
+           var v = $input.val();
+           var value = {code:v, index:null, text:v};
+            $('.change-editor').changePanel('changeAdded', id, change, value);
         });
     }
 
@@ -88,8 +76,6 @@ wtw.changeEditor = (function() {
         var config = options.config;
 
         formatChanges(options);
-
-        sortChanges();
 
         bindUnchangedInput($('[data-change-id="100"]'));
 

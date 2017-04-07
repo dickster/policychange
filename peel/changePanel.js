@@ -7,6 +7,8 @@ $.widget( "wtw.changePanel", {
 
         this.element.addClass('change-editor');
 
+        this.sortChanges();
+
         // create lookup so i can find changes by id.
         this.changesById = {};
         var changes = this.options.changes;
@@ -43,7 +45,7 @@ $.widget( "wtw.changePanel", {
         this.element.on('shown.bs.popover', function() {
             self._addChangeListeners();
             $.each(self.options.changes, function(i,change) {
-                self.updateChange(change.id, change);
+                self.updateChange(change.id, change.values[0]);
             })
         });
 
@@ -122,7 +124,7 @@ $.widget( "wtw.changePanel", {
         return pop ? pop.tip() : null;
     },
 
-    updateChange:function(id, change) {
+    updateChange:function(id, value) {
         // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
         // TODO : refactor out hard coded attribute!
         var $toggles = this._getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .toggle');
@@ -131,10 +133,11 @@ $.widget( "wtw.changePanel", {
         // if one of the change values isn't set. .: it's overridden by user to be something else.
         // in this case, the toggle button doesn't make sense so we'll show the "override state"
         var $changeItem;
-        if (Number.isInteger(change.index)) {
-            $changeItem = $toggles.eq(change.index);
+        var change = this.changesById[id];
+        if (Number.isInteger(value.index)) {
+            $changeItem = $toggles.eq(value.index);
         }
-        else {
+        else {  
             // TODO : take out hard coded attribute usage.
             $changeItem = this._getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .toggle-override');
         }
@@ -143,23 +146,42 @@ $.widget( "wtw.changePanel", {
         // removeClass(cssSizes.join(' '))
         $toggles.removeClass('accepted');
         $changeItem.addClass('accepted');
-        $changeItem.find('.change-value').text(change.text).removeClass('sm md lg').addClass(change.size);
+        $changeItem.find('.change-value').text(value.text).removeClass('sm md lg').addClass(change.size);
     },
 
-    changeAdded : function(id, change) {
+    changeAdded : function(id, change, value) {
         // TODO : i need to find the correct place to insert this change.  (need to compare the index of the element
         //    to other inputs).  while index>otherIndex, keep going down.
         console.log('change added ' + id + ' : ' + JSON.stringify(change));
-        this.changesById[this.options.changes[i].id] = this.options.changes[i];
+        this.changesById[change.id] = change;
         var config = this.options.config;
         // TODO : refactor this out so i'm not constantly compiling template.
         var template = Handlebars.compile($(config.template.changePanelContent).html());
         var $content = $('.change-panel .'+config.template.changeContainerClass);
         var $change = $(template(change));
+
+        this.sortChanges();
+        var index = this.options.changes.indexOf(change);
+        // TODO : make this class a constant.
+        $change.insertBefore($('.change-items .change-item').eq(index));
+
         $change.attr(config.refAttr,change.id);
-        $content.append($change);
-        this.updateChange(id,change); // not sure what to do here...
+        this.updateChange(id,value);
     },
+
+    sortChanges: function() {
+        // sort these by ascending order in the DOM. if you don't then the navigation will be jerky and won't make sense when you Next/Prev in the panel.
+        //  note that the data has no idea where they are on the form so no order can be assumed.
+        var idAttr = this.options.config.idAttr;
+        var $inputs = $('[' + idAttr + ']');
+        this.options.changes.sort(function (a, b) {
+            var $a = $('[' + idAttr + '="' + a.id + '"]');
+            var $b = $('[' + idAttr + '="' + b.id + '"]');
+            var result = $inputs.index($a) - $inputs.index($b);
+            return result;
+        });
+    },
+
 
     show: function() {
         this.element.popover('show');

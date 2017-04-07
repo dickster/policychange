@@ -45,14 +45,14 @@ wtw.changeEditor = (function() {
         $input.on('change.wtw', function(e) {
             $(this).off('.wtw');   // ok, we're done with this event listener.  lets dispose of it.
             var change = createChange($input);
-           createChangeInput($(this), change);
-           var v = $input.val();
-           var value = {code:v, index:null, text:v};
+            createChangeInput($(this), change);
+            var v = $input.val();
+            var value = {code:v, index:null, text:v};
             $('.change-editor').changePanel('changeAdded', id, change, value);
         });
     }
 
-    function createChangeInput($input, change) {
+    function createChangeInput($input, change, index) {
         // do these have to be functions for Handlebars? or can i just use a bool property?
         change.isModify = function() { return change.type=='modify'; }
         change.isDelete = function() { return change.type=='delete'; }
@@ -62,11 +62,11 @@ wtw.changeEditor = (function() {
             .on('changeinputupdate', function (e, id, value) {
                 $('.change-editor').changePanel('updateChange', id, value);
             })
-            .on('changeinputnext', function (e) {
-                advanceInput(i, 1);
+            .on('changeinputnext', function (e,id) {
+                advanceInput(id, 1);
             })
-            .on('changeinputprev', function (e) {
-                advanceInput(i, -1);
+            .on('changeinputprev', function (e,id) {
+                advanceInput(id, -1);
             })
     }
 
@@ -97,11 +97,11 @@ wtw.changeEditor = (function() {
         // if you click somewhere outside of input popup, then hide any visible input popups.
         // (you must check to make sure the click didn't happen inside a visible popup - in that case just leave it).
         $('body').on('click', function (e) {
-            $('.change-input-icon').each(function () {
+            $('.change-input-icon, .change-add-icon, .change-delete-icon').each(function () {
                 //the 'is' for buttons that trigger popups
                 //the 'has' for icons within a button that triggers a popup
                 if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                    $(this).popover('hide');
+//                    $(this).popover('hide');
                 }
             });
         });
@@ -112,8 +112,15 @@ wtw.changeEditor = (function() {
         return $('[' + options.config.idAttr + '="' + id + '"]');
     }
 
-    function advanceInput(current, delta) {
+    function advanceInput(id, delta) {
         var changes = options.changes;
+        var current = 0;
+        for (i = 0; i<changes.length; i++) {
+            if (changes[i].id===id) {
+                current = i;
+                break;
+            }
+        }
         // hide current popup...
         getInput(changes[current].id).changeInput('hide');
         // ...calculate next one and show it.

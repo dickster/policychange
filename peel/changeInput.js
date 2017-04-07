@@ -28,11 +28,21 @@ $.widget( "wtw.changeInput", {
         }
     },
 
+    _createPopup: function () {
+        var self = this;
+        this.icon.click(function() {
+            self._toggle();
+        });
+    },
+
     _createAdd : function() {
         var template = Handlebars.compile($(this.options.config.template.add).html());
         var $add = $(template(this.options.change));
         $add.insertBefore(this.element);
         this.input = $add;
+        this.icon = $(this.options.config.inputIcon).addClass('change-add-icon');
+        this.icon.insertAfter($add.children().first());
+        this._createPopup();
     },
 
     _createDelete : function() {
@@ -40,6 +50,10 @@ $.widget( "wtw.changeInput", {
         var $delete = $(template(this.options.change));
         $delete.insertBefore(this.element);
         this.input = $delete;
+        // refactor this into createIcon method!
+        this.icon = $(this.options.config.inputIcon).addClass('change-delete-icon');
+        this.icon.insertAfter($delete.children().first());
+        this._createPopup();
     },
 
     _createModify : function() {
@@ -62,7 +76,7 @@ $.widget( "wtw.changeInput", {
         // which means i need to have a relative parent to attach to.
         // maybe i should make this an option for each change....forceParentRelative?
         // or i could just hijack the .css and fix it there but i might not have access.
-        this.icon.parent().css('position','relative');  // ScREW THIS---IT WON'T WORK.
+        this.icon.parent().css('position','relative');  // ScREW THIS---IT WON'T WORK.  i'll have to hack .CSS.
         // end of hack.
 
         this.icon.click(function() {
@@ -92,21 +106,6 @@ $.widget( "wtw.changeInput", {
 
     },
 
-    _initState: function () {
-        var self = this;
-
-        var content = this._getPopoverContent();
-
-        content.find('.next-change').click(function () {
-            self._trigger('next');
-        });
-        content.find('.prev-change').click(function () {
-            self._trigger('prev');
-        });
-
-        this._updateState(this.val());
-    },
-
     _updateState: function(value) {
         var content = this._getPopoverContent();
         if (!content) {
@@ -121,14 +120,14 @@ $.widget( "wtw.changeInput", {
     },
 
     hide: function() {
+        console.log('hiding popup ' + this.options.change.id);
         if (this.icon && this.icon.data('bs.popover')) {
             this.icon.popover('hide');
         }
     },
 
     show: function() {
-        if (this.options.change.type!='modify') return;
-        if (this.icon.data('bs.popover')) {
+       if (this.icon.data('bs.popover')) {
             this.icon.popover('show');
         }
         else {
@@ -143,6 +142,7 @@ $.widget( "wtw.changeInput", {
 
     _toggle: function () {
         var self = this;
+
         // show lazily instantiated popover.
         if (this.icon.data('bs.popover')) {
             this.icon.popover('toggle');
@@ -170,19 +170,29 @@ $.widget( "wtw.changeInput", {
 
         this.icon.on('shown.bs.popover', function() {
             var $content = self._getPopoverContent();
-
-            $content.on('click', '.change-input-accept', function(e) {
-                var index = $(this).attr('data-change-index');
-                self.set(index);
-            });
-
-            $content.find('.change-value').each(function(i, value) {
-                $(value).find('.change-input-accept').click(function () {
+            // these only apply to "modify" changes.
+            if (self.options.change.type=='modify') {
+                $content.on('click', '.change-input-accept', function (e) {
                     var index = $(this).attr('data-change-index');
                     self.set(index);
                 });
+
+                $content.find('.change-value').each(function (i, value) {
+                    $(value).find('.change-input-accept').click(function () {
+                        var index = $(this).attr('data-change-index');
+                        self.set(index);
+                    });
+                });
+                self._updateState(self.val());
+            }
+
+            $content.find('.next-change').click(function () {
+                self._trigger('next',null, [self.options.change.id]);
             });
-            self._initState();
+            $content.find('.prev-change').click(function () {
+                self._trigger('prev',null, [self.options.change.id]);
+            });
+
         });
     },
 

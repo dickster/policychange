@@ -125,12 +125,10 @@
     border:none;
 }
 
-.change-input-icon {
-    padding:2px 0;
-}
-
 .change-input.popover {
     min-width:350px;
+    /* put this in front of change-panel.*/
+    z-index:2000;
 }
 .popover .list-group { margin-bottom:0; }
 /*TODO : this should be configurable.  this is the link that the popover is attached to.
@@ -188,8 +186,13 @@ li.change-input-icon {
     top:0;
     right: 0;
     color: #4b0303;
+    padding:2px 0;
 }
 
+li.change-add-icon,
+li.change-delete-icon {
+    float:right;
+}
 
 @keyframes highlight {
     from { border-size:inherit; }

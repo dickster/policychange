@@ -136,6 +136,7 @@
     </script>
 
     <script id="changeInputContent" type="text/x-handlebars-template">
+        {{#if isModify}}
         <div class="list-group change-values change-input-{{type}}">
             <a class="change-value list-group-item">
                 <span class="change-input-accept" data-change-index='0'><i class="fa fa-check-circle"/></span>
@@ -146,7 +147,13 @@
                 <label>{{values.[1].label}}</label> : <span class="change-input-value">{{values.[1].text}}</span>
             </a>
         </div>
-        </div>
+        {{/if}}
+        {{#if isAdd}}
+            the value was added.
+        {{/if}}
+        {{#if isDelete}}
+            the value was deleted.
+        {{/if}}
         <div class="btn-group btn-group-xxs pull-right">
             <button type="button" class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </button>
             <button type="button" class="btn btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </button>
@@ -156,7 +163,6 @@
 
     <script id="changeDelete" type="text/x-handlebars-template">
         <div class="change-delete alert alert-info alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <i class="fa fa-minus-circle"/><span> {{desc}} </span><span>{{values.[1].text}}</span><span> was deleted</span>
             </div>
         </div>
@@ -164,7 +170,6 @@
 
     <script id="changeAdd" type="text/x-handlebars-template">
             <div class="change-add alert alert-info alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <i class="fa fa-plus-circle"/><span> {{desc}} </span><span>{{values.[0].text}}</span><span> was added</span>
                 <i class="fa fa-level-down"/>
             </div>

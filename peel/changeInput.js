@@ -18,43 +18,28 @@ $.widget( "wtw.changeInput", {
                 this._createModify();
                 break;
             case 'add':
-                this._createAdd();
-                break;
             case 'delete':
-                this._createDelete();
+                this._createAddOrDelete();
                 break;
             default:
                 throw 'unknown change type ' + change.type;
         }
     },
 
-    _createPopup: function () {
+    _createAddOrDelete : function() {
         var self = this;
+        var type = this.options.change.type;
+        var template = Handlebars.compile($(this.options.config.template[type]).html());
+        var $content = $(template(this.options.change));
+        $content.insertBefore(this.element);
+        this.input = $content;
+        this.icon = $(this.options.config.inputIcon).addClass('change-'+type+'-icon');
+        this.icon.insertAfter($content.children().first());
         this.icon.click(function() {
             self._toggle();
         });
     },
 
-    _createAdd : function() {
-        var template = Handlebars.compile($(this.options.config.template.add).html());
-        var $add = $(template(this.options.change));
-        $add.insertBefore(this.element);
-        this.input = $add;
-        this.icon = $(this.options.config.inputIcon).addClass('change-add-icon');
-        this.icon.insertAfter($add.children().first());
-        this._createPopup();
-    },
-
-    _createDelete : function() {
-        var template = Handlebars.compile($(this.options.config.template.delete).html());
-        var $delete = $(template(this.options.change));
-        $delete.insertBefore(this.element);
-        this.input = $delete;
-        // refactor this into createIcon method!
-        this.icon = $(this.options.config.inputIcon).addClass('change-delete-icon');
-        this.icon.insertAfter($delete.children().first());
-        this._createPopup();
-    },
 
     _createModify : function() {
         var self = this;

@@ -25,6 +25,63 @@ wtw.changeEditor = (function() {
     //  }
     // how to refresh the changePanel popup?   refresh/destroy?  direct HTML manipulation? blargh....
 
+    function createChange($input) {
+        var id = $input.attr(options.config.idAttr);
+        var change = {id: id, type:'modify', values:[{code:$input.val()}, {code:''}]};
+        // TODO : maybe put something in summary about this being an override.
+        formatChange(change);
+        change.isNew = true;   // any changes that are created after initial server data is sent will be flagged as such.
+        change.values[0].label = 'Overridden Value';// make these a configurable string;
+        change.values[1].label = 'Incoming Value';
+        change.index = null;
+        options.changes.push(change);
+        sortChanges();
+        return change;
+    }
+
+    function bindUnchangedInput($input) {
+        // will this technique work for tricky components like easyJSCombo.
+        var id = 100;
+        $input.data('orig',$input.val());
+        $input.on('change.wtw', function(e) {
+            $(this).off('.wtw');   // ok, we're done with this event listener.  lets dispose of it.
+            var change = createChange($input);
+           createChangeInput($(this), change);
+            $('.change-editor').changePanel('changeAdded', id, change);
+        });
+    }
+
+    function sortChanges() {
+        // sort these by ascending order in the DOM. if you don't then the navigation will be jerky and won't make sense when you Next/Prev in the panel.
+        //  note that the data has no idea where they are on the form so no order can be assumed.
+        var idAttr = options.config.idAttr;
+        var $inputs = $('['+idAttr+']');
+        options.changes.sort(function(a,b) {
+            var $a = $('['+idAttr+'="'+a.id+'"]');
+            var $b = $('['+idAttr+'="'+b.id+'"]');
+            var result = $inputs.index($a) - $inputs.index($b);
+            return result;
+        });
+    }
+
+    function createChangeInput($input, change) {
+        // do these have to be functions for Handlebars? or can i just use a bool property?
+        change.isModify = function() { return change.type=='modify'; }
+        change.isDelete = function() { return change.type=='delete'; }
+        change.isAdd = function() { return change.type=='add'; }
+
+        $input.changeInput({config: options.config, change: change})
+            .on('changeinputupdate', function (e, id, value) {
+                $('.change-editor').changePanel('updateChange', id, value);
+            })
+            .on('changeinputnext', function (e) {
+                advanceInput(i, 1);
+            })
+            .on('changeinputprev', function (e) {
+                advanceInput(i, -1);
+            })
+    }
+
     var init = function(opts) {
         var self = this;
         options = $.extend(true,{},opts,defaultOptions);
@@ -32,34 +89,13 @@ wtw.changeEditor = (function() {
 
         formatChanges(options);
 
-        // sort these by ascending order in the DOM. if you don't then the navigation will be jerky and won't make sense when you Next/Prev in the panel.
-        //  note that the data has no idea where they are on the form so no order can be assumed.
-        var $inputs = $('['+config.idAttr+']');
-        options.changes.sort(function(a,b) {
-            var $a = $('['+config.idAttr+'="'+a.id+'"]');
-            var $b = $('['+config.idAttr+'="'+b.id+'"]');
-            var result = $inputs.index($a) - $inputs.index($b);
-            return result;
-        });
+        sortChanges();
+
+        bindUnchangedInput($('[data-change-id="100"]'));
 
         $.each(options.changes, function(i,change) {
-
-            change.isModify = function() { return change.type=='modify'; }
-            change.isDelete = function() { return change.type=='delete'; }
-            change.isAdd = function() { return change.type=='add'; }
-
             var $input = $('[' + config.idAttr + '="' + change.id + '"]');
-
-            $input.changeInput({config: config, change: change})
-                .on('changeinputupdate', function (e, id, value) {
-                    $('.change-editor').changePanel('updateChange', id, value);
-                })
-                .on('changeinputnext', function (e) {
-                    advanceInput(i, 1);
-                })
-                .on('changeinputprev', function (e) {
-                    advanceInput(i, -1);
-                })
+            createChangeInput($input, change);
         });
 
         $('.change-editor').changePanel(options)

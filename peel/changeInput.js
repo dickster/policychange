@@ -95,7 +95,6 @@ $.widget( "wtw.changeInput", {
     _initState: function () {
         var self = this;
 
-        // create handy alias for popover content after it's created.
         var content = this._getPopoverContent();
 
         content.find('.next-change').click(function () {

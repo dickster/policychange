@@ -7,6 +7,13 @@ $.widget( "wtw.changePanel", {
 
         this.element.addClass('change-editor');
 
+        // create lookup so i can find changes by id.
+        this.changesById = {};
+        var changes = this.options.changes;
+        for (var i = 0, len = changes.length; i < len; i++) {
+            this.changesById[changes[i].id] = changes[i];
+        }
+
         this.element.popover({
             placement: 'bottom',
             trigger: 'manual',
@@ -17,26 +24,21 @@ $.widget( "wtw.changePanel", {
                 return template(self.options);
             },
             content: function() {
-                var config = self.options.config.template;
-                var template = Handlebars.compile($(config.changePanelContent).html());
-                var $content = $(config.changeContainer);
+                var template = Handlebars.compile($(config.template.changePanelContent).html());
+                var $content = $('<div/>')
+                    .addClass(config.template.changeContainerClass)
+                    .addClass('change-items');
                 $.each(self.options.changes, function(i,change) {
                     var $change = $(template(change));
-                    $change.attr(self.options.config.refAttr,change.id);
+                    $change.attr(config.refAttr,change.id);
                     $content.append($change);
                 })
-                return $content.html();
+                return $content.prop('outerHTML');
             },
         })
             .data('bs.popover')
             .tip()
             .addClass(config.changePanelClass);
-
-        // create lookup so i can find changes by id.
-        this.changesById = {};
-        for (var i = 0, len = this.options.changes.length; i < len; i++) {
-            this.changesById[this.options.changes[i].id] = this.options.changes[i];
-        }
 
         this.element.on('shown.bs.popover', function() {
             self._addChangeListeners();
@@ -63,7 +65,6 @@ $.widget( "wtw.changePanel", {
         var changeId = $changeItem.attr(this.options.config.refAttr);
         this._trigger('select', null, [this.changesById[changeId], showPopup]);
     },
-
 
     _addChangeListeners : function() {
         var self = this;
@@ -124,7 +125,7 @@ $.widget( "wtw.changePanel", {
     updateChange:function(id, change) {
         // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
         // TODO : refactor out hard coded attribute!
-        var $toggles = this._getPopoverContent().find('.change-item[data-change-ref="'+id+'"]  .toggle');
+        var $toggles = this._getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .toggle');
 
         // CAVEAt : index can null/undefined.
         // if one of the change values isn't set. .: it's overridden by user to be something else.
@@ -143,6 +144,21 @@ $.widget( "wtw.changePanel", {
         $toggles.removeClass('accepted');
         $changeItem.addClass('accepted');
         $changeItem.find('.change-value').text(change.text).removeClass('sm md lg').addClass(change.size);
+    },
+
+    changeAdded : function(id, change) {
+        // TODO : i need to find the correct place to insert this change.  (need to compare the index of the element
+        //    to other inputs).  while index>otherIndex, keep going down.
+        console.log('change added ' + id + ' : ' + JSON.stringify(change));
+        this.changesById[this.options.changes[i].id] = this.options.changes[i];
+        var config = this.options.config;
+        // TODO : refactor this out so i'm not constantly compiling template.
+        var template = Handlebars.compile($(config.template.changePanelContent).html());
+        var $content = $('.change-panel .'+config.template.changeContainerClass);
+        var $change = $(template(change));
+        $change.attr(config.refAttr,change.id);
+        $content.append($change);
+        this.updateChange(id,change); // not sure what to do here...
     },
 
     show: function() {

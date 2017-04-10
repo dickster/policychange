@@ -78,6 +78,14 @@
     position:fixed;
     min-width: 400px;
 }
+
+.change-panel.popover:hover { 
+    opacity:1 !important;
+}
+
+.change-panel.popover { 
+    opacity:.79 !important;
+}
 .change-panel .popover-content {
     max-height: 375px;
     overflow-y: scroll;

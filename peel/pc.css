@@ -84,7 +84,7 @@
 }
 
 .change-panel.popover { 
-    opacity:.79 !important;
+    opacity:.75 !important;
 }
 .change-panel .popover-content {
     max-height: 375px;
@@ -206,11 +206,17 @@ li.change-delete-icon {
     float:right;
 }
 
-@keyframes highlight {
+@keyframes highlightBorder {
     from { border-size:inherit; }
     to { border-width:3px; border-color: #5171ba;}
-    /*to { border-width:3px; border-color: #ffd13f;}*/
 }
+
+
+@keyframes highlight {
+    from {box-shadow: inset 0 0 0 200px rgba(255, 250, 73, 0.35); border:1px solid #C1A227 ;}
+    to {box-shadow: none; border:inherit;}
+}
+
 
 .active-change {
     animation-name: highlight;
@@ -322,3 +328,4 @@ li.change-delete-icon {
     font-size: 12px;
     text-decoration: none;
 }
+

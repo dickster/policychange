@@ -18,15 +18,7 @@ wtw.changeEditor = (function() {
 
 
 
-
-    // look for all elements with [data-change-id] and then see if they are in the current changes list.
-    //  if not, and they are input/select/textarea add a change listener?  onChange = {
-    //  change = {id, values:[{before},{after}]
-    //  }
-    // how to refresh the changePanel popup?   refresh/destroy?  direct HTML manipulation? blargh....
-
-    function createChange($input) {
-        var id = $input.attr(options.config.idAttr);
+    function createChange($input, id) {
         var change = {id: id, type:'modify', values:[{code:$input.val()}, {code:''}]};
         // TODO : maybe put something in summary about this being an override.
         formatChange(change);
@@ -38,17 +30,15 @@ wtw.changeEditor = (function() {
         return change;
     }
 
-    function bindUnchangedInput($input) {
-        // will this technique work for tricky components like easyJSCombo.
-        var id = 100;
+    function bindUnchangedInput($input, id) {
+        // store the current value just in case i need it later.
         $input.data('orig',$input.val());
         $input.on('change.wtw', function(e) {
             $(this).off('.wtw');   // ok, we're done with this event listener.  lets dispose of it.
-            var change = createChange($input);
-            createChangeInput($(this), change);
+            var change = createChange($input, id);
+            createChangeInput($input, change);
             var v = $input.val();
-            var value = {code:v, index:null, text:v};
-            $('.change-editor').changePanel('changeAdded', id, change, value);
+            $('.change-editor').changePanel('changeAdded', id, change, {code:v, index:null, text:v});
         });
     }
 
@@ -70,20 +60,28 @@ wtw.changeEditor = (function() {
             })
     }
 
-    var init = function(opts) {
-        var self = this;
-        options = $.extend(true,{},opts,defaultOptions);
-        var config = options.config;
-
-        formatChanges(options);
-
-        bindUnchangedInput($('[data-change-id="100"]'));
-
-        $.each(options.changes, function(i,change) {
-            var $input = $('[' + config.idAttr + '="' + change.id + '"]');
-            createChangeInput($input, change);
+    function createChangeInputs() {
+        // TODO : loop over all "data-change-id"s.
+        // create lookup so i can find changes by id.
+        var changesById = {};
+        var changes = options.changes;
+        for (var i = 0, len = changes.length; i < len; i++) {
+            changesById[changes[i].id] = changes[i];
+        }
+        $.each($('[' + options.config.idAttr+']'), function(i,input) {
+            // if they are associated with a change, then createChangeInput else bindUnchangedInput.
+            var $this= $(this);
+            var id = $this.attr(options.config.idAttr);
+            if (changesById[id]) {
+                createChangeInput($this, changesById[id] );
+            }
+            else {
+                bindUnchangedInput($this, id);
+            }
         });
+    }
 
+    function createChangePanel() {
         $('.change-editor').changePanel(options)
             .on('changepanelselect', function(e,change,showPopup) {
                 activate(change,showPopup);
@@ -93,6 +91,19 @@ wtw.changeEditor = (function() {
             });
 
         $('.change-editor').changePanel('show');
+    }
+
+    var init = function(opts) {
+        var self = this;
+        options = $.extend(true,{},opts,defaultOptions);
+        var config = options.config;
+
+        formatChanges();
+
+        createChangeInputs();
+
+        // TODO : pass markup id/selector for change panel?  or just use class "change-panel"?
+        createChangePanel();
 
         // if you click somewhere outside of input popup, then hide any visible input popups.
         // (you must check to make sure the click didn't happen inside a visible popup - in that case just leave it).
@@ -150,7 +161,7 @@ wtw.changeEditor = (function() {
     }
 
 
-    function formatChanges(options) {
+    function formatChanges() {
         $.each(options.changes, function(i,change) {
             formatChange(change);
         });

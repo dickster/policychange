@@ -26,6 +26,10 @@
     font-family: sans-serif;
 }
 
+.change-input.popover .popover-title {
+    background:#d9edf7;
+}
+
 .change-input .popover-title .fa,
 .change-panel .popover-title .fa {
     color: #5171ba;
@@ -239,8 +243,8 @@ li.change-delete-icon {
 .change-aside {
     font-style:italic;
     font-size: 11px;
-    display:inline-block;
-    color: #777;
+    display:inline-block;  
+    color: #888;
 }
 
 .change-aside.lg,
@@ -285,7 +289,9 @@ li.change-delete-icon {
 }
 
 
-
+.change-input.popover h3 { 
+    background:#d9edf7;
+}
 
 
 /*  BLARGH!  hacks to overcome forms & easy & other .css */

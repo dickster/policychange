@@ -64,8 +64,20 @@
                         delete:'#changeDelete'
                     },
                     valueLabels:['Broker','Carrier'],
-                    idLabels:{1:'Company Name',2:'Address',3:'Birthday',4:'Drivers License Class',
-                        44:'Address 2',5:'TPDC', 7:'Gender', 10:'Vehicle', 500: 'Vehicle', 100:'City', 101:'Province' },
+                    idLabels:{
+                        1:'Company Name',
+                        2:'Address',
+                        3:'Birthday',
+                        4:'Drivers License Class',
+                        44:'Address 2',
+                        5:'TPDC',
+                        7:'Gender',
+                        10:'Vehicle',
+                        500: 'Vehicle',
+                        100:'City',
+                        101:'Province',
+                        103:'Postal Code'
+                        },
                 },
             };
             wtw.changeEditor.init(options);
@@ -106,7 +118,7 @@
                 <div class="toggle toggle-override">
                     <span class="change-value"></span>
                     <span class="change-aside sm"> (overriden by user)</span>
-                    <i class="fa fa-pencil"></i>
+                    <i class="fa fa-exclamation-triangle"></i>
                 </div>
             </section>
             {{/if}}
@@ -838,7 +850,6 @@
                                                                    id="idb"
                                                                    class="partyInfoProvince-easy-combo-box-value easy-combo-box-value">
                                                             <input type="text"
-                                                                   data-change-id="102"
                                                                    class="form-control partyInfoProvince-easy-combo-box-input easy-combo-box-input easy-input partyInfoProvince-easy-input"
                                                                    value=""
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:partyInfoProvince:controlContainer:comboText"
@@ -859,6 +870,7 @@
                                                                for="ide">Postal Code: *</label>
                                                         <div class="partyInfoPostalCode-easy-text-field-container easy-text-field-container easy-container input-append">
                                                             <input type="text"
+                                                                   data-change-id="103"
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:partyInfoPostalCode:controlContainer:textField"
                                                                    class="form-control partyInfoPostalCode-easy-text-field-input easy-text-field-input easy-input partyInfoPostalCode-easy-input"
                                                                    value="" id="ide" maxlength="11" hint="A#A #A#"

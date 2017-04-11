@@ -164,11 +164,11 @@
 }
 .change-item-modify .summary:before {
     content: '\f069';
-    color: #75add6;
+    color: #8ea5b5;
 }
 .change-item-delete .summary:before {
     content:'\f056';
-    color: #d68875;
+    color: #a57468;
 }
 .change-item .summary {
     color: #2b3c91;

@@ -49,7 +49,7 @@ wtw.changeInputValHooks = function(element) {
         }
     };
 
-    // blargh: leaky abstraction here...i have to take care of setting the display value and the underlying code.
+    // blargh: leaky abstractions here...i have to take care of setting the display value and the underlying code.
     var easyJsComboVal = function(value) {
         var changeInput = this;
         if(value) {
@@ -85,13 +85,17 @@ wtw.changeInputValHooks = function(element) {
 
     // return the hooks for the input.
 
+    // as new component types arise
     if (element.is('select')) {
         return {val:selectVal, text:selectText, input:element};
     }
     if (element.is('.easy-combo-box-value')) {
         return {val:easyJsComboVal, text:easyJsComboText, input:element.siblings('.easy-combo-box-input')};
     }
-    return {val:defaultVal, text:defaultText, input:element};
+    if (element.is('input')) {
+        return {val: defaultVal, text: defaultText, input: element};
+    }
+    throw 'unsupported val() method for component type ' + element.prop('tagName');
 
 
 };

@@ -19,13 +19,13 @@ wtw.changeEditor = (function() {
 
 
     function createChange($input, id) {
-        var change = {id: id, type:'modify', values:[{code:$input.val()}, {code:''}]};
-        // TODO : maybe put something in summary about this being an override.
+        var change = {  id: id,
+                        type:'modify',
+                        new:true,
+                        index: null,
+                        values:[{code:$input.val(), label:'Overriden Value'}, {code:'', label:'Original Value'}]
+                    };
         formatChange(change);
-        change.isNew = true;   // any changes that are created after initial server data is sent will be flagged as such.
-        change.values[0].label = 'Overridden Value';// make these a configurable string;
-        change.values[1].label = 'Incoming Value';
-        change.index = null;
         options.changes.push(change);
         return change;
     }
@@ -61,7 +61,6 @@ wtw.changeEditor = (function() {
     }
 
     function createChangeInputs() {
-        // TODO : loop over all "data-change-id"s.
         // create lookup so i can find changes by id.
         var changesById = {};
         var changes = options.changes;
@@ -102,8 +101,11 @@ wtw.changeEditor = (function() {
 
         createChangeInputs();
 
-        // TODO : pass markup id/selector for change panel?  or just use class "change-panel"?
         createChangePanel();
+
+        // this will create a handy string containing all sizes.
+        // e.g. ['sm', 'md', 'lg']  -->   "sm md lg"
+        options.config.allCssSizes = options.config.cssSizes.join(' ');
 
         // if you click somewhere outside of input popup, then hide any visible input popups.
         // (you must check to make sure the click didn't happen inside a visible popup - in that case just leave it).
@@ -192,7 +194,6 @@ wtw.changeEditor = (function() {
 
     return {
         init: init,
-        // add other public methods you want to expose here...
     }
 
 })();

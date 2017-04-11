@@ -161,10 +161,10 @@
         </div>
         {{/if}}
         {{#if isAdd}}
-            the value was added.
+            <span>{{values.[0].text}}</span><span> was added</span>
         {{/if}}
         {{#if isDelete}}
-            the value was deleted.
+            <span>{{values.[1].text}}</span><span> was deleted</span>
         {{/if}}
         <div class="btn-group btn-group-xxs pull-right">
             <button type="button" class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </button>
@@ -174,19 +174,18 @@
 
 
     <script id="changeDelete" type="text/x-handlebars-template">
-        <div class="change-delete alert alert-info alert-dismissible" role="alert">
-                <i class="fa fa-minus-circle"/><span> {{desc}} </span><span>{{values.[1].text}}</span><span> was deleted</span>
+        <div class="change-delete alert alert-info" role="alert">
+                <i class="fa fa-minus-circle"/><summary> {{desc}} {{values.[1].text}}</summary><span> was deleted</span>
             </div>
         </div>
     </script>
 
     <script id="changeAdd" type="text/x-handlebars-template">
-            <div class="change-add alert alert-info alert-dismissible" role="alert">
-                <i class="fa fa-plus-circle"/><span> {{desc}} </span><span>{{values.[0].text}}</span><span> was added</span>
-                <i class="fa fa-level-down"/>
-            </div>
+        <div class="change-add alert alert-info" role="alert">
+            <i class="fa fa-plus-circle"/><summary> {{desc}} {{values.[0].text}}</summary><span> was added</span>
+            <i class="fa fa-level-down"/>
+        </div>
     </script>
-
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">

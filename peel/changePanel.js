@@ -51,7 +51,6 @@ $.widget( "wtw.changePanel", {
 
     },
 
-    // TODO : refactor this be called by mediator....activeChangeValue(id,index,value);
     _activateChangeValue: function ($changeItem, change, index) {
         // remove all other (if any) active items, and highlight this one.
         // TODO : chain these two lines together after debugging...
@@ -126,8 +125,8 @@ $.widget( "wtw.changePanel", {
 
     updateChange:function(id, value) {
         // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
-        // TODO : refactor out hard coded attribute!
-        var $toggles = this._getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .toggle');
+        var changeItemSelector = '.change-item[' + this.options.config.refAttr + '="'+id+'"]';
+        var $toggles = this._getPopoverContent().find(changeItemSelector + ' .toggle');
 
         // CAVEAt : index can null/undefined.
         // if one of the change values isn't set. .: it's overridden by user to be something else.
@@ -138,21 +137,17 @@ $.widget( "wtw.changePanel", {
             $changeItem = $toggles.eq(value.index);
         }
         else {  
-            // TODO : take out hard coded attribute usage.
-            $changeItem = this._getPopoverContent().find('.change-item[data-change-ref="'+id+'"] .toggle-override');
+            $changeItem = this._getPopoverContent().find(changeItemSelector + ' .toggle-override');
         }
-        // TODO : don't use hard code string for all sizes. 'sm md lg'.
-        // instead, take the array and create this
-        // removeClass(cssSizes.join(' '))
         $toggles.removeClass('accepted');
         $changeItem.addClass('accepted');
-        $changeItem.find('.change-value').text(value.text).removeClass('sm md lg').addClass(change.size);
+        $changeItem.find('.change-value')
+            .text(value.text)
+            .removeClass(this.options.config.allCssSizes)
+            .addClass(change.size);
     },
 
     changeAdded : function(id, change, value) {
-        // TODO : i need to find the correct place to insert this change.  (need to compare the index of the element
-        //    to other inputs).  while index>otherIndex, keep going down.
-        console.log('change added ' + id + ' : ' + JSON.stringify(change));
         this.changesById[change.id] = change;
         var config = this.options.config;
         // TODO : refactor this out so i'm not constantly compiling template.

@@ -65,7 +65,7 @@
 .change-panel .change-item.active:hover {
     color:#447;
     background-color: #cde;
-    border-color: #bb0;
+    border-color: #8fa8b5;
 }
 
 .change-panel .popover-content .change-item:hover {
@@ -84,7 +84,7 @@
 }
 
 .change-panel.popover { 
-    opacity:.75 !important;
+    opacity:.85 !important;
 }
 .change-panel .popover-content {
     max-height: 375px;
@@ -159,13 +159,16 @@
 }
 .change-item-add .summary:before {
     content:'\f055';
+    color: #4f9462;
+    /* background: black; */
 }
 .change-item-modify .summary:before {
-    content:'\f0d8';
-    color: #99a;
+    content: '\f069';
+    color: #75add6;
 }
 .change-item-delete .summary:before {
     content:'\f056';
+    color: #d68875;
 }
 .change-item .summary {
     color: #2b3c91;
@@ -297,9 +300,14 @@ li.change-delete-icon {
 .change-add .fa.fa-level-down {
     vertical-align: text-top;
     font-size: 20px;
-    color: #999;
+    color: #95a1df;
 }
-.change-delete {
+
+.change-delete summary,
+.change-add summary {
+    font-size:larger;
+    display: inline-block;
+    padding-left: 10px;
 }
 
 

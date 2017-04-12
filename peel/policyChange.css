@@ -51,6 +51,7 @@
     background: #ddd;
     border-color: #ccc;
     color: #447;
+    position: relative;
 }
 
 .change-panel .change-item.active:hover {
@@ -177,7 +178,7 @@
 }
 
 .change-item .fa {
-    margin-top: -14px;
+    /* margin-top: -14px; */
 }
 .change-item:not(.accepted) .fa-toggle-off {
     display:inline-block;
@@ -222,9 +223,23 @@ li.change-delete-icon {
 
 
 .change-item i {
-    float: right;
+    position: absolute;
+    /* float: right; */
     font-size: large;
     color: #707b85;
+    /* display: inline-block; */
+    right: 0;
+    top: 0;
+    /* outline: 1px solid blue; */
+}
+
+.change-value {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 92%;
+    /* outline: 1px solid blue; */
+    display: inline-block;
 }
 
 .change-value.lg {
@@ -252,15 +267,21 @@ li.change-delete-icon {
 
 .change-aside {
     font-style:italic;
-    font-size: 11px;
-    display:inline-block;  
-    color: #888;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display:inline-block;
+}
+
+.change-value.md {
+    max-width:50%;
 }
 
 .change-aside.lg,
 .change-value.lg+.change-aside {
-    /* display:block; */
+    display: block;
     padding-left:0;
+    max-width: 75%;
 }
 
 .change-aside.sm,
@@ -280,7 +301,7 @@ li.change-delete-icon {
 }
 
 .change-item-modify section div.accepted {
-    display: block;
+    /* display: inline-block; */
 }
 
 .change-item-modify section div:not(.accepted) {

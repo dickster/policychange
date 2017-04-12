@@ -38,6 +38,16 @@ $.widget( "wtw.changeInput", {
         this.icon.click(function() {
             self._toggle();
         });
+        // recall : the deleted (previous) value is the [1]st element.  the current value is the [0]th.
+        //  .: delete should use [1] for its display value, add should use [0].
+        var text = '';
+        if (this.options.change.type=='delete') {
+            text = this.options.change.values[1].text;
+        }
+        else if (this.options.change.type=='add') {
+            text = this.options.change.values[0].text;
+        }
+        this.getTextForCode = function(code) { return text; };
     },
 
 
@@ -223,12 +233,11 @@ $.widget( "wtw.changeInput", {
     // e.g. for a select, the value might be "M" but the display value (text) will be "Male".
     _normalizeValues : function() {
         // this only applies to modify changes.  add & deletes have nothing to normalize!
-        if (this.options.change.type!='modify') return;
         var self = this;
         var sizes = this.options.config.cssSizes;
             $.each(this.options.change.values, function(i,value) {
-                value.text = self.getTextForCode(value.code);
-                value.size = sizes[Math.min(2, value.text.length)];
+                value.text = self.getTextForCode(value.code).trim();
+                value.size = sizes[Math.trunc(Math.min(2, value.text.length/15))];
         });
         return this.options.change.values;
     }

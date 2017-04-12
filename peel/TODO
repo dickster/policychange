@@ -6,7 +6,7 @@ BUGS :
 TODO :
 XX add test cases.  url for different datasets (or load data from ajax?)
 handle very long values.  ellipsis and text overflow
-allow configuration of .css for icon placement.   each and every field has a selector.
+Xallow configuration of .css for icon placement.   each and every field has a selector.
 *need a map of all possible data-change-id's and their .css classes to add to icon.
 
 

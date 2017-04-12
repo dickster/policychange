@@ -1,0 +1,94 @@
+   [
+    {
+      "type": "modify",
+      "id": 1,
+      "values": [
+        {
+          "code": "Chrysler"
+        },
+        {
+          "code": "Fiat-Chrysler"
+        }
+      ]
+    },
+    {
+      "type": "modify",
+      "id": 2,
+      "values": [
+        {
+          "code": "joe.smith@hotmail.com"
+        },
+        {
+          "code": "joe.quentin.smith@gmail.com"
+        }
+      ]
+    },
+    {
+      "type": "modify",
+      "id": 3,
+      "values": [
+        {
+          "code": "BirthdayA"
+        },
+        {
+          "code": "BirthdayB"
+        }
+      ]
+    },
+    {
+      "type": "modify",
+      "id": 5,
+      "values": [
+        {
+          "code": "a"
+        },
+        {
+          "code": "b"
+        }
+      ]
+    },
+    {
+      "type": "modify",
+      "id": 4,
+      "values": [
+        {
+          "code": "G1"
+        },
+        {
+          "code": "C"
+        }
+      ]
+    },
+    {
+      "type": "modify",
+      "id": 7,
+      "values": [
+        {
+          "code": "F"
+        },
+        {
+          "code": "M"
+        }
+      ]
+    },
+    {
+      "type": "add",
+      "id": 10,
+      "values": [
+        {
+          "text": "2013 Dodge Ram"
+        }
+      ]
+    },
+    {
+      "type": "delete",
+      "values": [
+        {},
+        {
+          "text": "2009 Toyota Prius"
+        }
+      ],
+      "desc": "Vehicle",
+      "id": 500
+    }
+  ]

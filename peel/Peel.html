@@ -18,69 +18,47 @@
             crossorigin="anonymous"></script>
 
     <script type="application/javascript">
-        $(function() {
-            var options = {
-                changes:[
-                    {   type:'modify',
-                        id: 1,
-                        values: [{code:'Chrysler'},{code:'Fiat-Chrysler'}] },
-                    {   type:'modify',
-                        id: 2,
-                        values: [{code:'joe.smith@hotmail.com'},{code:'joe.quentin.smith@gmail.com'}] },
-                    {   type:'modify',
-                        id: 3,
-                        values: [{code:'BirthdayA'},{code:'BirthdayB'}] },
-                    {   type:'modify',
-                        id: 5,
-                        values: [{code:'a'},{code:'b'}] },
-                    {   type:'modify',
-                        id: 4,
-                        values: [{code:'G1'},{code:'C'}] },
-                    {   type:'modify',
-                        id: 7,
-                        values: [{code:'F'},{code:'M'}] },
-                    {   type:'add',
-                        id:10,
-                        values:[{text:'2013 Dodge Ram'}] },
-                    {   type:'delete',
-                        values:[{}, {text:'2009 Toyota Prius'}],
-                        desc:'Vehicle',
-                        id:500
-                    }
-                ],
 
-                // all view customization data goes here.
-                config: {
-                    header:'Changes',
-                    idAttr:'data-change-id',
-                    refAttr:'data-change-ref',
-                    template:{
-                        changeContainerClass:'list-group',
-                        changePanelTitle:'#changePanelTitle',
-                        changePanelContent:'#changePanelContent',
-                        inputTitle:'#changeInputTitle',
-                        inputContent:'#changeInputContent',
-                        add:'#changeAdd',
-                        delete:'#changeDelete'
-                    },
-                    valueLabels:['Broker','Carrier'],
-                    idLabels:{
-                        1:'Company Name',
-                        2:'Address',
-                        3:'Birthday',
-                        4:'Drivers License Class',
-                        44:'Address 2',
-                        5:'TPDC',
-                        7:'Gender',
-                        10:'Vehicle',
-                        500: 'Vehicle',
-                        100:'City',
-                        101:'Province',
-                        103:'Postal Code'
-                        },
-                },
-            };
-            wtw.changeEditor.init(options);
+        $(function() {
+
+            var options = { };
+
+            function param(name) {
+                return (window.location.search.split(name + '=')[1] || '').split('&')[0];
+            }
+
+            function allDataReady() {
+                return options.config && options.changes;
+            }
+
+            var changesFile = param("changes");
+            if (!changesFile) {
+                changesFile = 'changes';
+            }
+
+            changesFile = 'data/' + changesFile + '.json';
+            console.log('loading changes from ' + changesFile);
+            $.getJSON(changesFile, function(json) {
+                options.changes = json;
+                if (allDataReady()) {
+                    wtw.changeEditor.init(options);
+                }
+            });
+
+            var configFile = param("config");
+            if (!configFile) {
+                configFile = 'config';
+            }
+            configFile = 'data/' + configFile + '.json';
+            console.log('loading config from ' + configFile);
+
+            $.getJSON(configFile, function(json) {
+                options.config = json;
+                if (allDataReady()) {
+                    wtw.changeEditor.init(options);
+                }
+            });
+
         });
     </script>
 

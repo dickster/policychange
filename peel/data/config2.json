@@ -1,0 +1,32 @@
+{
+  "header": "Policy Changes",
+  "idAttr": "data-change-id",
+  "refAttr": "data-change-ref",
+  "template": {
+    "changeContainerClass": "list-group",
+    "changePanelTitle": "#changePanelTitle",
+    "changePanelContent": "#changePanelContent",
+    "inputTitle": "#changeInputTitle",
+    "inputContent": "#changeInputContent",
+    "add": "#changeAdd",
+    "delete": "#changeDelete"
+  },
+  "valueLabels": [
+    "Broker",
+    "Carrier"
+  ],
+  "idLabels": {
+    "1": "Company Name",
+    "2": "Address",
+    "3": "Birthday",
+    "4": "Drivers License Class",
+    "5": "TPDC",
+    "7": "Gender",
+    "10": "Vehicle",
+    "44": "Address 2",
+    "100": "City",
+    "101": "Province",
+    "103": "Postal Code",
+    "500": "Vehicle"
+  }
+}

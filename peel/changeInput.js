@@ -54,15 +54,7 @@ $.widget( "wtw.changeInput", {
         this.icon = $(this.options.config.inputIcon)
             .attr('data-change-ref',this.options.change.id).insertAfter(this.input);
 
-        this.icon.addClass('change-input-icon');
-
-        //blargh : this is a dangerous hack.  if i can't be sure that the parent of this icon is relative, then i'll never be able
-        // to style its position.  i'm going to have to do an "absolute/top:0/right:0" kinda thing to maybe get it to work
-        // which means i need to have a relative parent to attach to.
-        // maybe i should make this an option for each change....forceParentRelative?
-        // or i could just hijack the .css and fix it there but i might not have access.
-        this.icon.parent().css('position','relative');  // ScREW THIS---IT WON'T WORK.  i'll have to hack .CSS.
-        // end of hack.
+        this.icon.addClass('change-input-icon')
 
         this.icon.click(function() {
             self._toggle();
@@ -76,7 +68,6 @@ $.widget( "wtw.changeInput", {
 
         this._normalizeValues();
 
-
         // add data list if it's a text input.  handy so user can see both options directly in form widget.
         // see #https://www.w3schools.com/tags/tag_datalist.asp
         if (this.input.is('input:text')) {
@@ -86,7 +77,7 @@ $.widget( "wtw.changeInput", {
             $.each(this.options.change.values, function(i,value) {
                 $datalist.append($('<option>'+value.text+'</option>').attr('value',value.code));
             });
-            $datalist.insertAfter(this.input);
+            $datalist.insertBefore(this.input);
         }
 
     },

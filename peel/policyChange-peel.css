@@ -1,0 +1,23 @@
+/*blargh : because all widgets are styled in a large variety of ways (position, display, padding, etc...) it is impossible
+to create a standard snippet of html/css that will look good for all inputs on the form.
+this leaves us the ugly option of having to style each and every <input> to their own needs.  jeez..
+the basic pattern is thusly :
+    - each <input> will be associated with "data-change-id".   e.g. <input type="text" data-change-id="389">
+    - the change editor icon will always be inserted right beside it via javascript.   e.g.   <input....><li class="change-input-icon ..."/>
+    .: this stylesheet will be littered with stuff like :
+
+    [data-change-id='389']+li.change-input-icon {
+        position:absolute;
+        top:0;
+        right:10px;
+    }
+
+    you shouldn't be changing the actual icon, its colors or size in this file.  just the positioning.
+*/
+
+
+[data-change-id="1"]+li.change-input-icon {
+    outline:1px solid blue;
+}
+
+

@@ -43,7 +43,7 @@ $.widget( "wtw.changePanel", {
             .addClass(config.changePanelClass);
 
         this.element.on('shown.bs.popover', function() {
-            self._addChangeListeners();
+            self._addListeners();
             $.each(self.options.changes, function(i,change) {
                 self.updateChange(change.id, change.values[0]);
             })
@@ -67,7 +67,7 @@ $.widget( "wtw.changePanel", {
         this._trigger('select', null, [this.changesById[changeId], showPopup]);
     },
 
-    _addChangeListeners : function() {
+    _addListeners : function() {
         var self = this;
         var $changePanel = $('.'+self.options.config.changePanelClass);
 
@@ -88,6 +88,12 @@ $.widget( "wtw.changePanel", {
         $changePanel.on('click', '.fa-toggle-on', function(e) {
             self._set($(this), 1);
         });
+        $changePanel.on('click', '.next-change', function() {
+            self._advance(1);
+        });
+        $changePanel.on('click', '.prev-change', function() {
+            self._advance(-1);
+        });
 
     },
 
@@ -98,7 +104,8 @@ $.widget( "wtw.changePanel", {
         this._trigger('set', null, [id, change.values[index]]);
     },
 
-    _select: function ($content, delta) {
+    _advance: function (delta) {
+        var $content = this._getPopoverContent();
         var $items = $content.find('.change-item');
         var $active = $content.find('.change-item.active');
         var index = ($active.length!=0) ? $items.index($active)+delta : 0;
@@ -106,16 +113,6 @@ $.widget( "wtw.changePanel", {
         index = (index<0) ? count - 1 :
             (index>=count) ? 0 : index;
         this._activate($items.eq(index));
-    },
-
-    _initPrevNextButtons: function ($popover) {
-        var self = this;
-        $popover.find('.next-change').click(function() {
-            self._select($popover, 1);
-        });
-        $popover.find('.prev-change').click(function() {
-            self._select($popover, -1);
-        });
     },
 
     _getPopoverContent: function () {

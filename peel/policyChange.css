@@ -70,11 +70,11 @@
     min-width: 400px;
 }
 
-.change-panel.popover:hover { 
+.change-panel.popover:hover {
     opacity:1 !important;
 }
 
-.change-panel.popover { 
+.change-panel.popover {
     opacity:.85 !important;
 }
 .change-panel .popover-content {
@@ -186,12 +186,9 @@
     display:inline-block;
 }
 
-/*blargh...this won't work for all easy-components... what to do?*/
-
-[data-change-id="1"]+li.change-input-icon { 
-    outline:1px solid blue;
-}
-
+/*this is the default layout/config for icon. i know this layout wont work for all - you will
+ need to put those hacks in a separate .css file specific to your implementation.
+ */
 li.change-input-icon {
     position:absolute;
     top:0;
@@ -306,11 +303,9 @@ li.change-delete-icon {
     padding-left: 10px;
 }
 
-
-.change-input.popover h3 { 
+.change-input.popover h3 {
     background:#d9edf7;
 }
-
 
 /*  BLARGH!  hacks to overcome forms & easy & other .css */
 .change-input.popover .btn.btn-default,

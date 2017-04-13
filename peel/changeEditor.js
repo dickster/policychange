@@ -6,7 +6,7 @@ wtw.changeEditor = (function() {
 
     var defaultOptions = {
         config: {
-            inputIcon: '<li class="fa fa-copy"></li>',
+            inputIcon: '<li class="fa fa-asterisk"></li>',
             open: true,
             expanded:false,
             trigger: 'click',

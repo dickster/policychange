@@ -193,14 +193,18 @@
 li.change-input-icon {
     position:absolute;
     top:0;
-    right: 0;
-    color: #4b0303;
+    right: 8px;
+    color: #759ee8;
     padding:2px 0;
 }
 
 li.change-add-icon,
 li.change-delete-icon {
     float:right;
+    margin-top:-40px;
+/*     position:absolute; */
+    margin-right:10px;
+/*     outline:1px solid red; */
 }
 
 @keyframes highlightBorder {

@@ -152,16 +152,20 @@
 
 
     <script id="changeDelete" type="text/x-handlebars-template">
-        <div class="change-delete alert alert-info" role="alert">
-                <i class="fa fa-minus-circle"/><summary> {{desc}} {{values.[1].text}}</summary><span> was deleted</span>
+        <div class="change-delete panel">
+            <div class="panel-body bg-info">
+                    <i class="fa fa-minus-circle"/><summary> {{desc}} {{values.[1].text}}</summary><span> was deleted</span>
+                </div>
             </div>
         </div>
     </script>
 
     <script id="changeAdd" type="text/x-handlebars-template">
-        <div class="change-add alert alert-info" role="alert">
-            <i class="fa fa-plus-circle"/><summary> {{desc}} {{values.[0].text}}</summary><span> was added</span>
-            <i class="fa fa-level-down"/>
+        <div class="change-add panel">
+            <div class="panel-body bg-info">
+                <i class="fa fa-plus-circle"/><summary> {{desc}} {{values.[0].text}}</summary><span> was added</span>
+                <i class="fa fa-level-down"/>
+            </div>
         </div>
     </script>
 

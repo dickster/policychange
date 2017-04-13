@@ -1,7 +1,6 @@
 $.widget( "wtw.changeInput", {
     // CHANGE INPUT.
 
-
     // -----------------------------------------
     // i should have default options specific to input here so editor doesn't have to know about them.
 
@@ -106,7 +105,6 @@ $.widget( "wtw.changeInput", {
     },
 
     hide: function() {
-        console.log('hiding popup ' + this.options.change.id);
         if (this.icon && this.icon.data('bs.popover')) {
             this.icon.popover('hide');
         }

@@ -2,11 +2,26 @@ BUGS :
 
 - 'choose one' in select doesn't behave properly.
 
+bug notes : for <select>'s,  we should use
+    <select>
+        <option value="" disabled selected>Select your option</option>
+        <option value="hurr">Durr</option>
+    </select>
+  that way, the "select your option" choice will never be shown as the value in the changeEditor. (unless it's the initial value
+  which it should never be?)  i could look for option:not(disabled).
+
 
 TODO :
 XX add test cases.  url for different datasets (or load data from ajax?)
-handle very long values.  ellipsis and text overflow
+Xhandle very long values.  ellipsis and text overflow
 Xallow configuration of .css for icon placement.   each and every field has a selector.
 *need a map of all possible data-change-id's and their .css classes to add to icon.
+-restyle "alerts"
+
+- start integration with PEEL.
+- how to handle parent/container.  e.g. Vehicle with has many sub changes (make, year, model).  i want this to show up as a single
+ change ("vehicle 2 has changed") instead of "make has changed, year has changed, model has changed" etc...
+
+
 
 

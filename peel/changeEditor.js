@@ -16,8 +16,6 @@ wtw.changeEditor = (function() {
         }
     };
 
-
-
     function createChange($input, id) {
         var change = {  id: id,
                         type:'modify',

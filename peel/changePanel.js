@@ -140,6 +140,7 @@ $.widget( "wtw.changePanel", {
     },
 
     changeAdded : function(id, change, value) {
+        // TODO : update counter!!!
         this.changesById[change.id] = change;
         var config = this.options.config;
         // TODO : refactor this out so i'm not constantly compiling template.

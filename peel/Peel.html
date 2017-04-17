@@ -43,46 +43,39 @@
     <script type="application/javascript">
 
         $(function() {
-
-            var options = { };
-
-            function param(name) {
-                return (window.location.search.split(name + '=')[1] || '').split('&')[0];
+            function param(name, defaultValue) {
+                var p = (window.location.search.split(name + '=')[1] || '').split('&')[0];
+                return p ? p : defaultValue;
             }
 
-            function allDataReady() {
-                return options.config && options.changes;
-            }
-
-
-            var changesFile = param("changes");
-            if (!changesFile) {
-                changesFile = 'changes';
-            }
-            console.log('loading....');
-
-            changesFile = 'data/' + changesFile + '.json';
-            $.getJSON(changesFile, function(json) {
+            var getChanges = function() {
+                var changesFile = param('changes', 'changes');
+                changesFile = 'data/' + changesFile + '.json';
                 console.log('loaded changes from ' + changesFile);
-                options.changes = json;
-                if (allDataReady()) {
-                    wtw.changeEditor.init(options);
-                }
-            });
-
-            var configFile = param("config");
-            if (!configFile) {
-                configFile = 'config';
+                return $.getJSON(changesFile, function(json) {
+                    console.log('...!');
+                    options.changes = json;
+                });
             }
-            configFile = 'data/' + configFile + '.json';
 
-            $.getJSON(configFile, function(json) {
-                console.log('loaded config from ' + configFile);
-                options.config = json;
-                if (allDataReady()) {
+            var getConfig = function() {
+                var configFile = param('config','config');
+                configFile = 'data/' + configFile + '.json';
+                console.log('loading config from ' + configFile);
+                return $.getJSON(configFile, function(json) {
+                    options.config = json;
+                    console.log('...!');
+                });
+            }
+
+            var options = {};
+
+            $.when( getChanges(), getConfig() )
+                .then( function() {
                     wtw.changeEditor.init(options);
-                }
-            });
+                }, function() {
+                    alert('cant load config/changes test data');
+                } );
         });
     </script>
 

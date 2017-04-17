@@ -19,6 +19,7 @@ wtw.changeEditor = (function() {
     var init = function(opts) {
         var self = this;
         options = $.extend(true,{},opts,defaultOptions);
+
         var config = options.config;
 
         formatChanges();

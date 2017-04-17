@@ -1,177 +1,188 @@
+(function($) {
 
-$.widget( "wtw.changePanel", {
+    var templateCache = {};
 
-    _create: function() {
-        var self = this;
-        var config = this.options.config;
+    $.widget( "wtw.changePanel", {
 
-        this.element.addClass('change-editor');
+        _create: function() {
+            var self = this;
+            var config = this.options.config;
 
-        this.sortChanges();
+            this.element.addClass('change-editor');
 
-        // create lookup so i can find changes by id.
-        this.changesById = {};
-        var changes = this.options.changes;
-        for (var i = 0, len = changes.length; i < len; i++) {
-            this.changesById[changes[i].id] = changes[i];
-        }
+            this.sortChanges();
 
-        this.element.popover({
-            placement: 'bottom',
-            trigger: 'manual',
-            container:'body',
-            html : true,
-            title: function() {
-                var template = Handlebars.compile($(config.template.changePanelTitle).html());
-                return template(self.options);
-            },
-            content: function() {
-                var template = Handlebars.compile($(config.template.changePanelContent).html());
-                var $content = $('<div/>')
-                    .addClass(config.template.changeContainerClass)
-                    .addClass('change-items');
-                $.each(self.options.changes, function(i,change) {
-                    var $change = $(template(change));
-                    $change.attr(config.refAttr,change.id);
-                    $content.append($change);
-                })
-                return $content.prop('outerHTML');
-            },
-        })
-            .data('bs.popover')
-            .tip()
-            .addClass(config.changePanelClass);
+            // create lookup so i can find changes by id.
+            this.changesById = {};
+            var changes = this.options.changes;
+            for (var i = 0, len = changes.length; i < len; i++) {
+                this.changesById[changes[i].id] = changes[i];
+            }
 
-        this.element.on('shown.bs.popover', function() {
-            self._addListeners();
-            $.each(self.options.changes, function(i,change) {
-                self.updateChange(change.id, change.values[0]);
+            this.element.popover({
+                placement: 'bottom',
+                trigger: 'manual',
+                container:'body',
+                html : true,
+                title: function() {
+                    var template = self.getTemplate('changePanelTitle');
+                    return template(self.options);
+                },
+                content: function() {
+                    var template = self.getTemplate('changePanelContent');
+                    var $content = $('<div/>')
+                        .addClass(config.template.changeContainerClass)
+                        .addClass('change-items');
+                    $.each(self.options.changes, function(i,change) {
+                        var $change = $(template(change));
+                        $change.attr(config.refAttr,change.id);
+                        $content.append($change);
+                    })
+                    return $content.prop('outerHTML');
+                },
             })
-        });
+                .data('bs.popover')
+                .tip()
+                .addClass(config.changePanelClass);
 
-    },
+            this.element.on('shown.bs.popover', function() {
+                self._addListeners();
+                $.each(self.options.changes, function(i,change) {
+                    self.updateChange(change.id, change.values[0]);
+                })
+            });
 
-    _activateChangeValue: function ($changeItem, change, index) {
-        // remove all other (if any) active items, and highlight this one.
-        // TODO : chain these two lines together after debugging...
-        $changeItem.find('.change-value').removeClass('active');
-        $changeItem.find('.change-value').eq(index).addClass('active');
-    },
+        },
 
-    _activate : function($changeItem, showPopup) {
-        // highlight the proper row....
-        $changeItem.siblings().removeClass('active');
-        $changeItem.addClass('active');
-        // ...then notify the world that we want to focus on this change. parent mediator will dispatch as needed.
-        var changeId = $changeItem.attr(this.options.config.refAttr);
-        this._trigger('select', null, [this.changesById[changeId], showPopup]);
-    },
+        getTemplate: function (type) {
+            if (!templateCache[type]) {
+                templateCache[type]= Handlebars.compile($(this.options.config.template[type]).html());
+            }
+            return templateCache[type];
+        },
 
-    _addListeners : function() {
-        var self = this;
-        var $changePanel = $('.'+self.options.config.changePanelClass);
+        _activateChangeValue: function ($changeItem, change, index) {
+            // remove all other (if any) active items, and highlight this one.
+            // TODO : chain these two lines together after debugging...
+            $changeItem.find('.change-value').removeClass('active');
+            $changeItem.find('.change-value').eq(index).addClass('active');
+        },
 
-        $changePanel.on('click', '.change-item', function(e) {
-            // if you click on the 'summary' element then open up associated change input popup.
-            var showPopup = $(e.target).is('.summary');
-            self._activate($(this).closest('.change-item'), showPopup);
-        });
-        // assumes there are two toggle buttons that "on" means use first value = value[0]
-        $changePanel.on('click', '.fa-toggle-off', function(e) {
-            self._set($(this), 0);
-        });
-        $changePanel.on('click', '.fa-toggle-on', function(e) {
-            self._set($(this), 1);
-        });
-        $changePanel.on('click', '.next-change', function() {
-            self._advance(1);
-        });
-        $changePanel.on('click', '.prev-change', function() {
-            self._advance(-1);
-        });
+        _activate : function($changeItem, showPopup) {
+            // highlight the proper row....
+            $changeItem.siblings().removeClass('active');
+            $changeItem.addClass('active');
+            // ...then notify the world that we want to focus on this change. parent mediator will dispatch as needed.
+            var changeId = $changeItem.attr(this.options.config.refAttr);
+            this._trigger('select', null, [this.changesById[changeId], showPopup]);
+        },
 
-    },
+        _addListeners : function() {
+            var self = this;
+            var $changePanel = $('.'+self.options.config.changePanelClass);
 
-    _set : function($toggle,index) {
-        var $item = $toggle.parents('.change-item');
-        var id = $item.attr(this.options.config.refAttr);
-        var change = this.changesById[id];
-        this._trigger('set', null, [id, change.values[index]]);
-    },
+            $changePanel.on('click', '.change-item', function(e) {
+                // if you click on the 'summary' element then open up associated change input popup.
+                var showPopup = $(e.target).is('.summary');
+                self._activate($(this).closest('.change-item'), showPopup);
+            });
+            // assumes there are two toggle buttons that "on" means use first value = value[0]
+            $changePanel.on('click', '.fa-toggle-off', function(e) {
+                self._set($(this), 0);
+            });
+            $changePanel.on('click', '.fa-toggle-on', function(e) {
+                self._set($(this), 1);
+            });
+            $changePanel.on('click', '.next-change', function() {
+                self._advance(1);
+            });
+            $changePanel.on('click', '.prev-change', function() {
+                self._advance(-1);
+            });
 
-    _advance: function (delta) {
-        var $content = this._getPopoverContent();
-        var $items = $content.find('.change-item');
-        var $active = $content.find('.change-item.active');
-        var index = ($active.length!=0) ? $items.index($active)+delta : 0;
-        var count = $items.length;
-        index = (index<0) ? count - 1 :
-            (index>=count) ? 0 : index;
-        this._activate($items.eq(index));
-    },
+        },
 
-    _getPopoverContent: function () {
-        var pop = this.element.data('bs.popover');
-        return pop ? pop.tip() : null;
-    },
+        _set : function($toggle,index) {
+            var $item = $toggle.parents('.change-item');
+            var id = $item.attr(this.options.config.refAttr);
+            var change = this.changesById[id];
+            this._trigger('set', null, [id, change.values[index]]);
+        },
 
-    updateChange:function(id, value) {
-        // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
-        var changeItemSelector = '.change-item[' + this.options.config.refAttr + '="'+id+'"]';
-        var $toggles = this._getPopoverContent().find(changeItemSelector + ' .toggle');
+        _advance: function (delta) {
+            var $content = this._getPopoverContent();
+            var $items = $content.find('.change-item');
+            var $active = $content.find('.change-item.active');
+            var index = ($active.length!=0) ? $items.index($active)+delta : 0;
+            var count = $items.length;
+            index = (index<0) ? count - 1 :
+                (index>=count) ? 0 : index;
+            this._activate($items.eq(index));
+        },
 
-        // CAVEAt : index can null/undefined.
-        // if one of the change values isn't set. .: it's overridden by user to be something else.
-        // in this case, the toggle button doesn't make sense so we'll show the "override state"
-        var $changeItem;
-        var change = this.changesById[id];
-        if (Number.isInteger(value.index)) {
-            $changeItem = $toggles.eq(value.index);
-        }
-        else {  
-            $changeItem = this._getPopoverContent().find(changeItemSelector + ' .toggle-override');
-        }
-        $toggles.removeClass('accepted');
-        $changeItem.addClass('accepted');
-        $changeItem.find('.change-value')
-            .text(value.text)
-            .removeClass(this.options.config.allCssSizes)
-            .addClass(change.size);
-    },
+        _getPopoverContent: function () {
+            var pop = this.element.data('bs.popover');
+            return pop ? pop.tip() : null;
+        },
 
-    changeAdded : function(id, change, value) {
-        // TODO : update counter!!!
-        this.changesById[change.id] = change;
-        var config = this.options.config;
-        // TODO : refactor this out so i'm not constantly compiling template.
-        var template = Handlebars.compile($(config.template.changePanelContent).html());
-        var $change = $(template(change));
+        updateChange:function(id, value) {
+            // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
+            var changeItemSelector = '.change-item[' + this.options.config.refAttr + '="'+id+'"]';
+            var $toggles = this._getPopoverContent().find(changeItemSelector + ' .toggle');
 
-        this.sortChanges();
-        var index = this.options.changes.indexOf(change);
-        // TODO : make this class a constant.
-        $change.insertBefore($('.change-items .change-item').eq(index));
+            // CAVEAt : index can null/undefined.
+            // if one of the change values isn't set. .: it's overridden by user to be something else.
+            // in this case, the toggle button doesn't make sense so we'll show the "override state"
+            var $changeItem;
+            var change = this.changesById[id];
+            if (Number.isInteger(value.index)) {
+                $changeItem = $toggles.eq(value.index);
+            }
+            else {
+                $changeItem = this._getPopoverContent().find(changeItemSelector + ' .toggle-override');
+            }
+            $toggles.removeClass('accepted');
+            $changeItem.addClass('accepted');
+            $changeItem.find('.change-value')
+                .text(value.text)
+                .removeClass(this.options.config.allCssSizes)
+                .addClass(change.size);
+        },
 
-        $change.attr(config.refAttr,change.id);
-        this.updateChange(id,value);
-    },
+        changeAdded : function(id, change, value) {
+            // TODO : update counter!!!
+            this.changesById[change.id] = change;
+            var config = this.options.config;
+            var template = getTemplate('changePanelContent');
+            var $change = $(template(change));
 
-    sortChanges: function() {
-        // sort these by ascending order in the DOM. if you don't then the navigation will be jerky and won't make sense when you Next/Prev in the panel.
-        //  note that the data has no idea where they are on the form so no order can be assumed.
-        var idAttr = this.options.config.idAttr;
-        var $inputs = $('[' + idAttr + ']');
-        this.options.changes.sort(function (a, b) {
-            var $a = $('[' + idAttr + '="' + a.id + '"]');
-            var $b = $('[' + idAttr + '="' + b.id + '"]');
-            var result = $inputs.index($a) - $inputs.index($b);
-            return result;
-        });
-    },
+            this.sortChanges();
+            var index = this.options.changes.indexOf(change);
+            // TODO : make this class a constant.
+            $change.insertBefore($('.change-items .change-item').eq(index));
+
+            $change.attr(config.refAttr,change.id);
+            this.updateChange(id,value);
+        },
+
+        sortChanges: function() {
+            // sort these by ascending order in the DOM. if you don't then the navigation will be jerky and won't make sense when you Next/Prev in the panel.
+            //  note that the data has no idea where they are on the form so no order can be assumed.
+            var idAttr = this.options.config.idAttr;
+            var $inputs = $('[' + idAttr + ']');
+            this.options.changes.sort(function (a, b) {
+                var $a = $('[' + idAttr + '="' + a.id + '"]');
+                var $b = $('[' + idAttr + '="' + b.id + '"]');
+                var result = $inputs.index($a) - $inputs.index($b);
+                return result;
+            });
+        },
 
 
-    show: function() {
-        this.element.popover('show');
-    },
+        show: function() {
+            this.element.popover('show');
+        },
 
-});
+    });
+})(jQuery);
+

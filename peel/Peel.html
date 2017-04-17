@@ -30,7 +30,6 @@
     <script src="./handlebars-v4.0.5.js"></script>
     <!--TODO : these javascript files should be concatenated into one (via Gulp or whatever)
         it's great for coding maintenance to have them in separate files but bad for performance.
-
     -->
     <script src="./IE-Shims.js"></script>
     <script src="./changePanel.js"></script>
@@ -72,6 +71,8 @@
 
             $.when( getChanges(), getConfig() )
                 .then( function() {
+                    // this is the only line you need to start editor.
+                    // the rest is there to facilitate loading test data based on url parameters (QA use case only).
                     wtw.changeEditor.init(options);
                 }, function() {
                     alert('cant load config/changes test data');

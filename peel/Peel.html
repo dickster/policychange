@@ -31,14 +31,38 @@
                 return options.config && options.changes;
             }
 
+            // SHIM required because IE doesn't support endsWith. jeez louise.
+            // TODO : refactor this into a IE-shim.js file.
+            if (!String.prototype.endsWith) {
+                String.prototype.endsWith = function(searchString, position) {
+                    var subjectString = this.toString();
+                    if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+                        position = subjectString.length;
+                    }
+                    position -= searchString.length;
+                    var lastIndex = subjectString.lastIndexOf(searchString, position);
+                    return lastIndex !== -1 && lastIndex === position;
+                };
+            }
+            if (!Number.isInteger) {
+                Number.isInteger = Number.isInteger || function (value) {
+                        return typeof value === "number" &&
+                            isFinite(value) &&
+                            Math.floor(value) === value;
+                    };
+            }
+
+            // ------------- end of shims -----------------
+
             var changesFile = param("changes");
             if (!changesFile) {
                 changesFile = 'changes';
             }
+            console.log('loading....');
 
             changesFile = 'data/' + changesFile + '.json';
-            console.log('loading changes from ' + changesFile);
             $.getJSON(changesFile, function(json) {
+                console.log('loaded changes from ' + changesFile);
                 options.changes = json;
                 if (allDataReady()) {
                     wtw.changeEditor.init(options);
@@ -50,15 +74,14 @@
                 configFile = 'config';
             }
             configFile = 'data/' + configFile + '.json';
-            console.log('loading config from ' + configFile);
 
             $.getJSON(configFile, function(json) {
+                console.log('loaded config from ' + configFile);
                 options.config = json;
                 if (allDataReady()) {
                     wtw.changeEditor.init(options);
                 }
             });
-
         });
     </script>
 
@@ -76,13 +99,13 @@
         </div>
     </script>
 
-
     <script id="changePanelContent" type="text/x-handlebars-template">
         <a class="list-group-item change-item change-item-{{type}}">
             <span class="summary">{{summary}}</span>
 
            {{#if isModify}}
             <section>
+                <li class="fa fa-asterisk"></li>
                 <div class="toggle toggle-on" class>
                     <span class="change-value {{values.[0].size}}">{{values.[0].text}} </span>
                     <span class="change-aside {{values.[1].size}}">   (was {{values.[1].text}})</span>
@@ -103,6 +126,7 @@
 
             {{#if isDelete}}
                 <section>
+                    <li class="fa fa-minus-circle"></li>
                     <div>
                         <span class="change-value {{values.[1].size}}"> {{desc}} : <span>{{values.[1].text}}</span> </span>
                         <span class="change-aside sm">  (deleted)</span>
@@ -112,6 +136,7 @@
 
             {{#if isAdd}}
                 <section>
+                    <li class="fa fa-plus-circle"></li>
                     <div>
                         <span class="change-value {{values.[0].size}}"> {{values.[0].text}} </span>
                         <span class="change-aside sm">  (added)</span>
@@ -129,11 +154,11 @@
         {{#if isModify}}
         <div class="list-group change-values change-input-{{type}}">
             <a class="change-value list-group-item">
-                <span class="change-input-accept" data-change-index='0'><i class="fa fa-check-circle"/></span>
+                <i class="change-input-accept fa fa-check"/></i>
                 <label>{{values.[0].label}}</label> : <span class="change-input-value">{{values.[0].text}}</span>
             </a>
             <a class="change-value list-group-item">
-                <span class="change-input-accept" data-change-index='1'><i class="fa fa-check-circle"/></span>
+                <i class="change-input-accept fa fa-check"/></i>
                 <label>{{values.[1].label}}</label> : <span class="change-input-value">{{values.[1].text}}</span>
             </a>
         </div>

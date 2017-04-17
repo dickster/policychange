@@ -151,6 +151,7 @@ wtw.changeEditor = (function() {
 
         // update the new active change input.
         self.activeChange = getInput(change.id);
+
         // ...and activate it.
         if (showPopup) {
             self.activeChange.changeInput('activateAndShowPopup');

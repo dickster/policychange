@@ -60,9 +60,16 @@
     border-color: #8fa8b5;
 }
 
+
+.change-panel .popover-content .change-item .summary:hover {
+    cursor:default;
+    color:#094be2;
+    text-decoration: underline;
+}
 .change-panel .popover-content .change-item:hover {
     cursor:pointer;
 }
+
 .change-panel .popover-content .toggle i:hover {
     cursor:default;
 }
@@ -91,6 +98,7 @@
 
 .change-input .change-value .change-input-accept {
     visibility:hidden;
+    color:#669;
     padding-left:5px;
     display:inline-block;
     width:24px;
@@ -101,13 +109,14 @@
     color: #88c;
 }
 
-.change-input .change-value.accepted .change-input-accept i.fa:before {
-    content: '\f00c';
+.change-value:hover {
+    cursor:pointer;
 }
 
 .change-input .change-value:hover .change-input-accept {
-    color:forestgreen;
+    color: #14b41f;
     visibility: visible;
+    font-weight:bold;
 }
 
 .btn-group-xxs>.btn {
@@ -133,6 +142,7 @@
     min-width:350px;
     /* put this in front of change-panel.*/
     z-index:2000;
+    border: 3px solid rgba(127,143,191,.4);
 }
 .popover .list-group { margin-bottom:0; }
 /*TODO : this should be configurable.  this is the link that the popover is attached to.
@@ -145,23 +155,16 @@
 
 /*--------------------*/
 
-.change-item .summary:before {
-    font-family: FontAwesome;
-    padding-right:10px;
-}
-.change-item-add .summary:before {
-    content:'\f055';
+.change-panel.popover .change-item-add section li {
     color: #4f9462;
-    /* background: black; */
 }
-.change-item-modify .summary:before {
-    content: '\f069';
+.change-panel.popover .change-item-modify section li {
     color: #8ea5b5;
 }
-.change-item-delete .summary:before {
-    content:'\f056';
+.change-panel.popover .change-item-delete section li {
     color: #a57468;
 }
+
 .change-item .summary {
     color: #2b3c91;
 }
@@ -170,15 +173,29 @@
     padding: 3px 3px;
 }
 
-.toggle-override i.fa {
+
+.change-item .toggle i.fa {
+    position: absolute;
+    font-size: 22px;
+    color: #707b85;
+    right: 5px;
+    top: 0;
+}
+
+.change-item .toggle-override i.fa {
     font-size:16px;
-    padding-right:10px;
+    padding-right: 6px;
     margin-top: 7px;
     color: #a87b4c;
 }
 
-.change-item .fa {
-    /* margin-top: -14px; */
+.change-item .toggle .fa { 
+    
+}
+.change-item section>.fa {
+    float: left;
+    margin-left: -22px;
+    margin-top: -14px;
 }
 .change-item:not(.accepted) .fa-toggle-off {
     display:inline-block;
@@ -226,17 +243,6 @@ li.change-delete-icon {
 }
 
 
-.change-item i {
-    position: absolute;
-    /* float: right; */
-    font-size: large;
-    color: #707b85;
-    /* display: inline-block; */
-    right: 0;
-    top: 0;
-    /* outline: 1px solid blue; */
-}
-
 .change-value {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -255,7 +261,8 @@ li.change-delete-icon {
 }
 
 .change-item .summary {
-    display:block;
+    display: inline-block;
+    margin-left: 20px;
 }
 
 .change-summary .change-value {
@@ -304,10 +311,6 @@ li.change-delete-icon {
     display:block;
 }
 
-.change-item-modify section div.accepted {
-    /* display: inline-block; */
-}
-
 .change-item-modify section div:not(.accepted) {
     display:none;
 }
@@ -343,7 +346,7 @@ li.change-delete-icon {
     font-size: 11px;
 }
 .change-panel.popover .btn.btn-default {
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .change-panel.popover.popover a.list-group-item,
@@ -352,4 +355,5 @@ li.change-delete-icon {
     font-size: 12px;
     text-decoration: none;
 }
+
 

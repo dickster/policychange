@@ -79,7 +79,8 @@ $.widget( "wtw.changeInput", {
 
         // add data list if it's a text input.  handy so user can see both options directly in form widget.
         // see #https://www.w3schools.com/tags/tag_datalist.asp
-        if (this.input.is('input:text')) {
+
+        if (this.input.is('input:text') && !this.options.change.new) {
             var id = 'chg'+this.options.change.id;
             this.input.attr('list',id);
             var $datalist = $('<datalist id="'+id+'"></datalist>');
@@ -156,15 +157,9 @@ $.widget( "wtw.changeInput", {
             var $content = self._getPopoverContent();
             // these only apply to "modify" changes.
             if (self.options.change.type=='modify') {
-                $content.on('click', '.change-input-accept', function (e) {
-                    var index = $(this).attr('data-change-index');
-                    self.set(index);
-                });
-
                 $content.find('.change-value').each(function (i, value) {
-                    $(value).find('.change-input-accept').click(function () {
-                        var index = $(this).attr('data-change-index');
-                        self.set(index);
+                    $(value).click(function () {
+                        self.set(i);
                     });
                 });
                 self._updateState(self.val());
@@ -235,7 +230,7 @@ $.widget( "wtw.changeInput", {
         var sizes = this.options.config.cssSizes;
             $.each(this.options.change.values, function(i,value) {
                 value.text = self.getTextForCode(value.code).trim();
-                value.size = sizes[Math.trunc(Math.min(2, value.text.length/15))];
+                value.size = sizes[parseInt(Math.min(2, value.text.length/15))];
         });
         return this.options.change.values;
     }

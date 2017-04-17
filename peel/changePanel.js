@@ -71,16 +71,11 @@ $.widget( "wtw.changePanel", {
         var self = this;
         var $changePanel = $('.'+self.options.config.changePanelClass);
 
-        // if you click on item row, it will scroll the window and highlight the change in the form.
         $changePanel.on('click', '.change-item', function(e) {
-            self._activate($(this));
+            // if you click on the 'summary' element then open up associated change input popup.
+            var showPopup = $(e.target).is('.summary');
+            self._activate($(this).closest('.change-item'), showPopup);
         });
-
-        // same as click except it will also open the popup.
-        $changePanel.on( 'dblclick', '.change-item', function() {
-            self._activate($(this), true);
-        });
-
         // assumes there are two toggle buttons that "on" means use first value = value[0]
         $changePanel.on('click', '.fa-toggle-off', function(e) {
             self._set($(this), 0);

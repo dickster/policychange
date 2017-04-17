@@ -17,7 +17,8 @@ the basic pattern is thusly :
 
 
 [data-change-id="1"]+li.change-input-icon {
-/*     outline:1px solid blue; */
+     outline:1px solid blue;
 }
+
 
 

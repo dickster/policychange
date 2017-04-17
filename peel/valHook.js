@@ -70,6 +70,7 @@ wtw.changeInputValHooks = function(element) {
         // 3: look for that element with this ID   var list = $('#.<prefix>-Options-list')
         // 4: find the child element (DIV) with the matching value attribute.      e.g.   <div value='M' class='easy-combo-box-option'>Male</div>
         // bob's your uncle.
+
         var ez = '-easy-combo-box-value';
         var classes = $(this.element).attr('class').split(/\s+/);
         var result = code;

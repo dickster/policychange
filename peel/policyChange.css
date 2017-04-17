@@ -210,7 +210,7 @@
 li.change-input-icon {
     position:absolute;
     top:0;
-    right: 8px;
+    right: -16px;
     color: #759ee8;
     padding:2px 0;
 }
@@ -315,7 +315,7 @@ li.change-delete-icon {
     display:none;
 }
 
-.change-add.alert {
+.change-add.panel {
     margin-bottom:-10px;    
 }
 .change-add .fa.fa-level-down {

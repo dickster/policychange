@@ -316,7 +316,11 @@ li.change-delete-icon {
 }
 
 .change-add.panel {
-    margin-bottom:-10px;    
+    margin-bottom: -10px;
+    background: #c3e4c0;
+}
+.change-delete.panel {
+    background: #f4d6b7;
 }
 .change-add .fa.fa-level-down {
     vertical-align: text-top;

@@ -16,6 +16,36 @@ wtw.changeEditor = (function() {
         }
     };
 
+    var init = function(opts) {
+        var self = this;
+        options = $.extend(true,{},opts,defaultOptions);
+        var config = options.config;
+
+        formatChanges();
+
+        createChangeInputs();
+
+        createChangePanel();
+
+        // this will create a handy string containing all sizes.
+        // e.g. ['sm', 'md', 'lg']  -->   "sm md lg"
+        options.config.allCssSizes = options.config.cssSizes.join(' ');
+
+        // if you click somewhere outside of input popup, then hide any visible input popups.
+        // (you must check to make sure the click didn't happen inside a visible popup - in that case just leave it).
+        $('body').on('click', function (e) {
+            $('.change-input-icon, .change-add-icon, .change-delete-icon').each(function () {
+                //the 'is' for buttons that trigger popups
+                //the 'has' for icons within a button that triggers a popup
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    $(this).popover('hide');
+                }
+            });
+        });
+
+    };
+
+
     function createChange($input, id) {
         var change = {  id: id,
                         type:'modify',
@@ -89,35 +119,6 @@ wtw.changeEditor = (function() {
 
         $('.change-editor').changePanel('show');
     }
-
-    var init = function(opts) {
-        var self = this;
-        options = $.extend(true,{},opts,defaultOptions);
-        var config = options.config;
-
-        formatChanges();
-
-        createChangeInputs();
-
-        createChangePanel();
-
-        // this will create a handy string containing all sizes.
-        // e.g. ['sm', 'md', 'lg']  -->   "sm md lg"
-        options.config.allCssSizes = options.config.cssSizes.join(' ');
-
-        // if you click somewhere outside of input popup, then hide any visible input popups.
-        // (you must check to make sure the click didn't happen inside a visible popup - in that case just leave it).
-        $('body').on('click', function (e) {
-            $('.change-input-icon, .change-add-icon, .change-delete-icon').each(function () {
-                //the 'is' for buttons that trigger popups
-                //the 'has' for icons within a button that triggers a popup
-                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                    $(this).popover('hide');
-                }
-            });
-        });
-
-    };
 
     function getInput(id) {
         return $('[' + options.config.idAttr + '="' + id + '"]');

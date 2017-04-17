@@ -144,7 +144,6 @@ $.widget( "wtw.changePanel", {
         var config = this.options.config;
         // TODO : refactor this out so i'm not constantly compiling template.
         var template = Handlebars.compile($(config.template.changePanelContent).html());
-        var $content = $('.change-panel .'+config.template.changeContainerClass);
         var $change = $(template(change));
 
         this.sortChanges();

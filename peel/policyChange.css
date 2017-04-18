@@ -1,13 +1,12 @@
 
 
-.fa.fa-minus-circle {
+.change-panel .fa.fa-minus-circle {
     color: #b48585;
 }
-.fa
-.fa-plus-circle {
+.change-panel .fa.fa-plus-circle {
     color:#005000;
 }
-.fa.fa-stack-1x span {
+.change-panel .fa.fa-stack-1x span {
     color: white;
     font-size: .7em;
     margin-left: 23px;
@@ -22,7 +21,7 @@
 }
 
 .change-input .popover-title .fa,
-.change-panel .popover-title .fa {
+.change-panel .panel-heading .fa {
     color: #5171ba;
 }
 
@@ -31,7 +30,7 @@
     padding-right:5px;
 }
 
-.change-panel .popover-title .fa-stack {
+.change-panel .panel-heading .fa-stack {
     margin-right:10px;
 }
 
@@ -42,9 +41,7 @@
     color:#999;
 }
 
-.change-panel .change-value {
-     /* margin-left:25px; */
-}
+
 
 .change-item.list-group-item.active {
     text-shadow: none;
@@ -60,39 +57,41 @@
     border-color: #8fa8b5;
 }
 
+.change-panel .btn.minmax.btn-default {
+    margin-left:10px;
+    margin-right:-10px;
+}
 
-.change-panel .popover-content .change-item .summary:hover {
-    cursor:default;
+.change-panel .panel-body .change-item .summary:hover {
+    cursor:pointer;
     color:#094be2;
     text-decoration: underline;
 }
-.change-panel .popover-content .change-item:hover {
-    cursor:pointer;
-}
-
-.change-panel .popover-content .toggle i:hover {
+.change-panel .panel-body .change-item:hover {
     cursor:default;
 }
-.change-panel.popover {
+
+.change-panel .panel-body .toggle i:hover {
+    cursor:pointer;
+}
+.change-panel.panel {
     position:fixed;
+    top: 0;
     min-width: 400px;
+    right: 500px;
 }
 
-.change-panel.popover:hover {
+.change-panel.panel:hover {
     opacity:1 !important;
 }
 
-.change-panel.popover {
+.change-panel.panel {
     opacity:.85 !important;
 }
-.change-panel .popover-content {
+.change-panel .panel-body {
     max-height: 375px;
     overflow-y: scroll;
     padding:0;
-}
-.change-panel .popover-content {
-    max-height: 375px;
-    overflow-y: scroll;
 }
 
 
@@ -126,7 +125,7 @@
     border-radius: 0;
 }
 
-.popover-content {
+.change-input.popover .popover-content {
     padding:0;
 }
 
@@ -141,7 +140,7 @@
 .change-input.popover {
     min-width:350px;
     /* put this in front of change-panel.*/
-    z-index:2000;
+    /*z-index:2000;*/
     border: 3px solid rgba(127,143,191,.4);
 }
 .popover .list-group { margin-bottom:0; }
@@ -149,19 +148,20 @@
  i have positioned fixed to the top right of the screen. */
 .change-editor {
     position:fixed;
-    top: 0;
+    top: 400px;
     right: 240px;
+    z-index: 23234;
 }
 
 /*--------------------*/
 
-.change-panel.popover .change-item-add section li {
+.change-panel.panel .change-item-add section li {
     color: #4f9462;
 }
-.change-panel.popover .change-item-modify section li {
+.change-panel.panel .change-item-modify section li {
     color: #8ea5b5;
 }
-.change-panel.popover .change-item-delete section li {
+.change-panel.panel .change-item-delete section li {
     color: #a57468;
 }
 
@@ -341,7 +341,7 @@ li.change-delete-icon {
 
 /*  BLARGH!  hacks to overcome forms & easy & other .css */
 .change-input.popover .btn.btn-default,
-.change-panel.popover .btn.btn-default {
+.change-panel.panel .btn.btn-default {
     border-color:#ccc;
     padding: 1px 5px;
     color: #66a;
@@ -349,11 +349,11 @@ li.change-delete-icon {
 .change-input.popover .btn.btn-default {
     font-size: 11px;
 }
-.change-panel.popover .btn.btn-default {
+.change-panel.panel .btn.btn-default {
     font-size: 14px;
 }
 
-.change-panel.popover.popover a.list-group-item,
+.change-panel.panel.popover a.list-group-item,
 .change-input.popover.popover a.list-group-item  {
     color: #666;
     font-size: 12px;

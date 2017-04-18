@@ -3,7 +3,7 @@
   "idAttr": "data-change-id",
   "refAttr": "data-change-ref",
   "template": {
-    "changeContainerClass": "list-group",
+    "changeContainerClass": "panel-body list-group",
     "changePanelTitle": "#changePanelTitle",
     "changePanelContent": "#changePanelContent",
     "inputTitle": "#changeInputTitle",

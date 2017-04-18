@@ -80,22 +80,27 @@
         });
     </script>
 
+
     <script id="changePanelTitle" type="text/x-handlebars-template">
-        <span class="fa-stack fa-lg">
+        <div class="panel-heading">
+            <span class="fa-stack fa-lg">
             <i class="fa fa-files-o fa-stack-2x"></i>
             <i class="fa fa-stack-1x" >
                 <span class="badge">{{changes.length}}</span>
             </i>
         </span>
-        <span class="change-panel-title">{{config.header}}</span>
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-xs btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </button>
-            <button type="button" class="btn btn-xs btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </button>
+            <span class="change-panel-title">{{config.header}}</span>
+
+            <div class="btn-group pull-right">
+                <a class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </a>
+                <a class="btn btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </a>
+                <a class="btn btn-default minmax"> <i class="fa fa-window-maximize fa-2x"></i> </a>
+            </div>
         </div>
     </script>
 
     <script id="changePanelContent" type="text/x-handlebars-template">
-        <a class="list-group-item change-item change-item-{{type}}">
+            <a class="list-group-item change-item change-item-{{type}}">
             <span class="summary">{{summary}}</span>
 
             {{#if isModify}}
@@ -169,7 +174,6 @@
             <button type="button" class="btn btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </button>
         </div>
     </script>
-
 
     <script id="changeDelete" type="text/x-handlebars-template">
         <div class="change-delete panel">
@@ -535,10 +539,7 @@
                                                                                                           id="id14_hf_0">
         </div>
 
-
-        <div class="pull-right change-editor">
-            <a href="#">&nbsp;<i class="fa fa-bars"></i></a>
-        </div>
+        <div class="change-editor" data-mode="toolbar"></div>
 
         <div>
             <div id="formPanel">
@@ -722,7 +723,7 @@
                                                                for="ida">Company Name:</label>
                                                         <div class="partyInfoCommercialName-easy-text-field-container easy-text-field-container easy-container input-append">
                                                             <input type="text"
-                                                                   data-xxx-change-id="1"
+                                                                   data-change-id="1"
                                                                    name="mainPanels:0:formPanel:insuredPanel:container:view:1:itemPanel:partyInfo:partyInfoContent:partyInfoForm:partyInfoCommercialName:controlContainer:textField"
                                                                    class="form-control partyInfoCommercialName-easy-text-field-input easy-text-field-input easy-input partyInfoCommercialName-easy-input"
                                                                    value="" id="ida">

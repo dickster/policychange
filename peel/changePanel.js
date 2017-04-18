@@ -20,39 +20,64 @@
                 this.changesById[changes[i].id] = changes[i];
             }
 
-            this.element.popover({
-                placement: 'bottom',
-                trigger: 'manual',
-                container:'body',
-                html : true,
-                title: function() {
-                    var template = self.getTemplate('changePanelTitle');
-                    return template(self.options);
-                },
-                content: function() {
-                    var template = self.getTemplate('changePanelContent');
-                    var $content = $('<div/>')
-                        .addClass(config.template.changeContainerClass)
-                        .addClass('change-items');
-                    $.each(self.options.changes, function(i,change) {
-                        var $change = $(template(change));
-                        $change.attr(config.refAttr,change.id);
-                        $content.append($change);
-                    })
-                    return $content.prop('outerHTML');
-                },
-            })
-                .data('bs.popover')
-                .tip()
-                .addClass(config.changePanelClass);
+            this.buildPanel();
 
-            this.element.on('shown.bs.popover', function() {
-                self._addListeners();
-                $.each(self.options.changes, function(i,change) {
-                    self.updateChange(change.id, change.values[0]);
-                })
+
+
+            //
+            // this.element.popover({
+            //     placement: 'bottom',
+            //     trigger: 'manual',
+            //     container:'body',
+            //     html : true,
+            //     title: function() {
+            //         var template = self.getTemplate('changePanelTitle');
+            //         return template(self.options);
+            //     },
+            //     content: function() {
+            //         var template = self.getTemplate('changePanelContent');
+            //         var $content = $('<div/>')
+            //             .addClass(config.template.changeContainerClass)
+            //             .addClass('change-items');
+            //         $.each(self.options.changes, function(i,change) {
+            //             var $change = $(template(change));
+            //             $change.attr(config.refAttr,change.id);
+            //             $content.append($change);
+            //         })
+            //         return $content.prop('outerHTML');
+            //     },
+            // })
+            //     .data('bs.popover')
+            //     .tip()
+            //     .addClass(config.changePanelClass);
+
+            // this.element.on('shown.bs.popover', function() {
+            //     self._addListeners();
+            //     $.each(self.options.changes, function(i,change) {
+            //         self.updateChange(change.id, change.values[0]);
+            //     })
+            // });
+
+        },
+
+        buildPanel: function () {
+            var config = this.options.config;
+            var $panel = $('<div class="change-panel panel panel-default"/>');
+            // if  is('.change-editor-fullscreen')  do that.
+            var template = this.getTemplate('changePanelTitle');
+            $panel.append($(template(this.options)));
+
+            template = this.getTemplate('changePanelContent');
+            var $content = $('<div/>')
+                .addClass(config.template.changeContainerClass)
+                .addClass('change-items');
+            $.each(this.options.changes, function(i,change) {
+                var $change = $(template(change));
+                $change.attr(config.refAttr,change.id);
+                $content.append($change);
             });
-
+            $panel.append($content);
+            this.element.append($panel);
         },
 
         getTemplate: function (type) {
@@ -80,7 +105,7 @@
 
         _addListeners : function() {
             var self = this;
-            var $changePanel = $('.'+self.options.config.changePanelClass);
+            var $changePanel = this.element;
 
             $changePanel.on('click', '.change-item', function(e) {
                 // if you click on the 'summary' element then open up associated change input popup.
@@ -111,7 +136,7 @@
         },
 
         _advance: function (delta) {
-            var $content = this._getPopoverContent();
+            var $content = this._getPanelContent();
             var $items = $content.find('.change-item');
             var $active = $content.find('.change-item.active');
             var index = ($active.length!=0) ? $items.index($active)+delta : 0;
@@ -121,15 +146,14 @@
             this._activate($items.eq(index));
         },
 
-        _getPopoverContent: function () {
-            var pop = this.element.data('bs.popover');
-            return pop ? pop.tip() : null;
+        _getPanelContent: function () {
+            return this.element;
         },
 
         updateChange:function(id, value) {
             // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
             var changeItemSelector = '.change-item[' + this.options.config.refAttr + '="'+id+'"]';
-            var $toggles = this._getPopoverContent().find(changeItemSelector + ' .toggle');
+            var $toggles = this._getPanelContent().find(changeItemSelector + ' .toggle');
 
             // CAVEAt : index can null/undefined.
             // if one of the change values isn't set. .: it's overridden by user to be something else.
@@ -140,7 +164,7 @@
                 $changeItem = $toggles.eq(value.index);
             }
             else {
-                $changeItem = this._getPopoverContent().find(changeItemSelector + ' .toggle-override');
+                $changeItem = this._getPanelContent().find(changeItemSelector + ' .toggle-override');
             }
             $toggles.removeClass('accepted');
             $changeItem.addClass('accepted');
@@ -168,7 +192,7 @@
             // update the title.
             template = this.getTemplate('changePanelTitle');
             var $title = $(template(this.options));
-            this._getPopoverContent().find('.popover-title').empty().append($title);
+            this._getPanelContent().find('.popover-title').empty().append($title);
 
         },
 
@@ -187,8 +211,12 @@
 
 
         show: function() {
-            this.element.popover('show');
-        },
+            var self = this;
+            this._addListeners();
+            $.each(self.options.changes, function(i,change) {
+                self.updateChange(change.id, change.values[0]);
+            });
+        }
 
     });
 })(jQuery);

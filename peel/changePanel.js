@@ -22,54 +22,18 @@
 
             this.buildPanel();
 
-
-
-            //
-            // this.element.popover({
-            //     placement: 'bottom',
-            //     trigger: 'manual',
-            //     container:'body',
-            //     html : true,
-            //     title: function() {
-            //         var template = self.getTemplate('changePanelTitle');
-            //         return template(self.options);
-            //     },
-            //     content: function() {
-            //         var template = self.getTemplate('changePanelContent');
-            //         var $content = $('<div/>')
-            //             .addClass(config.template.changeContainerClass)
-            //             .addClass('change-items');
-            //         $.each(self.options.changes, function(i,change) {
-            //             var $change = $(template(change));
-            //             $change.attr(config.refAttr,change.id);
-            //             $content.append($change);
-            //         })
-            //         return $content.prop('outerHTML');
-            //     },
-            // })
-            //     .data('bs.popover')
-            //     .tip()
-            //     .addClass(config.changePanelClass);
-
-            // this.element.on('shown.bs.popover', function() {
-            //     self._addListeners();
-            //     $.each(self.options.changes, function(i,change) {
-            //         self.updateChange(change.id, change.values[0]);
-            //     })
-            // });
-
         },
 
         buildPanel: function () {
             var config = this.options.config;
             var $panel = $('<div class="change-panel panel panel-default"/>');
-            // if  is('.change-editor-fullscreen')  do that.
+            // TODO : if  is('.change-editor-fullscreen')  do that else do this....
             var template = this.getTemplate('changePanelTitle');
             $panel.append($(template(this.options)));
 
             template = this.getTemplate('changePanelContent');
             var $content = $('<div/>')
-                .addClass(config.template.changeContainerClass)
+                .addClass(config.template.changeContainerClass)  // TODO : do i really need this now that it's not in a popover?
                 .addClass('change-items');
             $.each(this.options.changes, function(i,change) {
                 var $change = $(template(change));

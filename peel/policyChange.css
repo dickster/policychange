@@ -75,10 +75,10 @@
     cursor:pointer;
 }
 .change-panel.panel {
-    position:fixed;
-    top: 0;
-    min-width: 400px;
-    right: 500px;
+    /* position:fixed; */
+    /* top: 0; */
+    /* min-width: 400px; */   
+    /* right: 500px; */
 }
 
 .change-panel.panel:hover {
@@ -147,9 +147,9 @@
 /*TODO : this should be configurable.  this is the link that the popover is attached to.
  i have positioned fixed to the top right of the screen. */
 .change-editor {
-    position:fixed;
-    top: 400px;
-    right: 240px;
+    position: fixed;
+    top: 0;
+    right: 0;
     z-index: 23234;
 }
 

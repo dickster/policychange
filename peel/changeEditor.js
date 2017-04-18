@@ -72,11 +72,6 @@ wtw.changeEditor = (function() {
     }
 
     function createChangeInput($input, change, index) {
-        // do these have to be functions for Handlebars? or can i just use a bool property?
-        change.isModify = function() { return change.type=='modify'; }
-        change.isDelete = function() { return change.type=='delete'; }
-        change.isAdd = function() { return change.type=='add'; }
-
         $input.changeInput({config: options.config, change: change})
             .on('changeinputupdate', function (e, id, value) {
                 $('.change-editor').changePanel('updateChange', id, value);
@@ -94,7 +89,8 @@ wtw.changeEditor = (function() {
         var changesById = {};
         var changes = options.changes;
         for (var i = 0, len = changes.length; i < len; i++) {
-            changesById[changes[i].id] = changes[i];
+            var change = changes[i];
+            changesById[changes[i].id] = change;
         }
         $.each($('[' + options.config.idAttr+']'), function(i,input) {
             // if they are associated with a change, then createChangeInput else bindUnchangedInput.
@@ -115,14 +111,18 @@ wtw.changeEditor = (function() {
                 activate(change,showPopup);
             })
             .on('changepanelset', function(e, id, value) {
-                getInput(id).changeInput('set',value.index);
+                changeInput(id,'set',value.index);
             });
 
         $('.change-editor').changePanel('show');
     }
 
-    function getInput(id) {
-        return $('[' + options.config.idAttr + '="' + id + '"]');
+    function changeInput(id, method, args) {
+        var $input = $('[' + options.config.idAttr + '="' + id + '"]');
+        if (method) {
+            $input.changeInput(method, args);
+        }
+        return $input;
     }
 
     function advanceInput(id, delta) {
@@ -135,12 +135,12 @@ wtw.changeEditor = (function() {
             }
         }
         // hide current popup...
-        getInput(changes[current].id).changeInput('hide');
+        changeInput(changes[current].id, 'hide');
         // ...calculate next one and show it.
         var to = current + delta;
         if (to>=changes.length) to = 0;
         if (to<0) to = changes.length-1;
-        getInput(changes[to].id).changeInput('activateAndShowPopup');
+        changeInput(changes[to].id,'activateAndShowPopup');
     }
 
     function activate(change, showPopup) {
@@ -152,7 +152,7 @@ wtw.changeEditor = (function() {
         }
 
         // update the new active change input.
-        self.activeChange = getInput(change.id);
+        self.activeChange = changeInput(change.id);
 
         // ...and activate it.
         if (showPopup) {
@@ -177,9 +177,14 @@ wtw.changeEditor = (function() {
             change.summary = '[change  '+change.id+']';
             console.log('no label was given for the change "' + JSON.stringify(change) + '"');
         }
+        // because handlebars templates need boolean, we create these (redundant) properties.
+        change.isModify = change.type=='modify';
+        change.isDelete = change.type=='delete';
+        change.isAdd = change.type=='add';
         $.each(change.values, function(idx,value) {
             value.index = idx;
             value.label = options.config.valueLabels[idx];
+            value.text = value.code;
         });
     }
 

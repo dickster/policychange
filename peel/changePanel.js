@@ -1,5 +1,6 @@
 (function($) {
 
+    // variable scoped to changePanel widgets only.   think of it as a java class' private static var.
     var templateCache = {};
 
     $.widget( "wtw.changePanel", {
@@ -150,10 +151,10 @@
         },
 
         changeAdded : function(id, change, value) {
-            // TODO : update counter!!!
+
             this.changesById[change.id] = change;
             var config = this.options.config;
-            var template = getTemplate('changePanelContent');
+            var template = this.getTemplate('changePanelContent');
             var $change = $(template(change));
 
             this.sortChanges();
@@ -163,6 +164,12 @@
 
             $change.attr(config.refAttr,change.id);
             this.updateChange(id,value);
+
+            // update the title.
+            template = this.getTemplate('changePanelTitle');
+            var $title = $(template(this.options));
+            this._getPopoverContent().find('.popover-title').empty().append($title);
+
         },
 
         sortChanges: function() {

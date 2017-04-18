@@ -184,7 +184,9 @@ wtw.changeEditor = (function() {
         $.each(change.values, function(idx,value) {
             value.index = idx;
             value.label = options.config.valueLabels[idx];
-            value.text = value.code;
+            if (!value.text) {
+                value.text = value.code;
+            }
         });
     }
 

@@ -1,4 +1,7 @@
 
+.change-editor.maximized {
+    width:100%;
+}
 
 .change-panel .fa.fa-minus-circle {
     color: #b48585;
@@ -9,8 +12,8 @@
 .change-panel .fa.fa-stack-1x span {
     color: white;
     font-size: .7em;
-    margin-left: 23px;
-    margin-top: 7px;
+    margin-left: 13px;
+    margin-top: -25px;
     padding: 3px 6px;
     background: #cd2b2b;
     font-family: sans-serif;
@@ -41,11 +44,22 @@
     color:#999;
 }
 
-
+.change-editor.maximized .btn.minimize {
+    display:inline-block;
+}
+.change-editor:not(.maximized) .btn.minimize {
+    display:none;
+}
+.change-editor:not(.maximized) .btn.maximize {
+    display:inline-block;
+}
+.change-editor.maximized .btn.maximize {
+    display:none;
+}
 
 .change-item.list-group-item.active {
     text-shadow: none;
-    background: #ddd;
+    background: #d4dfe4;
     border-color: #ccc;
     color: #447;
     position: relative;
@@ -150,6 +164,7 @@
     position: fixed;
     top: 0;
     right: 0;
+    /* width: 100%; */
     z-index: 23234;
 }
 

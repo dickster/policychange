@@ -99,7 +99,7 @@ wtw.changeEditor = (function() {
             var $this= $(this);
             var id = $this.attr(options.config.idAttr);
             if (changesById[id]) {
-                createChangeInput($this, changesById[id] );
+                createChangeInput($this, changesById[id]);
             }
             else {
                 bindUnchangedInput($this, id);
@@ -107,10 +107,18 @@ wtw.changeEditor = (function() {
         });
     }
 
+    function resize(resizeType) {
+        // does nothing right now but later on you may want to react to these notifications.
+        console.log('panel resized ' + resizeType);
+    }
+
     function createChangePanel() {
         $('.change-editor').changePanel(options)
             .on('changepanelselect', function(e,change,showPopup) {
                 activate(change,showPopup);
+            })
+            .on('changepanelresize', function(e,resizeType) {
+                resize(resizeType);
             })
             .on('changepanelset', function(e, id, value) {
                 changeInput(id,'set',value.index);

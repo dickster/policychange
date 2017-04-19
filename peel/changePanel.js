@@ -89,6 +89,14 @@
             $changePanel.on('click', '.prev-change', function() {
                 self._advance(-1);
             });
+            $changePanel.on('click', '.maximize', function() {
+                self.element.addClass('maximized');
+                self._trigger('resize', null, ['minimize']);
+            });
+            $changePanel.on('click', '.minimize', function() {
+                self.element.removeClass('maximized');
+                self._trigger('resize', null, ['maximize']);
+            });
 
         },
 

@@ -25,8 +25,9 @@
 
         buildPanel: function () {
             var config = this.options.config;
+            // TODO : make this html snippet/css class a configurable option.
             var $panel = $('<div class="change-panel panel panel-default"/>');
-            // TODO : if  is('.change-editor-fullscreen')  do that else do this....
+
             var template = this.getTemplate('changePanelTitle');
             $panel.append($(template(this.options)));
 
@@ -123,6 +124,7 @@
             var id = $item.attr(this.options.config.refAttr);
             var change = this.changesById[id];
             this._trigger('set', null, [id, change.values[index]]);
+            this.updateChange(change, change.values[index]);
         },
 
         _advance: function (delta) {

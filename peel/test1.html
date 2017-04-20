@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<!-- saved from url=(0070)http://localhost:8080/b1-insurance/ui/?action=PersAutoPolicyAddRq:form -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://git-wip-us.apache.org/repos/asf/wicket/repo?p=wicket.git;a=blob_plain;f=wicket-core/src/main/resources/META-INF/wicket-1.5.xsd;hb=master"
+      lang="en" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8">
+
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.js"
+            integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+            crossorigin="anonymous"></script>
+
+    <script
+            src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"></script>
+
+    <script src="https://use.fontawesome.com/1f0e50ab99.js"></script>
+
+    <script type="text/javascript" src="./Peel-full-form_files/jquery-ui.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="./handlebars-v4.0.5.js"></script>
+
+    <!--TODO : these javascript files should be concatenated into one (via Gulp or whatever)
+        it's great for coding maintenance to have them in separate files but bad for performance.
+    -->
+    <script src="./IE-Shims.js"></script>
+    <script src="./changePanel.js"></script>
+    <script src="./changeInput.js"></script>
+    <script src="./valHook.js"></script>
+    <script src="./changeEditor.js"></script>
+
+
+
+    <link rel="stylesheet" href="policyChange.css" >
+
+
+    <script type="application/javascript">
+
+        $(function() {
+            function param(name, defaultValue) {
+                var p = (window.location.search.split(name + '=')[1] || '').split('&')[0];
+                return p ? p : defaultValue;
+            }
+
+            var getChanges = function() {
+                var changesFile = param('changes', 'test1Changes');
+                changesFile = 'data/' + changesFile + '.json';
+                console.log('loaded changes from ' + changesFile);
+                return $.getJSON(changesFile, function(json) {
+                    console.log('...!');
+                    options.changes = json;
+                });
+            }
+
+            var getConfig = function() {
+                var configFile = param('config','test1Config');
+                configFile = 'data/' + configFile + '.json';
+                console.log('loading config from ' + configFile);
+                return $.getJSON(configFile, function(json) {
+                    options.config = json;
+                    console.log('...!');
+                });
+            }
+
+            var options = {};
+
+            $.when( getChanges(), getConfig() )
+                .then( function() {
+                    // this is the only line you need to start editor.
+                    // the rest is there to facilitate loading test data based on url parameters (QA use case only).
+                    wtw.changeEditor.init(options);
+                }, function() {
+                    alert('cant load config/changes test data');
+                } );
+        });
+    </script>
+
+
+    <script id="changePanelTitle" type="text/x-handlebars-template">
+        <div class="panel-heading">
+            <span class="fa-stack fa-lg">
+            <i class="fa fa-files-o fa-stack-2x"></i>
+            <i class="fa fa-stack-1x" >
+                <span class="badge">{{changes.length}}</span>
+            </i>
+        </span>
+            <span class="change-panel-title">{{config.header}}</span>
+
+            <div class="btn-group pull-right">
+                <a class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </a>
+                <a class="btn btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </a>
+                <a class="btn btn-default minimize"> <i class="fa fa-window-minimize fa-2x"></i> </a>
+                <a class="btn btn-default maximize"> <i class="fa fa-window-maximize fa-2x"></i> </a>
+            </div>
+        </div>
+    </script>
+
+    <script id="changePanelTitleMax" type="text/x-handlebars-template">
+        <div class="panel-heading">
+            <span class="fa-stack fa-lg">
+            <i class="fa fa-files-o fa-stack-2x"></i>
+            <i class="fa fa-stack-1x" >
+                <span class="badge">{{changes.length}}</span>
+            </i>
+        </span>
+            <span class="change-panel-title">List of Changes for GWI Insurance Co. policy #{{config.policyNum}}</span>
+            <div class="btn-group pull-right">
+                <a class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </a>
+                <a class="btn btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </a>
+                <a class="btn btn-default minimize"> <i class="fa fa-window-minimize fa-2x"></i> </a>
+                <a class="btn btn-default maximize"> <i class="fa fa-window-maximize fa-2x"></i> </a>
+            </div>
+        </div>
+    </script>
+
+    <script id="changePanelContent" type="text/x-handlebars-template">
+            <a class="list-group-item change-item change-item-{{type}}">
+            <span class="summary">{{summary}}</span>
+
+            {{#if isModify}}
+            <section>
+                <li class="fa fa-asterisk"></li>
+                <div class="toggle toggle-on" class>
+                    <span class="change-value {{values.[0].size}}">{{values.[0].text}} </span>
+                    <span class="change-aside {{values.[1].size}}">   (was {{values.[1].text}})</span>
+                    <i class="fa fa-toggle-on"></i>
+                </div>
+                <div class="toggle toggle-off">
+                    <span class="change-value {{values.[1].size}}">{{values.[1].text}}</span>
+                    <span class="change-aside sm"> (change ignored)</span>
+                    <i class="fa fa-toggle-off"></i>
+                </div>
+                <div class="toggle toggle-override">
+                    <span class="change-value"></span>
+                    <span class="change-aside sm">   (overriden by user)</span>
+                    <i class="fa fa-exclamation-triangle"></i>
+                </div>
+            </section>
+            {{/if}}
+
+            {{#if isDelete}}
+            <section>
+                <li class="fa fa-minus-circle"></li>
+                <div>
+                    <span class="change-value {{values.[1].size}}"> {{desc}} : <span>{{values.[1].text}}</span> </span>
+                    <span class="change-aside sm">  (deleted)</span>
+                </div>
+            </section>
+            {{/if}}
+
+            {{#if isAdd}}
+            <section>
+                <li class="fa fa-plus-circle"></li>
+                <div>
+                    <span class="change-value {{values.[0].size}}"> {{values.[0].text}} </span>
+                    <span class="change-aside sm">  (added)</span>
+                </div>
+            </section>
+            {{/if}}
+        </a>
+    </script>
+
+    <script id="changePanelContentMax" type="text/x-handlebars-template">
+            <a class="list-group-item change-item change-item-{{type}}">
+            <span class="summary">{{summary}}</span>
+
+            {{#if isModify}}
+            <section>
+                <li class="fa fa-asterisk"></li>
+                <div class="toggle toggle-on" class>
+                    <span> This is currently  {{values.[0].text}}
+                     but was set to {{values.[1].text}} by the Carrier</span>
+                    <i class="fa fa-toggle-on"></i>
+                </div>
+                <div class="toggle toggle-off">
+                    <span > The change to {{values.[1].text}}
+                    has been reverted to the original Carrier value of {{values.[0].text}}</span>
+                    <i class="fa fa-toggle-off"></i>
+                </div>
+                <div class="toggle toggle-override">
+                    <span class="change-value"></span>
+                    <span class="change-aside sm"> is a new value specified by the user.</span>
+                    <i class="fa fa-exclamation-triangle"></i>
+                </div>
+            </section>
+            {{/if}}
+
+            {{#if isDelete}}
+            <section>
+                <li class="fa fa-minus-circle"></li>
+                <div>
+                    <span class="change-value {{values.[1].size}}"> {{desc}} <span>{{values.[1].text}}</span> </span>
+                    <span class="change-aside sm"> has been deleted.  You can re-add it if desired.</span>
+                </div>
+            </section>
+            {{/if}}
+
+            {{#if isAdd}}
+            <section>
+                <li class="fa fa-plus-circle"></li>
+                <div>
+                    <span class="change-value {{values.[0].size}}"> {{values.[0].text}} </span>
+                    <span class="change-aside sm">  was not included in the Carrier data and added since.  You can delete it if it's not desired.</span>
+                </div>
+            </section>
+            {{/if}}
+        </a>
+    </script>
+
+    <script id="changeInputTitle" type="text/x-handlebars-template">
+        <li class="fa fa-copy"></li>"<span>{{summary}}</span>" was changed.
+    </script>
+
+    <script id="changeInputContent" type="text/x-handlebars-template">
+        {{#if isModify}}
+        <div class="list-group change-values change-input-{{type}}">
+            <a class="change-value list-group-item">
+                <i class="change-input-accept fa fa-check"/></i>
+                <label>{{values.[0].label}}</label> : <span class="change-input-value">{{values.[0].text}}</span>
+            </a>
+            <a class="change-value list-group-item">
+                <i class="change-input-accept fa fa-check"/></i>
+                <label>{{values.[1].label}}</label> : <span class="change-input-value">{{values.[1].text}}</span>
+            </a>
+        </div>
+        {{/if}}
+        {{#if isAdd}}
+        <span>{{values.[0].text}}</span><span> was added</span>
+        {{/if}}
+        {{#if isDelete}}
+        <span>{{values.[1].text}}</span><span> was deleted</span>
+        {{/if}}
+        <div class="btn-group btn-group-xxs pull-right">
+            <button type="button" class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </button>
+            <button type="button" class="btn btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </button>
+        </div>
+    </script>
+
+    <script id="changeDelete" type="text/x-handlebars-template">
+        <div class="change-delete panel">
+            <div class="panel-body">
+                <i class="fa fa-minus-circle"/><summary> {{desc}} {{values.[1].text}}</summary><span> was deleted</span>
+            </div>
+        </div>
+        </div>
+    </script>
+
+    <script id="changeAdd" type="text/x-handlebars-template">
+        <div class="change-add panel">
+            <div class="panel-body">
+                <i class="fa fa-plus-circle"/><summary> {{desc}} {{values.[0].text}}</summary><span> was added</span>
+                <i class="fa fa-level-down"/>
+            </div>
+        </div>
+    </script>
+
+
+
+    <title></title>
+
+</head>
+
+<body>
+
+
+<div class="container">
+    <div class="jumbotron">
+        <h1>Policy Change Demo</h1>
+    </div>
+
+    <div class="change-editor">Changes</div>
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>First</label>
+                <input class="form-control" data-change-id="1" type="text">
+            </div>
+            <div class="col-md-3">
+                <label>Last</label>
+                <input class="form-control" data-change-id="2" type="text">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>Address</label>
+                <input class="form-control" data-change-id="3" type="text" >
+            </div>
+            <div class="col-md-3">
+                <label>City</label>
+                <select class="form-control" data-change-id="4" >
+                    <option>Toronto</option>
+                    <option>Montreal</option>
+                    <option>Vancouver</option>
+                    <option>Winnipeg</option>
+                    <option>Moncton</option>
+                    <option>Kamloops</option>
+                    <option>Calgary</option>
+                    <option>Whitehorse</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>Province</label>
+                <select class="form-control" data-change-id="5" >
+                    <option value="ON">Ontario</option>
+                    <option value="BC">British Columbia</option>
+                    <option value="AB">Alberta</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Postal Code</label>
+                <input class="form-control" data-change-id="6" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3">
+                <label>Gender</label>
+                <!--TODO : replace this with toggle button /radios-->
+                <select class="form-control" data-change-id="7">
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Trans</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label>Age</label>
+                <input class="form-control" data-change-id="8" type="number">
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+
+</body>
+</html>

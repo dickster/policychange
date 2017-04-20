@@ -31,12 +31,16 @@ wtw.changeInputValHooks = function(element) {
     };
 
     var defaultText = function(code) {
-        return code;
+        return code ? code : '';
     };
 
     // TODO : doesn't work when "Choose One" is displayed in select.
     var selectText = function(code) {
-        return this.input.find('option[value="'+code+'"]').text();
+        var result = this.input.find('option[value="' + code + '"]');
+        if (result.length == 0) {
+            result = $(this.input).find('option').filter(function () { return $(this).html() == code; });
+        }
+        return result.text();
     };
 
     var selectVal = function(value) {

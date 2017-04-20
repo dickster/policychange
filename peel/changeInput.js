@@ -61,7 +61,6 @@
             this.getTextForCode = function(code) { return text; };
         },
 
-
         _createModify : function() {
             var self = this;
             var hooks = wtw.changeInputValHooks(this.element);
@@ -101,7 +100,6 @@
                 });
                 $datalist.insertBefore(this.input);
             }
-
         },
 
         _updateState: function(value) {
@@ -109,7 +107,6 @@
             if (!content) {
                 return;   // if no popup showing then nothing to do.
             }
-
             content.find('.change-value').removeClass('accepted');
 
             if (Number.isInteger(value.index)) {
@@ -239,7 +236,7 @@
             var self = this;
             var sizes = this.options.config.cssSizes;
                 $.each(this.options.change.values, function(i,value) {
-                    value.text = self.getTextForCode(value.code).trim();
+                    value.text = self.getTextForCode(value.code);
                     value.size = sizes[parseInt(Math.min(2, value.text.length/15))];
             });
             return this.options.change.values;

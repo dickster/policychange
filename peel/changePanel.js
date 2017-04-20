@@ -45,8 +45,18 @@
         },
 
         getTemplate: function (type) {
+            var selector = this.options.config.template[type];
+            // e.g. for template #myChangePanel,  if window is maximized then look for #myChangePanelMax and use that if it exists.
+            //  otherwise fallback to #myChangePanel.
+            if (this.element.is('.maximized')) {
+                var maxSelector = selector+'Max';
+                if ($(maxSelector).length>0) {
+                    selector=maxSelector;
+                    type = type+'Max';
+                }
+            }
             if (!templateCache[type]) {
-                templateCache[type]= Handlebars.compile($(this.options.config.template[type]).html());
+                templateCache[type]= Handlebars.compile($(selector).html());
             }
             return templateCache[type];
         },

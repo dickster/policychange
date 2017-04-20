@@ -99,10 +99,10 @@
                 self._advance(-1);
             });
             $changePanel.on('click', '.maximize', function() {
-                self._resize(false);
+                self._resize(true);
             });
             $changePanel.on('click', '.minimize', function() {
-                self._resize(true);
+                self._resize(false);
             });
         },
 

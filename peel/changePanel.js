@@ -182,7 +182,7 @@
             // update the title.
             template = this.getTemplate('changePanelTitle');
             var $title = $(template(this.options));
-            this._getPanelContent().find('.popover-title').empty().append($title);
+            this._getPanelContent().find('.panel-heading').replaceWith($title);
 
         },
 

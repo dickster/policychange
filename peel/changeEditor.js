@@ -73,10 +73,13 @@ wtw.changeEditor = (function() {
         });
     }
 
-    function createChangeInput($input, change, index) {
-        $input.changeInput({config: options.config, change: change})
+    function createChangeInput($input, change) {
+        change.foo = 'before';
+        var x = {config: options.config, change: change};
+        x.change.foo = 'in x';
+        $input.changeInput(x)
             .on('changeinputupdate', function (e, id, value) {
-                $('.change-editor').changePanel('updateChange', id, value);
+                $('.change-editor').changePanel('updateChange', change, value);
             })
             .on('changeinputnext', function (e,id) {
                 advanceInput(id, 1);

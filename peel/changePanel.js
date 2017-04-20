@@ -21,7 +21,6 @@
             }
 
             this.buildPanel();
-
         },
 
         buildPanel: function () {
@@ -41,7 +40,7 @@
                 $content.append($change);
             });
             $panel.append($content);
-            this.element.append($panel);
+            this.element.empty().append($panel);
         },
 
         getTemplate: function (type) {
@@ -100,14 +99,23 @@
                 self._advance(-1);
             });
             $changePanel.on('click', '.maximize', function() {
-                self.element.addClass('maximized');
-                self._trigger('resize', null, ['minimize']);
+                self._resize(false);
             });
             $changePanel.on('click', '.minimize', function() {
-                self.element.removeClass('maximized');
-                self._trigger('resize', null, ['maximize']);
+                self._resize(true);
             });
+        },
 
+        _resize : function(mode) {
+            var self = this;
+            if (mode) {
+                self.element.addClass('maximized');
+            } else {
+                self.element.removeClass('maximized');
+            }
+            self._trigger('resize', null, [mode?'maximized':'minimized']);
+            self.buildPanel();
+            self._updateChanges();
         },
 
         _set : function($toggle,index) {
@@ -132,17 +140,17 @@
             return this.element;
         },
 
-        updateChange:function(id, value) {
+        updateChange:function(change, value) {
+            change.currentValue = value;
             // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
-            var changeItemSelector = '.change-item[' + this.options.config.refAttr + '="'+id+'"]';
+            var changeItemSelector = '.change-item[' + this.options.config.refAttr + '="'+change.id+'"]';
             var $toggles = this._getPanelContent().find(changeItemSelector + ' .toggle');
 
             // CAVEAt : index can null/undefined.
             // if one of the change values isn't set. .: it's overridden by user to be something else.
             // in this case, the toggle button doesn't make sense so we'll show the "override state"
             var $changeItem;
-            var change = this.changesById[id];
-            if (Number.isInteger(value.index)) {
+            if (value && Number.isInteger(value.index)) {
                 $changeItem = $toggles.eq(value.index);
             }
             else {
@@ -169,7 +177,7 @@
             $change.insertBefore($('.change-items .change-item').eq(index));
 
             $change.attr(config.refAttr,change.id);
-            this.updateChange(id,value);
+            this.updateChange(change,value);
 
             // update the title.
             template = this.getTemplate('changePanelTitle');
@@ -191,13 +199,22 @@
             });
         },
 
+        _updateChanges : function(index) {
+            var self = this;
+            $.each(self.options.changes, function(i,change) {
+                var value;
+                if (Number.isInteger(index)) {
+                    self.updateChange(change, change.values[index]);
+                } else {
+                    self.updateChange(change, change.currentValue);
+                }
+            });
+        },
 
         show: function() {
             var self = this;
             this._addListeners();
-            $.each(self.options.changes, function(i,change) {
-                self.updateChange(change.id, change.values[0]);
-            });
+            this._updateChanges(0);
         }
 
     });

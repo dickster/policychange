@@ -15,6 +15,8 @@
             var change = this.options.change;
             var config = this.options.config;
 
+            change.foo = 'create';
+
             switch (change.type) {
                 case 'modify':
                     this._createModify();

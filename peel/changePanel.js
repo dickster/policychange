@@ -46,15 +46,6 @@
 
         getTemplate: function (type) {
             var selector = this.options.config.template[type];
-            // e.g. for template #myChangePanel,  if window is maximized then look for #myChangePanelMax and use that if it exists.
-            //  otherwise fallback to #myChangePanel.
-            if (this.element.is('.maximized')) {
-                var maxSelector = selector+'Max';
-                if ($(maxSelector).length>0) {
-                    selector=maxSelector;
-                    type = type+'Max';
-                }
-            }
             if (!templateCache[type]) {
                 templateCache[type]= Handlebars.compile($(selector).html());
             }
@@ -72,6 +63,7 @@
             // highlight the proper row....
             $changeItem.siblings().removeClass('active');
             $changeItem.addClass('active');
+            Utils.ensureVisible($changeItem);
             // ...then notify the world that we want to focus on this change. parent mediator will dispatch as needed.
             var changeId = $changeItem.attr(this.options.config.refAttr);
             this._trigger('select', null, [this.changesById[changeId], showPopup]);
@@ -115,8 +107,6 @@
                 self.element.removeClass('maximized');
             }
             self._trigger('resize', null, [mode?'maximized':'minimized']);
-            self.buildPanel();
-            self._updateChanges();
         },
 
         _set : function($toggle,index) {

@@ -202,13 +202,10 @@
         activate: function(on) {
             var $input = this.input;
             if (arguments.length==0 || on) {
-                if (!this._isInViewport($input)) {
-                    // NOTE: this currently doesn't take into account hidden elements.
-                    if (!this._isInViewport($input)) {
-                        $('html, body').animate({ scrollTop: $input.offset().top - 75}, 350, function () {
-                            $input.addClass('active-change');
-                        });
-                    }
+                if (!Utils.isInViewport($input)) {
+                    $('html, body').animate({ scrollTop: $input.offset().top - 75}, 350, function () {
+                        $input.addClass('active-change');
+                    });
                 }
                 else {
                     $input.addClass('active-change');
@@ -219,15 +216,6 @@
             }
         },
 
-        // TODO : move this to utility object.
-        _isInViewport : function($el) {
-            var win = $(window);
-            var viewTop = win.scrollTop();
-            var viewBottom = viewTop + win.height();
-            var top = $el.offset().top;
-            var bottom = top + $el.height();
-            return (viewTop<=top && viewBottom >= bottom);
-        },
 
         // gets the display values and calculates size of text required for styling purposes.
         // e.g. for a select, the value might be "M" but the display value (text) will be "Male".

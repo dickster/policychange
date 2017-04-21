@@ -32,6 +32,7 @@
         it's great for coding maintenance to have them in separate files but bad for performance.
     -->
     <script src="./IE-Shims.js"></script>
+    <script src="./Utils.js"></script>
     <script src="./changePanel.js"></script>
     <script src="./changeInput.js"></script>
     <script src="./valHook.js"></script>
@@ -194,7 +195,7 @@
             <section>
                 <li class="fa fa-minus-circle"></li>
                 <div>
-                    <span class="change-value {{values.[1].size}}"> {{desc}} <span>{{values.[1].text}}</span> </span>
+                    <span class="change-value {{values.[1].size}}"> {{desc}} <span>{{values.[1].text}}</span></span>
                     <span class="change-aside sm"> has been deleted.  You can re-add it if desired.</span>
                 </div>
             </section>

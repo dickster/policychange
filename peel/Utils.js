@@ -7,7 +7,6 @@ var Utils = (function() {
             }
             if ( !($el.position().top + $el.height() > 0 && $el.position().top < $container.height()) ) {
                 console.log('scrolling container/$el ' + $container.scrollTop());
-
                 if (scroll) {
                     scroll($el, $container);
                 }

@@ -40,7 +40,7 @@ wtw.changeInputValHooks = function(element) {
         if (result.length == 0) {
             result = $(this.input).find('option').filter(function () { return $(this).html() == code; });
         }
-        return result.text();
+        return result.text().trim();
     };
 
     var selectVal = function(value) {
@@ -85,7 +85,7 @@ wtw.changeInputValHooks = function(element) {
                 return false;
             }
         });
-        return result;
+        return result.trim();
     };
 
     // return the hooks for the input.

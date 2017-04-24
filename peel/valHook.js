@@ -1,24 +1,11 @@
 var wtw = wtw ? wtw : {};
 
 // google jquery valHook to see an example of the pattern.   i am piggybacking on their approach to handling 'val()' method.
-wtw.changeInputValHooks = function(element) {
+// basically, i need a method to get the actual value, a method to get the display text (which may or may not be the same as the value) ,
+// and a reference to the *visible* input element controlling the widget (if the underlying value is stored in a <input type="hidden">, i need
+// access to the UI widget that controls it.)
 
-    var _val = function(changeInput) {
-        var code = changeInput.element.val();
-        var values = changeInput.options.change.values;
-        for (var i = 0; i<values.length; i++) {
-            if (values[i].code == code) {
-                return values[i];
-            }
-        }
-        // otherwise return an object representing "overriden" (i.e. not one of the given, expected change values)
-        return {
-            code:code,
-            index:null,
-            size:changeInput.options.config.cssSizes[Math.min(2, code.length)],
-            text:changeInput.getTextForCode(code)
-        }
-    };
+wtw.changeInputValHooks = function(element) {
 
     var defaultVal = function(value) {
         var changeInput = this;
@@ -34,7 +21,6 @@ wtw.changeInputValHooks = function(element) {
         return code ? code : '';
     };
 
-    // TODO : doesn't work when "Choose One" is displayed in select.
     var selectText = function(code) {
         var result = this.input.find('option[value="' + code + '"]');
         if (result.length == 0) {
@@ -88,19 +74,40 @@ wtw.changeInputValHooks = function(element) {
         return result.trim();
     };
 
+
+
+
+    var _val = function(changeInput) {
+        var code = changeInput.element.val();
+        var values = changeInput.options.change.values;
+        for (var i = 0; i<values.length; i++) {
+            if (values[i].code == code) {
+                return values[i];
+            }
+        }
+        // otherwise return an object representing "overriden" (i.e. not one of the given, expected change values)
+        return {
+            code:code,
+            index:null,
+            size:changeInput.options.config.cssSizes[Math.min(2, code.length)],
+            text:changeInput.getTextForCode(code)
+        }
+    };
+
+
     // return the hooks for the input.
 
-    // as new component types arise
-    if (element.is('select')) {
-        return {val:selectVal, text:selectText, input:element};
-    }
+    // as new component types arise, add them to this chain.
+    // put more specific ones at top and generic ones (input/select...) at the end.
     if (element.is('.easy-combo-box-value')) {
         return {val:easyJsComboVal, text:easyJsComboText, input:element.siblings('.easy-combo-box-input')};
+    }
+    if (element.is('select')) {
+        return {val:selectVal, text:selectText, input:element};
     }
     if (element.is('input')) {
         return {val: defaultVal, text: defaultText, input: element};
     }
     throw 'unsupported val() method for component type ' + element.prop('tagName');
-
 
 };

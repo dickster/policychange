@@ -6,13 +6,11 @@ var Utils = (function() {
                 $container = $el.parent();
             }
             if ( !($el.position().top + $el.height() > 0 && $el.position().top < $container.height()) ) {
-                console.log('scrolling container/$el ' + $container.scrollTop());
                 if (scroll) {
                     scroll($el, $container);
                 }
                 else {
-                    console.log('----> ' + JSON.stringify($el.position().top));
-                    $container.scrollTop($el.position().top);
+                    $container.scrollTop($container.scrollTop() + $el.position().top);
                 }
             }
         },

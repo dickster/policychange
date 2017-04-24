@@ -68,26 +68,8 @@
         </div>
     </script>
 
-    <script id="changePanelTitleMax" type="text/x-handlebars-template">
-        <div class="panel-heading">
-            <span class="fa-stack fa-lg">
-            <i class="fa fa-files-o fa-stack-2x"></i>
-            <i class="fa fa-stack-1x" >
-                <span class="badge">{{changes.length}}</span>
-            </i>
-        </span>
-            <span class="change-panel-title">List of Changes for GWI Insurance Co. policy #{{config.policyNum}}</span>
-            <div class="btn-group pull-right">
-                <a class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </a>
-                <a class="btn btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </a>
-                <a class="btn btn-default minimize"> <i class="fa fa-window-minimize fa-2x"></i> </a>
-                <a class="btn btn-default maximize"> <i class="fa fa-window-maximize fa-2x"></i> </a>
-            </div>
-        </div>
-    </script>
-
     <script id="changePanelContent" type="text/x-handlebars-template">
-            <a id="ci-{{id}}"class="list-group-item change-item change-item-{{type}}">
+        <a class="list-group-item change-item change-item-{{type}}">
             <span class="summary">{{summary}}</span>
 
             {{#if isModify}}
@@ -127,53 +109,6 @@
                 <div>
                     <span class="change-value {{values.[0].size}}"> {{values.[0].text}} </span>
                     <span class="change-aside sm">  (added)</span>
-                </div>
-            </section>
-            {{/if}}
-        </a>
-    </script>
-
-    <script id="changePanelContentMax" type="text/x-handlebars-template">
-            <a class="list-group-item change-item change-item-{{type}}">
-            <span class="summary">{{summary}}</span>
-
-            {{#if isModify}}
-            <section>
-                <li class="fa fa-asterisk"></li>
-                <div class="toggle toggle-on" class>
-                    <span> This is currently  {{values.[0].text}}
-                     but was set to {{values.[1].text}} by the Carrier</span>
-                    <i class="fa fa-toggle-on"></i>
-                </div>
-                <div class="toggle toggle-off">
-                    <span > The change to {{values.[1].text}}
-                    has been reverted to the original Carrier value of {{values.[0].text}}</span>
-                    <i class="fa fa-toggle-off"></i>
-                </div>
-                <div class="toggle toggle-override">
-                    <span class="change-value"></span>
-                    <span class="change-aside sm"> is a new value specified by the user.</span>
-                    <i class="fa fa-exclamation-triangle"></i>
-                </div>
-            </section>
-            {{/if}}
-
-            {{#if isDelete}}
-            <section>
-                <li class="fa fa-minus-circle"></li>
-                <div>
-                    <span class="change-value {{values.[1].size}}"> {{desc}} <span>{{values.[1].text}}</span> </span>
-                    <span class="change-aside sm"> has been deleted.  You can re-add it if desired.</span>
-                </div>
-            </section>
-            {{/if}}
-
-            {{#if isAdd}}
-            <section>
-                <li class="fa fa-plus-circle"></li>
-                <div>
-                    <span class="change-value {{values.[0].size}}"> {{values.[0].text}} </span>
-                    <span class="change-aside sm">  was not included in the Carrier data and added since.  You can delete it if it's not desired.</span>
                 </div>
             </section>
             {{/if}}

@@ -40,34 +40,47 @@
     color:#999;
 }
 
-.change-editor.maximized .btn.minimize {
-    display:inline-block;
-}
-.change-editor:not(.maximized) .btn.minimize {
+.change-editor.fullwidth .change-panel .btn.prev-change,
+.change-editor.fullwidth .change-panel .btn.next-change,
+.change-editor.fullwidth .change-panel .btn.maximize,
+.change-editor.fullwidth .change-panel .btn.maximize {
     display:none;
 }
-.change-editor:not(.maximized) .btn.maximize {
+
+.change-editor.maximized .btn.minimize {
+    display:inline-block;    
+}
+.change-editor:not(maximized) .btn.minimize {
+    display:none;
+}
+.change-editor:not(.fullwidth):not(.maximized) .btn.maximize {
     display:inline-block;
 }
 .change-editor.maximized .btn.maximize {
     display:none;
 }
 
-.change-panel .panel-body { 
+.change-editor:not(.fullwidth) .change-panel .panel-body { 
     overflow-y: scroll;
+}
+
+.change-panel .panel-body { 
     position:relative;
     padding:0;
 }
 
-.change-editor:not(.maximized) .panel-body {
-    max-height: 45px;
+.change-editor.fullwidth .panel-body {
+    max-height: 100%;
+    height:100%;
 }
 
 .change-editor.maximized .panel-body {
     max-height: 450px;
 }
 
-
+.change-editor:not(.fullwidth):not(.maximized) .panel-body {
+    max-height: 45px;
+}
 
 
 .change-item.list-group-item.active {
@@ -105,7 +118,7 @@
     opacity:1 !important;
 }
 
-.change-panel.panel {
+.change-editor:not('fullwidth') .change-panel.panel {
     opacity:.85 !important;
 }
 
@@ -160,9 +173,10 @@
     border: 3px solid rgba(127,143,191,.4);
 }
 .popover .list-group { margin-bottom:0; }
-/*TODO : this should be configurable.  this is the link that the popover is attached to.
- i have positioned fixed to the top right of the screen. */
-.change-editor {
+.change-editor.fullwidth {
+}
+
+.change-editor:not('fullwidth') {
     min-width:450px;
     position: fixed;
     top: 10px;

@@ -43,41 +43,7 @@
     <script type="application/javascript">
 
         $(function() {
-            function param(name, defaultValue) {
-                var p = (window.location.search.split(name + '=')[1] || '').split('&')[0];
-                return p ? p : defaultValue;
-            }
-
-            var getChanges = function() {
-                var changesFile = param('changes', 'changes');
-                changesFile = 'data/' + changesFile + '.json';
-                console.log('loaded changes from ' + changesFile);
-                return $.getJSON(changesFile, function(json) {
-                    console.log('...!');
-                    options.changes = json;
-                });
-            }
-
-            var getConfig = function() {
-                var configFile = param('config','config');
-                configFile = 'data/' + configFile + '.json';
-                console.log('loading config from ' + configFile);
-                return $.getJSON(configFile, function(json) {
-                    options.config = json;
-                    console.log('...!');
-                });
-            }
-
-            var options = {};
-
-            $.when( getChanges(), getConfig() )
-                .then( function() {
-                    // this is the only line you need to start editor.
-                    // the rest is there to facilitate loading test data based on url parameters (QA use case only).
-                    wtw.changeEditor.init(options);
-                }, function() {
-                    alert('cant load config/changes test data');
-                } );
+            Utils.debugChangeEditor();
         });
     </script>
 

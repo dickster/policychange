@@ -1,0 +1,29 @@
+{
+  "header": "Changes",
+  "policyNum": "HB-12789XF",
+  "idAttr": "data-change-id",
+  "refAttr": "data-change-ref",
+  "template": {
+    "changeContainerClass": "panel-body list-group",
+    "changePanelTitle": "#changePanelTitle",
+    "changePanelContent": "#changePanelContent",
+    "inputTitle": "#changeInputTitle",
+    "inputContent": "#changeInputContent",
+    "add": "#changeAdd",
+    "delete": "#changeDelete"
+  },
+  "valueLabels": [
+    "Before",
+    "After"
+  ],
+  "idLabels": {
+    "1": "First Name",
+    "2": "Last Name",
+    "3": "Address",
+    "4": "City",
+    "5": "Province",
+    "6": "Postal Code",
+    "7": "Gender",
+    "8": "Age"
+  }
+}

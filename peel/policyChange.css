@@ -150,10 +150,11 @@
 
 .change-input .list-group-item {
     border:none;
+    display: block;
 }
 
 .change-input.popover {
-    min-width:350px;
+    min-width: 300px;
     /* put this in front of change-panel.*/
     /*z-index:2000;*/
     border: 3px solid rgba(127,143,191,.4);
@@ -363,9 +364,7 @@ li.change-delete-icon {
     padding: 1px 5px;
     color: #66a;
 }
-.change-input.popover .btn.btn-default {
-    font-size: 11px;
-}
+
 .change-panel.panel .btn.btn-default {
     font-size: 14px;
 }

@@ -275,13 +275,16 @@ li.change-delete-icon {
 }
 
 
+.change-editor.fullwidth .change-value {
+    overflow:inherit;
+}
 .change-value {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 92%;
-    /* outline: 1px solid blue; */
-    display: inline-block;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+     overflow: hidden;
+     max-width: 92%;
+     /* outline: 1px solid blue; */
+     display: inline-block;
 }
 
 .change-value.lg {
@@ -325,6 +328,7 @@ li.change-delete-icon {
     display: block;
     padding-left:0;
     max-width: 75%;
+    font-style: inherit;
 }
 
 .change-aside.sm,

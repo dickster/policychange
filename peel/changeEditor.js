@@ -1,3 +1,19 @@
+/**
+ * this is the controller/mediator of the panel & input widgets.
+ *
+ * it is responsible for the creation of these widgets and passing of information between the two via events.
+ * a changeInput is created IFF there is an <input> element with a "data-change-id" that matches one of the given
+ * "changes" given in the options.   if there isn't a matching one, then an event listener is attached that will create a
+ * new "change" (and at that time a new changeInput is created).
+ *
+ * the changePanel is created on the assumption that there is a <div class="change-panel"> element in the DOM.
+ *
+ * note that this is NOT a juery ui widget but that changeInput & changePanel are.
+ * this may lead to confusion & the understanding of the "this" javascript context.
+ * google "javascript module pattern" to understand the fundamental concepts going on here.
+ *
+ * TODO : this should be integrated into a wicket widget.
+ */
 
 var wtw = wtw ? wtw : {};
 wtw.changeEditor = (function() {
@@ -182,6 +198,7 @@ wtw.changeEditor = (function() {
             formatChange(change);
         });
     }
+
 
     function formatChange(change) {
         var config = options.config;

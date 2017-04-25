@@ -1,7 +1,9 @@
 (function($) {
 
     // variable scoped to changePanel widgets only.   think of it as a java class' private static var.
+    // used to store Handlebars compiled templates.
     var templateCache = {};
+
 
     $.widget( "wtw.changePanel", {
 
@@ -9,7 +11,7 @@
             var self = this;
             var config = this.options.config;
 
-            this.element.addClass('change-editor');
+//            this.element.addClass('change-editor');
 
             this.sortChanges();
 
@@ -137,6 +139,10 @@
             // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
             var changeItemSelector = '.change-item[' + this.options.config.refAttr + '="'+change.id+'"]';
             var $toggles = this._getPanelContent().find(changeItemSelector + ' .toggle');
+
+            // keep track of what's happening to changes.   this way, we can know which ones have been reverted/overridden
+            //  or whatever.  currently, we don't send any of this data back to the server but we will probably need to in the future.
+            change.current = value;
 
             // CAVEAt : index can null/undefined.
             // if one of the change values isn't set. .: it's overridden by user to be something else.

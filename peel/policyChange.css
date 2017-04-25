@@ -176,7 +176,7 @@
 .change-editor.fullwidth {
 }
 
-.change-editor:not('fullwidth') {
+.change-editor:not(.fullwidth) {
     min-width:450px;
     position: fixed;
     top: 10px;

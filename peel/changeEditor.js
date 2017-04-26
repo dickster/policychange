@@ -34,15 +34,15 @@ wtw.changeEditor = (function() {
             changeInputClass:'change-input',
             cssSizes: ['sm','md','lg'],
             valueLabels: [
-                'After',
-                'Before'
+                'Broker',
+                'Carrier'
             ],
         }
     };
 
     var init = function(opts) {
         var self = this;
-        options = $.extend(true,opts,defaultOptions);
+        options = $.extend(true,defaultOptions,opts);
 
       //  var config = options.config;
 

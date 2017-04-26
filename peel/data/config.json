@@ -1,17 +1,5 @@
 {
-  "header": "Changes",
   "policyNum": "HB-12789XF",
-  "idAttr": "data-change-id",
-  "refAttr": "data-change-ref",
-  "template": {
-    "changeContainerClass": "panel-body list-group",
-    "changePanelTitle": "#changePanelTitle",
-    "changePanelContent": "#changePanelContent",
-    "inputTitle": "#changeInputTitle",
-    "inputContent": "#changeInputContent",
-    "add": "#changeAdd",
-    "delete": "#changeDelete"
-  },
   "valueLabels": [
     "Broker",
     "Carrier"

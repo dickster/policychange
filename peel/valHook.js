@@ -76,7 +76,6 @@ wtw.changeInputValHooks = function(element) {
 
 
 
-
     var _val = function(changeInput) {
         var code = changeInput.element.val();
         var values = changeInput.options.change.values;

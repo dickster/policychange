@@ -25,7 +25,7 @@
         _create: function() {
             var self = this;
 
-            this.options = $.extend(true,this.options,this.defaultOptions);
+            this.options = $.extend(true,this.defaultOptions, this.options);
 
             this.sortChanges();
 
@@ -49,7 +49,7 @@
 
             template = this.getTemplate('changePanelContent');
             var $content = $('<div/>')
-                .addClass(config.template.changeContainerClass)  // TODO : do i really need this now that it's not in a popover?
+                .addClass(config.template.changeContainerClass)
                 .addClass('change-items');
             $.each(this.options.changes, function(i,change) {
                 var $change = $(template(change));

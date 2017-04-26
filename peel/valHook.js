@@ -89,7 +89,7 @@ wtw.changeInputValHooks = function(element) {
         return {
             code:code,
             index:null,
-            size:changeInput.options.config.cssSizes[Math.min(2, code.length)],
+            size:changeInput.options.config.cssSizes[Math.min(2, code ? code.length : 0)],
             text:changeInput.getTextForCode(code)
         }
     };

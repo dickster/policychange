@@ -21,22 +21,30 @@ wtw.changeEditor = (function() {
     var options;
 
     var defaultOptions = {
+        // changes:[],  always passed in from server.  we'll only override the config part.
         config: {
+            header:'Changes',
+            idAttr:'data-change-id',
+            refAttr:'data-change-ref',
             inputIcon: '<li class="fa fa-asterisk"></li>',
             open: true,
             expanded:false,
             trigger: 'click',
             changePanelClass:'change-panel',
             changeInputClass:'change-input',
-            cssSizes: ['sm','md','lg']
+            cssSizes: ['sm','md','lg'],
+            valueLabels: [
+                'After',
+                'Before'
+            ],
         }
     };
 
     var init = function(opts) {
         var self = this;
-        options = $.extend(true,{},opts,defaultOptions);
+        options = $.extend(true,opts,defaultOptions);
 
-        var config = options.config;
+      //  var config = options.config;
 
         formatChanges();
 

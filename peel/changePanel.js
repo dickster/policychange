@@ -7,11 +7,25 @@
 
     $.widget( "wtw.changePanel", {
 
+        defaultOptions : {
+          config:{
+              template: {
+                  changeContainerClass: "panel-body list-group",
+                  changePanelTitle: "#changePanelTitle",
+                  panelContainerClass:'change-panel panel panel-default',
+                  changePanelContent: "#changePanelContent",
+                  inputTitle: "#changeInputTitle",
+                  inputContent: "#changeInputContent",
+                  add: "#changeAdd",
+                  delete: "#changeDelete"
+              }
+          }
+        },
+
         _create: function() {
             var self = this;
-            var config = this.options.config;
 
-//            this.element.addClass('change-editor');
+            this.options = $.extend(true,this.options,this.defaultOptions);
 
             this.sortChanges();
 
@@ -28,7 +42,7 @@
         buildPanel: function () {
             var config = this.options.config;
             // TODO : make this html snippet/css class a configurable option.
-            var $panel = $('<div class="change-panel panel panel-default"/>');
+            var $panel = $('<div/>').addClass(config.template.panelContainerClass);
 
             var template = this.getTemplate('changePanelTitle');
             $panel.append($(template(this.options)));
@@ -57,8 +71,10 @@
         _activateChangeValue: function ($changeItem, change, index) {
             // remove all other (if any) active items, and highlight this one.
             // TODO : chain these two lines together after debugging...
-            $changeItem.find('.change-value').removeClass('active');
-            $changeItem.find('.change-value').eq(index).addClass('active');
+            $changeItem.find('.change-value')
+                .removeClass('active')
+                .eq(index)
+                .addClass('active');
         },
 
         _activate : function($changeItem, showPopup) {
@@ -171,7 +187,6 @@
 
             this.sortChanges();
             var index = this.options.changes.indexOf(change);
-            // TODO : make this class a constant.
             $change.insertBefore($('.change-items .change-item').eq(index));
 
             $change.attr(config.refAttr,change.id);

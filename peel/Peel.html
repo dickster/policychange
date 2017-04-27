@@ -41,7 +41,6 @@
     <script src="https://use.fontawesome.com/1f0e50ab99.js"></script>
 
     <script type="application/javascript">
-
         $(function() {
             Utils.debugChangeEditor();
         });
@@ -132,10 +131,10 @@
         </div>
         {{/if}}
         {{#if isAdd}}
-        <span>{{values.[0].text}}</span><span> was added</span>
+        <div><span>{{values.[0].text}}</span><span> was added</span></div>
         {{/if}}
         {{#if isDelete}}
-        <span>{{values.[1].text}}</span><span> was deleted</span>
+        <div><span>{{values.[1].text}}</span><span> was deleted</span></div>
         {{/if}}
         <div class="btn-group btn-group-xxs pull-right">
             <button type="button" class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </button>

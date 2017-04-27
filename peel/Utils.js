@@ -16,7 +16,13 @@ var Utils = (function() {
         return $.getJSON(file, callback);
     };
 
+    //  methods returned by Utils object here....
+
     return {
+
+        // only use this for debugging.  in production you just want to do....
+        //    wtw.changeEditor.init(opts);
+        // this method just allows you to easily override config & changes data via url params & external .json files.
 
         debugChangeEditor: function(changes,config) {
             var options = {};
@@ -38,6 +44,7 @@ var Utils = (function() {
                 } );
 
         },
+
         ensureVisible : function($el,$container,scroll) {
             if (!$container) {   // assume it's the immediate parent.
                 $container = $el.parent();

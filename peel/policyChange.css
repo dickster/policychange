@@ -15,7 +15,7 @@
     font-family: sans-serif;
 }
 
-.change-input.popover .popover-title {
+.change-modify.popover .popover-title {
     background:#d9edf7;
 }
 
@@ -153,25 +153,6 @@
     border-radius: 0;
 }
 
-.change-input.popover .popover-content {
-    padding:0;
-}
-
-.change-input .change-value {
-    padding:4px 0;
-}
-
-.change-input .list-group-item {
-    border:none;
-    display: block;
-}
-
-.change-input.popover {
-    min-width: 300px;
-    /* put this in front of change-panel.*/
-    /*z-index:2000;*/
-    border: 3px solid rgba(127,143,191,.4);
-}
 .popover .list-group { margin-bottom:0; }
 .change-editor.fullwidth {
 }
@@ -263,14 +244,14 @@ li.change-delete-icon {
 
 
 @keyframes highlight {
-    from {box-shadow: inset 0 0 0 200px rgba(255, 250, 73, 0.35); border:1px solid #C1A227 ;}
-    to {box-shadow: none; border:inherit;}
+    from {box-shadow: inset 0 0 0 200px rgba(255, 253, 48, 0.49); border:1px solid #C1A227 ;}
+    to {box-shadow: none; }
 }
 
 
 .active-change {
     animation-name: highlight;
-    animation-duration: 340ms;
+    animation-duration: 380ms;
     animation-iteration-count:2;
 }
 
@@ -371,12 +352,34 @@ li.change-delete-icon {
     padding-left: 10px;
 }
 
-.change-input.popover h3 {
+.change-delete .popover h3,
+.change-add .popover h3,
+.change-modify.popover h3 {
     background:#d9edf7;
 }
 
+.change-add .change-value,
+.change-delete .change-value,
+.change-modify .change-value {
+    padding:4px 0;
+    border:none;
+    display: block;
+}
+
+.change-add.popover,
+.change-delete.popover,
+.change-modify.popover {
+    min-width: 300px;
+    /* put this in front of change-panel.*/
+    z-index:2000;
+    border: 3px solid rgba(127,143,191,.4);
+}
+
+
 /*  BLARGH!  hacks to overcome forms & easy & other .css */
-.change-input.popover .btn.btn-default,
+.change-add.popover .btn.btn-default,
+.change-delete.popover .btn.btn-default,
+.change-modify.popover .btn.btn-default,
 .change-panel.panel .btn.btn-default {
     border-color:#ccc;
     padding: 1px 5px;
@@ -388,10 +391,8 @@ li.change-delete-icon {
 }
 
 .change-panel.panel.popover a.list-group-item,
-.change-input.popover.popover a.list-group-item  {
+.change-modify.popover.popover a.list-group-item  {
     color: #666;
     font-size: 12px;
     text-decoration: none;
 }
-
-

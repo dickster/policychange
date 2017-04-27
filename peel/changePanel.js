@@ -4,18 +4,15 @@
     // used to store Handlebars compiled templates.
     var templateCache = {};
 
-
     $.widget( "wtw.changePanel", {
 
         defaultOptions : {
           config:{
               template: {
+                  panelContainerClass:'change-panel panel panel-default',
                   changeContainerClass: "panel-body list-group",
                   changePanelTitle: "#changePanelTitle",
-                  panelContainerClass:'change-panel panel panel-default',
                   changePanelContent: "#changePanelContent",
-                  inputTitle: "#changeInputTitle",
-                  inputContent: "#changeInputContent",
                   add: "#changeAdd",
                   delete: "#changeDelete"
               }
@@ -35,13 +32,11 @@
             for (var i = 0, len = changes.length; i < len; i++) {
                 this.changesById[changes[i].id] = changes[i];
             }
-
             this.buildPanel();
         },
 
         buildPanel: function () {
             var config = this.options.config;
-            // TODO : make this html snippet/css class a configurable option.
             var $panel = $('<div/>').addClass(config.template.panelContainerClass);
 
             var template = this.getTemplate('changePanelTitle');
@@ -151,16 +146,14 @@
         },
 
         updateChange:function(change, value) {
+            // keep track of what's happening to changes.   this way, we can know which ones have been reverted/overridden
+            //  or whatever.  currently, we don't send any of this data back to the server but we will probably need to in the future.
             change.currentValue = value;
             // NOTE : only modify's will be ever be updated.  deletes & adds are just static text displays.
             var changeItemSelector = '.change-item[' + this.options.config.refAttr + '="'+change.id+'"]';
             var $toggles = this._getPanelContent().find(changeItemSelector + ' .toggle');
 
-            // keep track of what's happening to changes.   this way, we can know which ones have been reverted/overridden
-            //  or whatever.  currently, we don't send any of this data back to the server but we will probably need to in the future.
-            change.current = value;
-
-            // CAVEAt : index can null/undefined.
+            // CAVEAT : index can null/undefined.
             // if one of the change values isn't set. .: it's overridden by user to be something else.
             // in this case, the toggle button doesn't make sense so we'll show the "override state"
             var $changeItem;

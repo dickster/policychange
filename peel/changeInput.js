@@ -1,3 +1,10 @@
+// widget associated with form input that has changed.
+//
+//  triggers 'next', 'update', 'prev' events.
+// has the concept of being "active" (which is not the same as the state of the popup being shown).
+// this widget controls the showing of input popups but the parent changeEditor is responsible for closing them
+//   when user clicks outside popup.
+// note that what/how the widget appears depends on the type of change (add/modify/delete)
 
 (function($) {
 
@@ -6,16 +13,24 @@
 
     $.widget( "wtw.changeInput", {
 
-        // -----------------------------------------
-        // i should have default options specific to input here so editor doesn't have to know about them.
+        defaultOptions : {
+            config:{
+                template: {
+                    inputTitle: "#changeInputTitle",
+                    inputContent: "#changeInputContent",
+                    add: "#changeAdd",
+                    delete: "#changeDelete"
+                }
+            }
+        },
 
         _create: function() {
             var self = this;
 
+            this.options = $.extend(true, this.options, this.defaultOptions);
+
             var change = this.options.change;
             var config = this.options.config;
-
-            change.foo = 'create';
 
             switch (change.type) {
                 case 'modify':
@@ -158,7 +173,7 @@
                 }
             })
 
-            this._getPopoverContent().addClass(self.options.config.changeInputClass);
+            this._getPopoverContent().addClass('change-'+self.options.change.type);
 
             this.icon.popover('show');
 

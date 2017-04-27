@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Change Editor</title>
+    <style>
+        code {
+            white-space:pre-wrap;
+        }
+    </style>
 </head>
 <body>
 
@@ -90,14 +95,13 @@
         </div>
     </li>
     <li>
-        How do i customize the .html for my implementation.
+        Do i *need* to have bootstrap for this?
         <div>
-
+            If you use the default HTML templates you do because they involve bootstrap classes like "panel", "list-group" etc..
+            If you can't or don't want bootstrap, then supply your own html and .css.    See below on how to configure your html.
         </div>
     </li>
 </ul>
-
-
 
 
 
@@ -112,7 +116,22 @@ and jquery valHooks would be a great start.
 
 <ul>
     <li>
-        How can i change an option?
+        How do i change the layout/html.
+        <div>This is done by specifying the selector for the templates used by the widget.
+        </div>
+        <p>
+            options.config.template = {
+                // contains the header part of the change panel
+                changePanelTitle: '#mypanelTitle',
+                // contains the template content for each change. (will be repeated for each one).
+                changePanelContent: '#mypanelcontent',
+                // template for additions. typically just an information blurb
+                add: '#myadd',
+                // same as "add" template.
+                delete: '#mydelete',
+            }
+            </p>
+
     </li>
     <li>
         How can i override a method?

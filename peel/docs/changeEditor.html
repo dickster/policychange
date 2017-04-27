@@ -3,10 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Change Editor</title>
+    <style>
+        code {
+            white-space:pre-wrap;
+        }
+    </style>
+
 </head>
 <body>
 
 
+<h2>Change Editor : Overview</h2>
+This document will focus on the ChangeEditor part.
+<p>
+    The concept of "Change Editor" really involves three distinct things.
+    - a changePanel which is the component that lists the changes.
+    - 0..n changeInput widgets which is the icon & popup associated with each input field that has a change
+    - the parent/mediator changeEditor class which does all event handling and initial creation of changePanel &  changeInputs.
+
+    *there are also change listeners attached to all input fields that currently don't, but might in the future, have changes.
+
+<p>
+    see <a href="changePanel.html">Change Panel</a>
+    or <a href="changeInput.html">Change Input</a>
+    for more details.
+</p>
+
+</p>
+
+
+<h2>Dependencies</h2>
+<code>you must include the following files...
+
+    internal (brovada) files
+    IE-Shims.js
+    Utils.js
+    changePanel.js
+    changeInput.js
+    valHook.js
+    changeEditor.js
+
+    as well as these external dependencies...
+    jquery
+    jqueryUI
+    bootstrap .css & .js
+    fontawesome (if using default icons)
+
+</code>
+
+
+<h2>Usage</h2>
+<ul><li>Step 1: make sure you have included <b>"&lt;div class=&quot;change-editor&quot;&gt;&lt;/div&gt;"</b> in your html.  The widget looks for this specific class.
+(later on, when a wicketized component version is made, it should rely on the ID, not some arbitrary class).
+</li>
+    <li>
+    Step 2: cut a hole in a box.</li>
+    <li>Step 3: include the following javascript to be executed on DOM load...</li>
+    </ul>
+    <code>
+        $(function() {
+            var options = { changes:[], config:{} };   // this data to be sent from server.
+            wtw.changeEditor.init(options);
+        });
+    </code>
+<p>If you want the ability to load changes & config data from .json files, then invoke it via Utils.
+Doing this, you are able to specify the .json files via the URL parameters 'changes' & 'config'.
+    For example:</p>
+    <code>http:blah/cmf.html?changes=mychanges&config=myconfig</code>
+    <p>This will load .json data from mychanges.json and config data from myconfig.json.
+    If you omit the parameters on the url, it will use the ones you pass to the debugChangeEditor method (test1Changes, test1Config).</p>
+    <code>
+        $(function() {
+            Utils.debugChangeEditor('test1Changes', 'test1Config');
+        });
+    </code>
+
+
+
+<h2>Architecture</h2>
+
+Components :
+
+            Change Editor
+  Change Input X                                Change Panel
+  Change Input Y
 
 
 </body>

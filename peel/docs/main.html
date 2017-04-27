@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Editor</title>
+</head>
+<body>
+
+
+<h1>Change Editor</h1>
+
+<h3>History</h3>
+<span>
+    The constraints/goals were to make a widget that would render on top of an existing form and show all the changes
+    and allow the user to make edits.  It was originally destined for PEEL but shelved but continued in hopes of usage by a future project.
+    The main idea is that change data would be calculated on the server side (by new XML based policy change code) and a .json version of that
+    would be sent to this widget and that's all you would have to do.
+</span>
+
+
+<h3>FAQ</h3>
+<ul>
+    <li>Is this a wicket widget?
+    <div>No.  Currently it isn't but one that incoporated the required .js/.css could/should be written.  But at the end of the day
+    all the real UI work is done on the browser in the DOM, not on the server side.</div>
+    </li>
+    <li>
+        Are new changes (i.e. done by the user while looking at the form with existing changes) handled?
+        <div>Yes. If the user clicks on a relevant <input> and changes it, a new change will be created and marked.  It will show up in the panel
+            and look/act just like the other ones.</div>
+    </li>
+    <li>
+        Are these new changes sent back to server?
+        <div>No.  But they could be if client is given a URL to post to.  They will disappear once you leave the page.</div>
+    </li>
+    <li>
+        Deleted entities can't be reverted like modifications.  why?
+        <div>In order to do that, the change editor would need to have a URL to post to *and* all of the details of the deleted entity (not just a description as shown now).
+        It could be done but most of the work is on the server side and it wasn't a required feature.
+        </div>
+    </li>
+    <li>
+        Added entities can't be reverted like modifications.  why?
+        <div>Basically same as above. In this case, the user can just click 'delete' themselves to revert.  Again this is do-able with some work but not in initial scope.</div>
+    </li>
+    <li>
+        Does this widget need to render on top of the full form?
+        <div>Sort of.  You can just show the editor without any form behind it, everything will look fine but keep in mind that...
+            - you are in effect in a read only state because there is no form being posted.  .: any changes you make (by clicking on toggle buttons)
+              will *not* be changing any underlying form data (because there is none).   So it could be used as a "look at the summary" type widget.
+            - display values for changes may not render correctly.   for example, if there is a change based on a select...
+               option value="M"  MALE
+               option value="F"  FEMALE
+             the editor will *not* be able to show "MALE", instead it will show "M".  This is because it can't inspect the underlying form and find the display value.
+        </div>
+    </li>
+    <li>
+        What dependencies are there?
+        <div>The external dependencies are jquery/jquery ui.
+            It also depends on two utility files (Utils & IE_Shim) as well as the core .js/.css
+        </div>
+    </li>
+    <li>
+        What work is left to be done.
+        <div>
+            - there is a proposed concept of "rolling up changes".  e.g. if a vehicle has many fields including make, year, manufacturer, colour and model etc.
+            then it is desired that if all those fields change it would just show up as "Vehicle X" has changed instead of "Vehicle X's make", "Vehicle X's year" etc...
+            - now, only simple inputs and easyJSCombo are supported.  I did easyJScombo because it is the hardest and i'm sure all others can be handled but code
+            will be required in valHooks.js for other widget types (date picker, yes/no, etc...)
+        </div>
+    </li>
+    <li>
+        Can the change panel be moved/resized?
+        <div>
+            You can't move/resize it by dragging on corners.  Currently there is a minimize button which collapses it to a single row
+            (maximize is configurable by .css with the default being about 8 rows).   There is also a "fullwidth" mode in which it takes up the
+            full width of it's container.  This mode is more suited for "view as summary" and offers no max/min capabilities.
+        </div>
+    </li>
+    <li>
+        Is there a limit to the number of changes?
+        <div>
+            No. the panel should scroll to acommodate any number.  memory is not an issue because each change is pretty small.
+        </div>
+    </li>
+    <li>
+
+        <div>
+
+        </div>
+    </li>
+    <li>
+        How do i customize the .html for my implementation.
+        <div>
+
+        </div>
+    </li>
+</ul>
+
+
+
+
+
+<h3>Customizing</h3>
+
+<h4>Overview</h4>
+Customizing is done via the options object passed to the widget at initialization time.
+
+
+*NOTE: in order to get a better understanding of this, reading up on jquery ui widget creation, the javascript module pattern
+and jquery valHooks would be a great start.
+
+<ul>
+    <li>
+        How can i change an option?
+    </li>
+    <li>
+        How can i override a method?
+    </li>
+    <li>
+        How can i change an option?
+    </li>
+    <li>
+        How can i change an option?
+    </li>
+    <li>
+        How can i change an option?
+    </li>
+    <li>
+        How can i change an option?
+    </li>
+    <li>
+        How can i change an option?
+    </li>
+    <li>
+        How can i change an option?
+    </li>
+</ul>
+
+
+
+
+</body>
+</html>
+

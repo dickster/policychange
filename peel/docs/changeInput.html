@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h2>Events</h2>
+
+
+<h3>update</h3>
+<h5>Parameters</h5>
+<ul>
+   <li> e: the event</li>
+   <li>id: the id of the change</li>
+   <li>value: the value being set.   {index: null/0...n, code:$string, size:'sm|md|lg', text:$string});</li>
+</ul>
+
+<h5>example</h5>
+<code>
+    changeInput.on('changeinputupdate', function (e, id, value) { /****/ })
+</code>
+
+<h3>next</h3>
+<h5>Parameters</h5>
+<ul>
+   <li>e: the event</li>
+   <li>id: the id of the change</li>
+</ul>
+
+<h5>example</h5>
+<code>
+    changeInput.on('changeinputnext', function (e, id) { /****/ })
+</code>
+
+
+<h3>prev</h3>
+<h5>Parameters</h5>
+<ul>
+   <li>e: the event</li>
+   <li>id: the id of the change</li>
+</ul>
+
+<h5>example</h5>
+<code>
+    changeInput.on('changeinputprev', function (e, id) { /****/ })
+</code>
+
+
+<hr>
+
+<div>**Note that all events are prefixed by the widget namespace 'changeinput'.   e.g. 'update' event requires a 'changeinputupdate' listener.</div>
+
+
+</body>
+</html>

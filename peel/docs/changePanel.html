@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h2>Events</h2>
+
+
+<h3>select</h3>
+<ul>
+    <li>e: the event</li>
+    <li>showPopup: boolean request to show input popup as part of selection process</li>
+    <li>change: the change selected {type:add/modify/delete, id:$string, values:[]}</li>
+</ul>
+
+<h5>example</h5>
+<code>
+    changePanel.on('changepanelselect', function (e, id, showPopup) { if (showPopup) blah... })
+</code>
+
+<h3>resize</h3>
+<ul>
+    <li>e: the event</li>
+    <li>resizeType: 'maximize'|'minimize'</li>
+</ul>
+
+<h5>example</h5>
+<code>
+    changePanel.on('changepanelresize', function (e, id) { if(resizeType==='minimize') blah... })
+</code>
+
+
+<h3>set</h3>
+<ul>
+    <li>e: the event</li>
+    <li>id: the id of the change</li>
+    <li>value: the value being set   {index:null/0..n, text:$string, code:$string, size:'sm'|'md'|'lg'</li>
+</ul>
+
+<h5>example</h5>
+<code>
+    changePanel.on('changepanelset', function (e, id, value) { /****/ })
+</code>
+
+
+<hr>
+
+<div>**Note that all events are prefixed by the widget namespace 'changepanel'.   e.g. 'select' event requires a 'changepanelselect' listener.</div>
+
+
+
+</body>
+</html>

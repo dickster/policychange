@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Change Editor</title>
     <style>
-        code {
+        p,code {
             white-space:pre-wrap;
         }
     </style>
@@ -21,6 +21,48 @@
     The main idea is that change data would be calculated on the server side (by new XML based policy change code) and a .json version of that
     would be sent to this widget and that's all you would have to do.
 </span>
+
+
+<h3>Architectural Overview</h3>
+
+<p>
+    The concept of "Change Editor" really involves three distinct things.
+    - the parent/mediator changeEditor class
+    - a changePanel which is the component that lists the changes.  typically located in top right of form.
+    - 0..n changeInput widgets which is the icon & popup beside each input field that has a change.
+
+    *see image changeEditor.png to get a better idea.
+
+    Basically, the developer will add some code to initialize the editor.
+    This in turn will always create a change panel and populate it with the given data  (options.changes[])
+    It will then look for any related input fields and create appropriate changeInputs.
+    Any events triggered from the changePanel or changeInputs will be handled by the changeEditor class.
+
+    It is very important to understand that the whole thing is based on the assumption that there will be
+    1: data sent with an array of changes = {id: ?, type:'add|modify|delete', values:[])
+    2: if an input element in the form is associated with that change, then it MUST have the attribute "data-change-id" with the appropriate matching value.
+    3: the options.config property has a map used to get the display value of the change.
+
+    for example:
+        if passed in the given options json object (i'm leaving out lots of properties for concision)
+</p>
+    <code>
+        var options = {
+                changes : [ {id:1, type:'modify', values:[...]}],
+                config : { idLabels:{1:'Vehicle Manufacturer', ...}
+        }
+        // somewhere else in the form html....
+        &lt;input type=&quot;text&quot; data-change-id=&quot;1&quot;&gt;
+    </code>
+        In this case, the change has an id of 1 and it's associated label/description is 'Vehicle Manufacturer'.
+        The input field will have a changeInput widget created for it because of its matching data-change-id attribute.
+
+
+<p>
+    see <a href="changeEditor.html">Change Editor</a>
+    or <a href="changePanel.html">Change Panel</a>
+    or <a href="changeInput.html">Change Input</a> for more details.
+</p>
 
 
 <h3>FAQ</h3>
@@ -134,29 +176,32 @@ and jquery valHooks would be a great start.
 
     </li>
     <li>
-        How can i override a method?
+        What variables can i put in the layout.
+        <div>You can add anything that's in the .json object - just put it in curly brackets.
+        for example, the default header template contains
+        <code>
+            &lt;span class=&quot;change-panel-title&quot;&gt;{{config.header}}&lt;/span&gt;
+        </code>
+        because the options object contains config: { header:'', ...} this is valid.
+        </div>
     </li>
     <li>
-        How can i change an option?
+        How do i specify the container of the list of change items?
+        <div>
+            because you are only allowed to give the template of each item (this is iterated over), the widget creates a container for the change items.
+            it is always a div but you can configure the css class via the options.config.panelContainerClass property.
+            by default, it is 'change-panel panel panel-default'.   The panel/panel-default classes are for bootstrap purposes.
+        </div>
     </li>
     <li>
-        How can i change an option?
-    </li>
-    <li>
-        How can i change an option?
-    </li>
-    <li>
-        How can i change an option?
-    </li>
-    <li>
-        How can i change an option?
-    </li>
-    <li>
-        How can i change an option?
+        Can I change the html attributes used?
+        <div>Yes - currently the default is "data-change-id" & "data-ref-id".
+        These can be specified via options.config.idAttr & options.config.refAttr properties.
+            (*I would like to change it to "data-model-id" because it doesn't necessarily represent a change.  the id is to identify
+            the place the data is stored.)
+        </div>
     </li>
 </ul>
-
-
 
 
 </body>

@@ -14,10 +14,6 @@
 
 
 <h2>Change Editor : Overview</h2>
-This document will focus on the ChangeEditor part.
-
-</p>
-
 
 <h2>Dependencies</h2>
 <code>you must include the following files...
@@ -29,7 +25,6 @@ This document will focus on the ChangeEditor part.
     changeInput.js
     valHook.js
     changeEditor.js
-
     as well as these external dependencies...
     jquery
     jqueryUI
@@ -40,8 +35,8 @@ This document will focus on the ChangeEditor part.
 
 
 <h2>Usage</h2>
-<ul><li>Step 1: make sure you have included <b>"&lt;div class=&quot;change-editor&quot;&gt;&lt;/div&gt;"</b> in your html.  The widget looks for this specific class.
-(later on, when a wicketized component version is made, it should rely on the ID, not some arbitrary class).
+<ul><li>Step 1: make sure you have included <code><b>&lt;div class=&quot;change-editor&quot;&gt;&lt;/div&gt;</b></code> in your html.  The widget looks for this specific class.
+    <small>(later on, when a wicketized component version is made, it should rely on the ID, not some arbitrary class).</small>
 </li>
     <li>
     Step 2: cut a hole in a box.</li>
@@ -49,7 +44,7 @@ This document will focus on the ChangeEditor part.
     </ul>
     <code>
         $(function() {
-            var options = { changes:[], config:{} };   // this data to be sent from server.
+            var options = { changes:[...], config:{...} };   // this data to be sent from server.
             wtw.changeEditor.init(options);
         });
     </code>
@@ -65,15 +60,6 @@ Doing this, you are able to specify the .json files via the URL parameters 'chan
         });
     </code>
 
-
-
-<h2>Architecture</h2>
-
-Components :
-
-            Change Editor
-  Change Input X                                Change Panel
-  Change Input Y
 
 
 </body>

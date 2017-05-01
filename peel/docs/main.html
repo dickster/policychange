@@ -73,7 +73,7 @@
     </li>
     <li>
         Are new changes (i.e. done by the user while looking at the form with existing changes) handled?
-        <div>Yes. If the user clicks on a relevant <input> and changes it, a new change will be created and marked.  It will show up in the panel
+        <div>Yes. If the user clicks on a relevant [input] and changes it, a new change will be created and marked.  It will show up in the panel
             and look/act just like the other ones.</div>
     </li>
     <li>
@@ -131,9 +131,17 @@
         </div>
     </li>
     <li>
-
+        I see in the example, the Handlebars templates are in the [head]?  why? can i put them in the [body]?
         <div>
-
+        They are in the head so they won't clutter up the body (note the use of the custom script type = "text/x-handlebars-template")
+            You could put them in the body - it's just a matter of preference.
+        </div>
+    </li>
+    <li>
+        Where should the html templates be?  (in which file, who is responsible for adding them...)
+        <div>
+            In these examples, I put the templates directly in the page (think of Wicket fragments).  These are accessed by a selector property in the options.config.
+            A future feature would be to allow for this property to be a function that returns HTML.   This would allow you to put the template HTML in another file that could be shared.
         </div>
     </li>
     <li>

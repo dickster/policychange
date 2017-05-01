@@ -4,6 +4,7 @@
   "idAttr": "data-change-id",
   "refAttr": "data-change-ref",
   "template": {
+    "source":"fullwidthTemplate",
     "changeContainerClass": "panel-body list-group",
     "changePanelTitle": "#changePanelTitle",
     "changePanelContent": "#changePanelContent",

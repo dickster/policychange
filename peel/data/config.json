@@ -17,5 +17,6 @@
     "101": "Province",
     "103": "Postal Code",
     "500": "Vehicle"
-  }
+  },
+  "template":{"source":"templates"}
 }

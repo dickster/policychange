@@ -140,8 +140,9 @@
     <li>
         Where should the html templates be?  (in which file, who is responsible for adding them...)
         <div>
-            In these examples, I put the templates directly in the page (think of Wicket fragments).  These are accessed by a selector property in the options.config.
-            A future feature would be to allow for this property to be a function that returns HTML.   This would allow you to put the template HTML in another file that could be shared.
+            In these examples, I put the templates directly in external pages but you could just add them directly to the target page.
+            If you specify options.config.template.source, that .html file will be loaded and appended to your DOm.  If not, it assumes the selectors specified
+            (e.g. options.config.template.changePanelTitle etc...) will point to elements that exist in the DOM.
         </div>
     </li>
     <li>
@@ -149,6 +150,16 @@
         <div>
             If you use the default HTML templates you do because they involve bootstrap classes like "panel", "list-group" etc..
             If you can't or don't want bootstrap, then supply your own html and .css.    See below on how to configure your html.
+        </div>
+    </li>
+    <li>
+        What are the default options? Where do they live?
+        <div>
+            There are default options for pretty much everthing except...
+            - changes   (the actual change data which must be sent from the server).
+            - labels   this text data for the changes (like "Vehicle Manufacturer") or words like Broker/Carrier must also be sent from server.
+            This data is across all 3 levels of the widget.  It depends on where it is relevant.  For example, you will find the default changeInput title
+            template in ChangeInput.js.    Look for variables called "defaultOptions" in the source for their values.
         </div>
     </li>
 </ul>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script id="changePanelTitle" type="text/x-handlebars-template">
+    <div class="panel-heading">
+            <span class="fa-stack fa-lg">
+            <i class="fa fa-files-o fa-stack-2x"></i>
+            <i class="fa fa-stack-1x">
+                <span class="badge">{{changes.length}}</span>
+            </i>
+            </span>
+        <span class="change-panel-title">{{config.header}} for policy {{config.policyNum}}</span>
+
+        <div class="btn-group pull-right">
+            <a class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </a>
+            <a class="btn btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </a>
+            <a class="btn btn-default minimize"> <i class="fa fa-window-minimize fa-2x"></i> </a>
+            <a class="btn btn-default maximize"> <i class="fa fa-window-maximize fa-2x"></i> </a>
+        </div>
+    </div>
+</script>
+
+<script id="changePanelContent" type="text/x-handlebars-template">
+    <a class="list-group-item change-item change-item-{{type}}">
+        <span class="summary">{{summary}}</span>
+
+        {{#if isModify}}
+        <section>
+            <li class="fa fa-asterisk"></li>
+            <div class="toggle toggle-on" class>
+                <span>The value has been changed by the broker to </span><span class="change-value lg"> {{values.[0].text}} </span>
+                <span class="change-aside lg">Originally, {{provider}} had specified  {{values.[1].text}} </span>
+                <i class="fa fa-toggle-on"></i>
+            </div>
+            <div class="toggle toggle-off">
+                <span>This has been reverted to {{provider}}'s value of </span><span class="change-value lg"> {{values.[1].text}}</span>
+                <span class="change-aside lg"> The broker change to {{values.[0].text}} has been ignored</span>
+                <i class="fa fa-toggle-off"></i>
+            </div>
+            <div class="toggle toggle-override">
+                <span>This value has been changed by the user to something different than what the broker or {{provider}} had originally specified : </span><span class="change-value"></span>
+                <i class="fa fa-exclamation-triangle"></i>
+            </div>
+        </section>
+        {{/if}}
+
+        {{#if isDelete}}
+        <section>
+            <li class="fa fa-minus-circle"></li>
+            <div>
+                <span class="change-value {{values.[1].size}}"> {{desc}} : <span>{{values.[1].text}}</span> </span>
+                <span class="change-aside sm"> (deleted)</span>
+            </div>
+        </section>
+        {{/if}}
+
+        {{#if isAdd}}
+        <section>
+            <li class="fa fa-plus-circle"></li>
+            <div>
+                <span class="change-value {{values.[0].size}}"> {{values.[0].text}} </span>
+                <span class="change-aside sm">  (added)</span>
+            </div>
+        </section>
+        {{/if}}
+    </a>
+</script>
+
+
+<script id="changeInputTitle" type="text/x-handlebars-template">
+    <li class="fa fa-copy"></li>"<span>{{summary}}</span>" was changed.
+</script>
+
+<script id="changeInputContent" type="text/x-handlebars-template">
+    {{#if isModify}}
+    <div class="list-group change-values change-input-{{type}}">
+        <a class="change-value list-group-item">
+            <i class="change-input-accept fa fa-check"/></i>
+            <label>{{values.[0].label}}</label> : <span class="change-input-value">{{values.[0].text}}</span>
+        </a>
+        <a class="change-value list-group-item">
+            <i class="change-input-accept fa fa-check"/></i>
+            <label>{{values.[1].label}}</label> : <span class="change-input-value">{{values.[1].text}}</span>
+        </a>
+    </div>
+    {{/if}}
+    {{#if isAdd}}
+    <span>{{values.[0].text}}</span><span> was added</span>
+    {{/if}}
+    {{#if isDelete}}
+    <span>{{values.[1].text}}</span><span> was deleted</span>
+    {{/if}}
+    <div class="btn-group btn-group-xxs pull-right">
+        <button type="button" class="btn btn-default prev-change"> <i class="fa fa-arrow-up fa-2x"></i> </button>
+        <button type="button" class="btn btn-default next-change"> <i class="fa fa-arrow-down fa-2x"></i> </button>
+    </div>
+</script>
+
+<script id="changeDelete" type="text/x-handlebars-template">
+    <div class="change-delete panel">
+        <div class="panel-body">
+            <i class="fa fa-minus-circle"/><summary> {{desc}} {{values.[1].text}}</summary><span> was deleted</span>
+        </div>
+    </div>
+    </div>
+</script>
+
+<script id="changeAdd" type="text/x-handlebars-template">
+    <div class="change-add panel">
+        <div class="panel-body">
+            <i class="fa fa-plus-circle"/><summary> {{desc}} {{values.[0].text}}</summary><span> was added</span>
+            <i class="fa fa-level-down"/>
+        </div>
+    </div>
+</script>
+
+
+<body>
+
+</body>
+</html>

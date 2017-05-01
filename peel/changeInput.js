@@ -47,7 +47,11 @@
 
         getTemplate: function (type) {
             if (!templateCache[type]) {
-                templateCache[type]= Handlebars.compile($(this.options.config.template[type]).html());
+                var $el = $(this.options.config.template[type]);
+                var template = ($el.length==0) ?
+                    '<span>cant find template in DOM :' + this.options.config.template[type] +'</span>' :
+                    $el.html();
+                templateCache[type]= Handlebars.compile(template);
             }
             return templateCache[type];
         },

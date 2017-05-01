@@ -8,5 +8,6 @@
     "6": "Postal Code",
     "7": "Gender",
     "8": "Age"
-  }
+  },
+  "template":{"source":"templates"}
 }

@@ -37,6 +37,9 @@ wtw.changeEditor = (function() {
                 'Broker',
                 'Carrier'
             ],
+            template: {
+                // source:'templates'
+            }
         }
     };
 
@@ -44,8 +47,26 @@ wtw.changeEditor = (function() {
         var self = this;
         options = $.extend(true,defaultOptions,opts);
 
-      //  var config = options.config;
+        var finishInit = moreInit.bind(this);
 
+        var source = options.config.template.source;
+        if (source) {
+            console.log('loading template from ' + options.config.template.source)
+            if (source.indexOf('.html')==-1) source = source + '.html';
+            $.get('data/'+source)
+                .done(function(data) {
+                    console.log('adding template HTML to body');
+                    $('body').append(data);
+                    finishInit();
+                });
+        }
+        else {
+            finishInit();
+        }
+
+    };
+
+    function moreInit() {
         formatChanges();
 
         createChangeInputs();
@@ -65,12 +86,11 @@ wtw.changeEditor = (function() {
                 if (!$(this).is(e.target) &&
                     $(this).has(e.target).length === 0 &&
                     $('.popover,.change-editor').has(e.target).length === 0) {
-                        $(this).popover('hide');
+                    $(this).popover('hide');
                 }
             });
         });
-
-    };
+    }
 
 
     function createChange($input, id) {

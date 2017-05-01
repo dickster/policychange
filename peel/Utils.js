@@ -24,7 +24,7 @@ var Utils = (function() {
         //    wtw.changeEditor.init(opts);
         // this method just allows you to easily override config & changes data via url params & external .json files.
 
-        debugChangeEditor: function(changes,config) {
+        debugChangeEditor: function(changes,config,template) {
             var options = {};
 
             if (!changes) changes = 'changes';   //use default file name if none provided.

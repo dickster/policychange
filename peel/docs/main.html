@@ -31,7 +31,7 @@
     - a changePanel which is the component that lists the changes.  typically located in top right of form.
     - 0..n changeInput widgets which is the icon & popup beside each input field that has a change.
 
-    *see image changeEditor.png to get a better idea.
+    <img src="changeEditor.png">
 
     Basically, the developer will add some code to initialize the editor.
     This in turn will always create a change panel and populate it with the given data  (options.changes[])
@@ -93,12 +93,13 @@
     <li>
         Does this widget need to render on top of the full form?
         <div>Sort of.  You can just show the editor without any form behind it, everything will look fine but keep in mind that...
-            - you are in effect in a read only state because there is no form being posted.  .: any changes you make (by clicking on toggle buttons)
+            <p>- you are in effect in a read only state because there is no form being posted.  .: any changes you make (by clicking on toggle buttons)
               will *not* be changing any underlying form data (because there is none).   So it could be used as a "look at the summary" type widget.
             - display values for changes may not render correctly.   for example, if there is a change based on a select...
                option value="M"  MALE
                option value="F"  FEMALE
              the editor will *not* be able to show "MALE", instead it will show "M".  This is because it can't inspect the underlying form and find the display value.
+            </p>
         </div>
     </li>
     <li>
@@ -192,18 +193,29 @@ and jquery valHooks would be a great start.
                 delete: '#mydelete',
             }
             </p>
-
+        change these selectors to point to your own HTML templates and format/style them as you wish.
     </li>
     <li>
-        What variables can i put in the layout.
-        <div>You can add anything that's in the .json object - just put it in curly brackets.
-        for example, the default header template contains
+        Can you show me an example of these aforementioned templates...i don't quite understand.
         <code>
-            &lt;span class=&quot;change-panel-title&quot;&gt;{{config.header}}&lt;/span&gt;
+            &lt;script id=&quot;changePanelTitle&quot; type=&quot;text/x-handlebars-template&quot;&gt;
+                &lt;div class=&quot;panel-heading hello-{{config.foo}}&quot;&gt;
+                    &lt;span class=&quot;badge&quot;&gt;{{changes.length}}&lt;/span&gt;
+                    &lt;span class=&quot;change-panel-title&quot;&gt;{{config.header}}&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/script&gt;
         </code>
-        because the options object contains config: { header:'', ...} this is valid.
-        </div>
+        <p>
+            Note that you put variables in {{ }} brackets.   <i> e.g. {{changes.length}}  & {{config.header}}</i>
+                These variables can appear anywhere in the html, not just inner html. (e.g. in attribute/class values, as prefix/suffixes...)
+            The variable names are relative to the json object you pass to the handlebars template.
+            i.e. here, we are passing the options object.   it has a property called changes and config.
+
+            see <a href="http://handlebarsjs.com/">Handlebars</a> for complete docs on how to handle loops, referencing multiple objects,
+            caching templates, HTML escaping, helpers and everything you'll ever need to know.
+        </p>
     </li>
+
     <li>
         How do i specify the container of the list of change items?
         <div>
@@ -220,7 +232,43 @@ and jquery valHooks would be a great start.
             the place the data is stored.)
         </div>
     </li>
+    <li>
+        What is "inputIcon" and can i change it?
+        <div>It is the icon put right beside the form field that has a change.  In the image below, you will see a blue asterisk that is used.
+            It is declared in
+            <code>options.config.inputIcon: '&lt;li class=&quot;fa fa-asterisk&quot;&gt;&lt;/li&gt;'</code>
+            Currently, it uses a font-awesome class but you can use whatever you want.
+    </div>
+    </li>
+    <li>
+        Hey, these input icons don't appear (or don't appear in the right spot)?  What's up and how do i fix it.
+        <div>
+        Yeah, i expected that.  Because the "assortment" of styling techniques to layout the form there is NO one size fits all way to
+            put an icon beside an input field. (I'll skip the gorey .css details but believe me you'll fail if you try).   So instead,
+            the way to do this is try to get most fields working in a sane way and override the troublemakers with the following snippet of code in a
+            custom .css file you can add for your implementation.
+            <code>
+                [data-change-id="1"]+li.change-input-icon {
+                    // put your overriding styles here for change with id 1.
+                }
+                [data-change-id="2"]+li.change-input-icon {
+                    // put your overriding styles here for change with id 2.
+                }
+                etc...
+            </code>
+            Yeah, it's painful...i know.  Please don't put these changes in a common, shared file.  Keep it at the implementation level.
+        </div>
+    </li>
 </ul>
+
+
+<br>
+<hr>
+<br>
+
+
+
+<img src="changeEditor.png"/>
 
 
 </body>

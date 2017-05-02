@@ -47,21 +47,19 @@ wtw.changeEditor = (function() {
         var self = this;
         options = $.extend(true,defaultOptions,opts);
 
-        var finishInit = moreInit.bind(this);
-
         var source = options.config.template.source;
         if (source) {
             console.log('loading template from ' + options.config.template.source)
             if (source.indexOf('.html')==-1) source = source + '.html';
-            $.get('data/'+source)
+            $.get(source)
                 .done(function(data) {
                     console.log('adding template HTML to body');
                     $('body').append(data);
-                    finishInit();
+                    moreInit();
                 });
         }
         else {
-            finishInit();
+            moreInit();
         }
 
     };
@@ -91,7 +89,6 @@ wtw.changeEditor = (function() {
             });
         });
     }
-
 
     function createChange($input, id) {
         var change = {  id: id,

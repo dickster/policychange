@@ -123,7 +123,7 @@
 }
 
 
-.change-input .change-value .change-input-accept {
+.change-value .change-input-accept {
     visibility:hidden;
     color:#669;
     padding-left:5px;
@@ -131,16 +131,16 @@
     width:24px;
 }
 
-.change-input .change-value.accepted .change-input-accept {
+.change-value.accepted .change-input-accept {
     visibility:visible;
-    color: #88c;
+    color: #a29dcc;
 }
 
 .change-value:hover {
     cursor:pointer;
 }
 
-.change-input .change-value:hover .change-input-accept {
+.change-value:hover .change-input-accept {
     color: #14b41f;
     visibility: visible;
     font-weight:bold;

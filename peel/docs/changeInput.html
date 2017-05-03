@@ -4,13 +4,32 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        code {
+        p,code {
             white-space:pre-wrap;
         }
     </style>
 
 </head>
 <body>
+
+<h1>Change Input</h1>
+<p>
+    This jqueryUI widget is attached to each input field that has a change.
+
+    The widget is comprised of an icon positioned next to the input and a lazily created popup that is shown when the icon is clicked.
+
+    The popup will show the current state of the change (what value it is) and what the other values are (the broker and carrier).
+    The user can select either one.
+
+    All inputs that don't have an associated change, have a regular jquery listener added so that if the user modifies them, a change will be created and
+    a changeInput widget will be attached.
+
+    In the image below, you can see a changeInput widget for the Last Name field.  It shows which value is currently used with a check icon.
+    (note that it's possible that neither is selected if the user manually changes the input field.  in that case obviously neither row is selected.)
+
+    The user can go to the next/prev change via the arrow buttons.   This will close the current popup and scroll the form down to the next change and open its popup.
+</p>
+<img src="changeInput.png"/>
 
 <h2>Events</h2>
 

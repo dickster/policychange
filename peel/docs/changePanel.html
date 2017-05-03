@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        code {
+        p,code {
             white-space:pre-wrap;
         }
     </style>
@@ -12,6 +12,29 @@
 </head>
 <body>
 
+<h1>Change Panel</h1>
+<p>This is the panel that shows a list of changes in the form.
+It will iterate over the changes given  (options.changes[]) and use a specified template to render each one.
+</p>
+<img src="changePanel.png"/>
+<h2>Features</h2>
+<p>
+ - each change will have an icon beside it for the appropriate change type [add/modify/delete]
+ - the change will have a toggle button beside it unless it has been overridden by user (in which case, an icon is shown)
+ - the toggle button will change the value from broker to carrier (before to after..whatever you call the two values).
+ - the panel can be minimized down to one row in order to save space.
+ - the up/down arrows will select the prev/next change.
+ - when a change is selected, the associated input in the form will *wink*  (animated background change).
+ - a change can be selected by clicking on the row.  if you click on the name in the row (e.g. "Company", it will also open up the associated change input dialog). see <a href=".changeInput.html">ChangeInput</a>
+ - the title will show an icon with the # of changes in it.  this will update if you make more changes.
+ - the selected change item will be highlighted.
+ - the current value of the field will always be shown as the first thing in the row and the description to the right.
+    e.g.   Company
+            FooBar   (changed from MarsBar)
+             .|.              .|.
+            current      description/related text
+ - the changes are listed in order of appearance in the DOM.
+</p>
 <h2>Events</h2>
 
 

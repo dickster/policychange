@@ -1,0 +1,409 @@
+//variables.
+$modify_title_color: #cdf;
+$input_icon_color:blue;
+$input_value_color:#669;
+$hover_input_value_color:#14b41f;
+$accepted_input_value_color: #88c;
+
+
+
+
+.change-editor .change-panel  {
+
+  .change-item-add section li {
+    color: #4f9462;
+  }
+  .change-item-modify section li {
+    color: #8ea5b5;
+  }
+  .change-item-delete section li {
+    color: #a57468;
+  }
+
+  .fa.fa-stack-1x span {
+      color: white;
+      font-size: .7em;
+      margin-left: 13px;
+      margin-top: -25px;
+      padding: 3px 6px;
+      background: #cd2b2b;
+      font-family: sans-serif;
+  }
+
+  .panel-body {
+    position:relative;
+    padding:0;
+  }
+
+  .panel-heading .fa {
+    color: #5171ba;
+  }
+
+  .panel-heading .fa-stack {
+    margin-right:10px;
+  }
+
+  .change-value:empty:after {
+      content:'-';
+      font-size:12px;
+      font-style:italic;
+      color:#999;
+  }
+
+  .change-item.active:hover {
+    color:#447;
+    background-color: #cde;
+    border-color: #8fa8b5;
+  }
+
+  .btn.minmax.btn-default {
+    margin-left:10px;
+    margin-right:-10px;
+  }
+
+  .panel-body .change-item .summary:hover {
+    cursor:pointer;
+    color:#094be2;
+    text-decoration: underline;
+  }
+  .panel-body .change-item:hover {
+    cursor:default;
+  }
+
+  .panel-body .toggle i:hover {
+    cursor:pointer;
+  }
+
+  .change-item {
+      padding: 3px 3px;
+
+      .fa.fa-minus-circle {
+        color: #b48585;
+      }
+      .fa.fa-plus-circle {
+        color:#005000;
+      }
+      section {
+        margin-left: 25px;
+        display:block;
+      }
+      .summary {
+        display: inline-block;
+        margin-left: 20px;
+      }
+      .change-item .summary {
+        color: #2b3c91;
+      }
+
+      .toggle i.fa {
+        position: absolute;
+        font-size: 22px;
+        color: #707b85;
+        right: 5px;
+        top: 0;
+      }
+
+     .toggle-override i.fa {
+        font-size:16px;
+        padding-right: 6px;
+        margin-top: 7px;
+        color: #a87b4c;
+      }
+
+    .toggle .fa {
+    }
+    section>.fa {
+      float: left;
+      margin-left: -22px;
+      margin-top: -14px;
+    }
+    :not(.accepted) .fa-toggle-off {
+      display:inline-block;
+    }
+    .accepted .fa-toggle-on {
+      display:inline-block;
+    }
+
+    .change-value {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 92%;
+      display: inline-block;
+    }
+
+  }
+
+  .list-group-item.active {
+    text-shadow: none;
+    background: #d4dfe4;
+    border-color: #ccc;
+    color: #447;
+    position: relative;
+  }
+
+
+
+  .change-value.lg {
+  }
+  .change-value.sm {
+  }
+
+  .change-summary .change-value {
+    display:block;
+  }
+
+  .change-panel-title {
+    font-size: 22px;
+    color: #5171ba;
+    vertical-align: middle;
+    font-weight: normal;
+  }
+
+  .change-aside {
+    font-style:italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display:inline-block;
+  }
+
+  .change-value.md {
+    max-width:50%;
+  }
+
+  .change-aside.lg,
+  .change-value.lg+.change-aside {
+    display: block;
+    padding-left:0;
+    max-width: 75%;
+    font-style: inherit;
+  }
+
+  .change-aside.sm,
+  .change-aside.md {
+    padding-left:5px;
+  }
+
+
+}
+
+
+.change-editor .change-panel:hover {
+  opacity:1 !important;
+}
+
+
+.change-modify .popover-title {
+    background:$modify_title_color;
+}
+
+.change-delete, .change-modify, .change-add {
+    .panel-body {
+        .fa {
+          color:$input_icon_color;
+        }
+    }
+}
+
+
+
+
+
+
+
+.change-editor.fullwidth .change-value {
+  overflow:inherit;
+}
+
+.change-editor.fullwidth .change-panel {
+  .btn.prev-change, .btn.next-change, .btn.maximize, .btn.maximize {
+      display:none;
+  }
+}
+
+.change-editor.maximized .btn.minimize {
+  display:inline-block;
+}
+.change-editor:not(maximized) .btn.minimize {
+  display:none;
+}
+.change-editor:not(.fullwidth):not(.maximized) .btn.maximize {
+  display:inline-block;
+}
+.change-editor.maximized .btn.maximize {
+  display:none;
+}
+.change-editor:not(.fullwidth) .change-panel .panel-body {
+  overflow-y: scroll;
+}
+.change-editor.fullwidth .panel-body {
+  max-height: 100%;
+  height:100%;
+}
+.change-editor.maximized .panel-body {
+  max-height: 450px;
+}
+.change-editor:not(.fullwidth):not(.maximized) .panel-body {
+  max-height: 45px;
+}
+
+
+.change-editor:not(fullwidth) .change-panel.panel {
+  opacity:.85;
+}
+
+.change-modify {
+  .popover-title .fa {
+      font-weight:bold;
+      padding-right:5px;
+  }
+  .change-value .change-input-accept {
+      visibility:hidden;
+      color: $input_value_color;
+      padding-left:5px;
+      display:inline-block;
+      width:24px;
+  }
+  .change-value.accepted .change-input-accept {
+    visibility:visible;
+    color: $accepted_input_value_color;
+  }
+  .change-value:hover .change-input-accept {
+    color: $hover_input_value_color;
+    visibility: visible;
+    font-weight:bold;
+  }
+}
+
+
+.change-value:hover {
+  cursor:pointer;
+}
+
+
+.btn-group-xxs>.btn {
+  padding: 1px 3px;
+  font-size: 8px;
+  line-height: 1;
+  border-radius: 0;
+}
+
+.popover .list-group { margin-bottom:0; }
+
+.change-editor.fullwidth {
+}
+
+.change-editor:not(.fullwidth) {
+  min-width:450px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 23234;
+}
+
+/*--------------------*/
+
+
+
+/*this is the default layout/config for icon. i know this layout wont work for all - you will
+ need to put those hacks in a separate .css file specific to your implementation.
+ */
+li.change-input-icon {
+  position:absolute;
+  top:0;
+  right: 6px;
+  color: #759ee8;
+  padding:2px 0;
+}
+
+li.change-add-icon,
+li.change-delete-icon {
+  float:right;
+  margin-top:-40px;
+  margin-right:10px;
+}
+
+
+@keyframes highlightBorder {
+  from { border-size:inherit; }
+  to { border-width:3px; border-color: #5171ba;}
+}
+
+
+@keyframes highlight {
+  from {box-shadow: inset 0 0 0 200px rgba(255, 253, 48, 0.49); border:1px solid #C1A227 ;}
+  to {box-shadow: none; }
+}
+
+
+.active-change {
+  animation-name: highlight;
+  animation-duration: 380ms;
+  animation-iteration-count:2;
+}
+
+
+
+.change-item-modify section div:not(.accepted) {
+  display:none;
+}
+
+.change-add.panel {
+  margin-bottom: -10px;
+  background: #c3e4c0;
+}
+.change-delete.panel {
+  background: #f4d6b7;
+}
+.change-add .fa.fa-level-down {
+  vertical-align: text-top;
+  font-size: 20px;
+  color: #95a1df;
+}
+
+.change-delete summary,
+.change-add summary {
+  font-size:larger;
+  display: inline-block;
+  padding-left: 10px;
+}
+
+.change-add .change-value,
+.change-delete .change-value,
+.change-modify .change-value {
+  padding:4px 0;
+  border:none;
+  display: block;
+}
+
+.change-add.popover, .change-delete.popover, .change-modify.popover {
+  min-width: 300px;
+  z-index:2000;    /* put this in front of change-panel.*/
+  border: 3px solid rgba(127,143,191,.4);
+}
+
+
+
+
+
+/*  BLARGH!  hacks to overcome forms & easy & other .css  */
+.change-add.popover .btn.btn-default,
+.change-delete.popover .btn.btn-default,
+.change-modify.popover .btn.btn-default,
+.change-panel.panel .btn.btn-default {
+  border-color:#ccc;
+  padding: 1px 5px;
+  color: #66a;
+}
+
+.change-panel.panel .btn.btn-default {
+  font-size: 14px;
+}
+
+.change-panel.panel.popover a.list-group-item,
+.change-modify.popover.popover a.list-group-item  {
+  color: #666;
+  font-size: 12px;
+  text-decoration: none;
+}

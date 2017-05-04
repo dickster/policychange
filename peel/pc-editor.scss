@@ -1,12 +1,15 @@
-//variables.
+//colors.
 $modify_title_color: #cdf;
-$input_icon_color:blue;
+$input_icon_color:#759ee8;
 $input_value_color:#669;
 $hover_input_value_color:#14b41f;
 $accepted_input_value_color: #88c;
-
-
-
+$active_input_color: rgba(255, 253, 48, 0.49);
+$active_input_border_color:#C1A227;
+$change_item_color: #666;
+$add_down_color:#95a1df;
+$add_panel_color: #c3e4c0;
+$delete_panel_color: #f4d6b7;
 
 .change-editor .change-panel  {
 
@@ -188,11 +191,9 @@ $accepted_input_value_color: #88c;
 
 }
 
-
 .change-editor .change-panel:hover {
   opacity:1 !important;
 }
-
 
 .change-modify .popover-title {
     background:$modify_title_color;
@@ -205,11 +206,6 @@ $accepted_input_value_color: #88c;
         }
     }
 }
-
-
-
-
-
 
 
 .change-editor.fullwidth .change-value {
@@ -313,7 +309,7 @@ li.change-input-icon {
   position:absolute;
   top:0;
   right: 6px;
-  color: #759ee8;
+  color: $input_icon_color;
   padding:2px 0;
 }
 
@@ -325,14 +321,9 @@ li.change-delete-icon {
 }
 
 
-@keyframes highlightBorder {
-  from { border-size:inherit; }
-  to { border-width:3px; border-color: #5171ba;}
-}
-
 
 @keyframes highlight {
-  from {box-shadow: inset 0 0 0 200px rgba(255, 253, 48, 0.49); border:1px solid #C1A227 ;}
+  from {box-shadow: inset 0 0 0 200px $active_input_color; border:1px solid $active_input_border_color;}
   to {box-shadow: none; }
 }
 
@@ -351,15 +342,15 @@ li.change-delete-icon {
 
 .change-add.panel {
   margin-bottom: -10px;
-  background: #c3e4c0;
+  background: $add_panel_color;
 }
 .change-delete.panel {
-  background: #f4d6b7;
+  background: $delete_panel_color;
 }
 .change-add .fa.fa-level-down {
   vertical-align: text-top;
   font-size: 20px;
-  color: #95a1df;
+  color: $add_down_color;
 }
 
 .change-delete summary,
@@ -403,7 +394,7 @@ li.change-delete-icon {
 
 .change-panel.panel.popover a.list-group-item,
 .change-modify.popover.popover a.list-group-item  {
-  color: #666;
+  color: $change_item_color;
   font-size: 12px;
   text-decoration: none;
 }

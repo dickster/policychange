@@ -169,6 +169,7 @@ $delete_panel_color: #f4d6b7;
     text-overflow: ellipsis;
     white-space: nowrap;
     display:inline-block;
+    color:#888;
   }
 
   .change-value.md {
@@ -206,7 +207,6 @@ $delete_panel_color: #f4d6b7;
         }
     }
 }
-
 
 .change-editor.fullwidth .change-value {
   overflow:inherit;

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <style>
+    p,code {
+      white-space:pre-wrap;
+    }
+  </style>
+</head>
+<body>
+<p>
+- edge cases.  (see if error handling is satisfactory.  does it blow up? log error message, help you understand problem...?)
+  pass in bad data (incorrect or missing properties - particularly for changes).
+  incorrect template ids.
+  missing values are defaulted correctly (specify minimum and see if things work)
+  very long values for both carrier and broker.  make sure they are truncated... and fit on screen properly.
+  (for long values, the text should be split onto two rows).
+
+change panel:
+- change panel in fullwidth mode vs regular.  fullwidth should take up all the space of its container.
+  maximize/minimize - min should only show one row.  max is arbitrarily styled to about 8 or so.
+  row in change panel should be highlighted & visible when you click next/prev.  (i.e. scrolling should be done if row isn't in viewport).
+  clicking on row should select change.  it's corresponding input in form (if visible) should blink yellow (and scrolled onscreen if not already)
+  clicking on the field name in the row (e.g. Manufacturer) will select the item (as above) AND open the popup associated with the input.
+  clicking toggle button (which isn't always visible) should go from "broker" to "carrier" value.
+  if user sets the value of an input to something other than "broker" or "carrier" value, the corresponding row in change panel will NOT show a toggle button but rather a warning/override icon.
+   (which does nothing if clicked on).
+
+change input popover:
+  clicking on icon (asterisk) beside input will show popup.  it has the "broker" and "carrier" values. clicking on either of these will change the value of the input.
+  if the input currently is set to the broker or carrier value, then that row will have a check mark beside it in the popup.  if neither of these is the current value, then no check marks will appear.
+  as you hover over the row, a bolder check mark will appear to signal that you can select it by clicking.
+  clicking on next/prev arrows will close current input popover and open the next/prev one.  the window will scroll if need be.
+</p>
+
+<img src="changeEditor.png">
+</body>
+</html>
